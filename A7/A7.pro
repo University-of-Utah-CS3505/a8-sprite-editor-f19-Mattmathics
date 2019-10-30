@@ -17,18 +17,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     canvas.cpp \
+    eraser.cpp \
     frame.cpp \
     main.cpp \
     mainwindow.cpp \
-    projectmanager.cpp
+    pencil.cpp \
+    projectmanager.cpp \
+    tool.cpp
 
 HEADERS += \
     canvas.h \
+    eraser.h \
     frame.h \
     gif.h \
     json.hpp \
     mainwindow.h \
-    projectmanager.h
+    pencil.h \
+    projectmanager.h \
+    tool.h
 
 FORMS += \
     mainwindow.ui

@@ -38,9 +38,9 @@ public:
 
     void update();
 
-    const Frame* moveFrame(int index);
-
-    const Frame* getFrame(int index);
+    Frame* moveFrame(int index);
+    Frame* getFrame(int index);
+    Frame* getCurrentFrame();
 
     void addFrame();
 

@@ -7,6 +7,9 @@
 #include <QColorDialog>
 
 #include "canvas.h"
+#include "tool.h"
+#include "eraser.h"
+#include "pencil.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,18 +19,15 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    bool programRunFlag = false;
     Canvas canvas = Canvas(16, 16);
 
-    bool eraseMode = false;
     int horizontalOffset = 150;
     int pixelSize = 10;
     int canvasWidth = 16;
     int canvasHeight = 16;
 
     QColor brushColor = QColor(0,0,0,255);
-    QColor brush2Color = QColor(255,255,255,255);
-    QColor tempColorHolder = QColor(0,0,0,255);
+    QColor brushSubColor = QColor(255,255,255,255);
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -35,6 +35,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    Tool *tool;
 
     /**
      * When window is cliked, update pixel with current tool.

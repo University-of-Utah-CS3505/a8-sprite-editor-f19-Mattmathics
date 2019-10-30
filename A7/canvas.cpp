@@ -38,15 +38,20 @@ int Canvas::currentIndex()
     return index;
 }
 
-const Frame* Canvas::moveFrame(int index)
+Frame* Canvas::moveFrame(int index)
 {
     this->index = index;
     return getFrame(index);
 }
 
-const Frame* Canvas::getFrame(int index)
+Frame* Canvas::getFrame(int index)
 {
-    return &frames.at(index);
+    return const_cast<Frame*>(&frames.at(index));
+}
+
+Frame* Canvas::getCurrentFrame()
+{
+    return getFrame(currentIndex());
 }
 
 int Canvas::getWidth()
