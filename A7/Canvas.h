@@ -6,6 +6,11 @@
 
 #include "frame.h"
 
+/**
+ * The Canvas class
+ *
+ * @author Kyungyoon Kim
+ */
 class Canvas
 {
 public:
@@ -17,7 +22,7 @@ public:
      * @param sizeY y size of canvas
      * @param frames all frames
      */
-    Canvas(int sizeX, int sizeY, QVector<Frame> frames);
+    Canvas(int sizeX, int sizeY, QVector<Frame> *frames = nullptr);
 
     /**
      * Create canvas object from JSON string.
@@ -33,19 +38,26 @@ public:
 
     void update();
 
-    void moveFrame();
+    const Frame* moveFrame(int index);
 
-    Frame getFrame(int index);
+    const Frame* getFrame(int index);
 
     void addFrame();
 
     void addFrame(Frame frame);
 
+    int sizeFrame();
+
+    int currentIndex();
+
+    int getWidth();
+    int getHeight();
+
 private:
     QVector<Frame> frames;
     int sizeX;
     int sizeY;
-    int currentIndex;
+    int index;
 
 };
 

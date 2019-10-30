@@ -6,6 +6,8 @@
 #include <QtCore>
 #include <QColorDialog>
 
+#include "canvas.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -14,12 +16,15 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    bool programRunFlag = false;
+    Canvas canvas = Canvas(16, 16);
+
     bool eraseMode = false;
     int horizontalOffset = 150;
     int pixelSize = 10;
     int canvasWidth = 16;
     int canvasHeight = 16;
-    QColor pixels[16][16];
+
     QColor brushColor = QColor(0,0,0,255);
     QColor brush2Color = QColor(255,255,255,255);
     QColor tempColorHolder = QColor(0,0,0,255);
@@ -30,6 +35,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+
 
 protected:
     void mousePressEvent(QMouseEvent *e);
