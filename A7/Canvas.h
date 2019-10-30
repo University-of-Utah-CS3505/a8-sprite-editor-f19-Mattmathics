@@ -1,47 +1,52 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef CANVAS_H
+#define CANVAS_H
 
-#include <QList>
-#include <QMainWindow>
+#include <QObject>
+#include <QVector>
 
-class Canvas;
+#include "frame.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-class MainWindow : public QMainWindow
+class Canvas
 {
-    Q_OBJECT
-
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-    void closeEvent(QCloseEvent *event) override;
 
-private slots:
-    void open();
-    void save();
-    void brushColor();
-    void brushSize();
-    void about();
+    /**
+     * Create Canvas Object
+     *
+     * @param sizeX x size of canvas
+     * @param sizeY y size of canvas
+     * @param frames all frames
+     */
+    Canvas(int sizeX, int sizeY, QVector<Frame> frames);
+
+    /**
+     * Create canvas object from JSON string.
+     *
+     * This method is static method.
+     *
+     * @param jsonString JSON string
+     * @return Canvas object
+     */
+    static Canvas fromJson(QString jsonString);
+
+    QString toJson();
+
+    void update();
+
+    void moveFrame();
+
+    Frame getFrame(int index);
+
+    void addFrame();
+
+    void addFrame(Frame frame);
 
 private:
-    void createActions();
-    void createMenus();
-    bool promptSave();
-    bool saveFile(const QByteArray &fileFormat);
-    Canvas *canvas;
-    QMenu *saveAsMenu;
-    QMenu *fileMenu;
-    QMenu *optionsMenu;
-    QMenu *helpMenu;
-    QAction *openAction;
-    QList<QAction *> saveAsActions;
-    QAction *brushColorAction;
-    QAction *brushSizeAction;
-    QAction *clearScreenAction;
-    QAction *aboutAction;
-    Ui::MainWindow *ui;
+    QVector<Frame> frames;
+    int sizeX;
+    int sizeY;
+    int currentIndex;
+
 };
-#endif // MAINWINDOW_H
+
+#endif // CANVAS_H

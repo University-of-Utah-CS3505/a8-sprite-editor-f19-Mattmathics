@@ -16,11 +16,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    canvas.cpp \
+    frame.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    projectmanager.cpp
 
 HEADERS += \
-    mainwindow.h
+    canvas.h \
+    frame.h \
+    gif.h \
+    json.hpp \
+    mainwindow.h \
+    projectmanager.h
 
 FORMS += \
     mainwindow.ui
