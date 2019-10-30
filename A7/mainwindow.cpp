@@ -25,15 +25,34 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *e) {
-    this->repaint();
+    this->windowClicked(e->x(), e->y());
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent *e) {
-    this->repaint();
+void MainWindow::mouseMoveEvent(QMouseEvent *e) {    
+    this->windowClicked(e->x(), e->y());
+}
+
+void MainWindow::windowClicked(int posX, int posY) {
+    // Check inside of canvas clicked
+    if(posX >= horizontalOffset &&
+       posX <= horizontalOffset + pixelSize * canvas.getWidth()-1 &&
+       posX <= pixelSize * canvas.getHeight() - 1 &&
+       posX >= 0) {
+
+        Frame* currentFrame = const_cast<Frame*>(canvas.getFrame(canvas.currentIndex()));
+
+        int pointX = (posX - horizontalOffset) / pixelSize;
+        int pointY = posY / pixelSize;
+
+        // TODO: we need to update here to tool.
+        currentFrame->setPixel(pointX, pointY, brushColor);
+
+        // Update Screen
+        this->repaint();
+    }
 }
 
 void MainWindow::paintEvent(QPaintEvent *e) {
-
 
     QPoint globalCursorPos = QCursor::pos();
     QWidget::mapFromGlobal(QCursor::pos());
@@ -41,25 +60,6 @@ void MainWindow::paintEvent(QPaintEvent *e) {
     QPainter painter(this);
 
     Frame* currentFrame = const_cast<Frame*>(canvas.getFrame(canvas.currentIndex()));
-
-    // Prevent drawing when program just run.
-    if (!programRunFlag) {
-        programRunFlag = true;
-    }
-    else {
-        // Detect which pixel is clicked.
-        if(p.x() >= horizontalOffset &&
-           p.x() <= horizontalOffset + pixelSize * canvas.getWidth()-1 &&
-           p.y() <= pixelSize * canvas.getHeight() - 1 &&
-           p.y() >= 0) {
-
-            int pointX = (p.x() - horizontalOffset) / pixelSize;
-            int pointY = p.y() / pixelSize;
-
-            currentFrame->setPixel(pointX, pointY, brushColor);
-        }
-    }
-
 
     // Draw all pixels.
     for(int x = 0; x < canvas.getWidth(); x++) {
@@ -171,7 +171,6 @@ void MainWindow::on_resetBrushesButton_clicked()
 {
     if(eraseMode){
         tempColorHolder = QColor(0,0,0,255);
-
     }
     else {
         brushColor = QColor(0,0,0,255);

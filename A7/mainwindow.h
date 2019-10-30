@@ -36,7 +36,13 @@ public:
 private:
     Ui::MainWindow *ui;
 
-
+    /**
+     * When window is cliked, update pixel with current tool.
+     *
+     * @param posX Clicked position X
+     * @param posY Clicked posision Y
+     */
+    void windowClicked(int posX, int posY);
 
 protected:
     void mousePressEvent(QMouseEvent *e);
