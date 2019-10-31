@@ -59,7 +59,7 @@ void MainWindow::paintEvent(QPaintEvent *e) {
     QColor grayColor(97, 97, 97, 255);
     QColor lightGrayColor(125, 125, 125, 255);
 
-    /*for(int x = 0; x < canvas.getWidth(); x++) {
+    for(int x = 0; x < canvas.getWidth(); x++) {
         for(int y = 0; y < canvas.getHeight(); y++) {
             QColor fillColor = currentFrame->getPixel(x, y);
 
@@ -71,16 +71,14 @@ void MainWindow::paintEvent(QPaintEvent *e) {
             int middleX = (pointX + pixelSize) / 2;
             int middleY = (pointY + pixelSize) / 2;
 
-            int width = pixelSize / 2;
-            int height = pixelSize / 2;
-            int pointPixelHalf = pixelSize / 2;
+            int sizeHalf = pixelSize / 2;
 
-            painter.fillRect(QRect(pointX, pointY, middleX - pointX, height), grayColor);
-            painter.fillRect(QRect(middleX, pointY, width, height), lightGrayColor);
-            painter.fillRect(QRect(pointX, middleY, width, height), lightGrayColor);
-            painter.fillRect(QRect(middleX, middleY, width, height), grayColor);
+//            painter.fillRect(QRect(pointX, pointY, sizeHalf, sizeHalf), grayColor);
+//            painter.fillRect(QRect(middleX, pointY, width - pointPixelHalf, height - pointX), lightGrayColor);
+//            painter.fillRect(QRect(pointX, middleY, width, height), lightGrayColor);
+//            painter.fillRect(QRect(middleX, middleY, width, height), grayColor);
         }
-    }*/
+    }
 
 //    for(int y = 0; y < canvas.getHeight() * 2; y++) {
 //        for(int x = 0; x < canvas.getWidth() * 2; x++) {
