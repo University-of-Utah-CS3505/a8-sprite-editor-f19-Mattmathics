@@ -19,6 +19,9 @@ public:
 
     QImage getImage();
 
+	int getSizeX();
+	int	getSizeY();
+
 private:
     QImage image;
     int sizeX;

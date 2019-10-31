@@ -50,3 +50,13 @@ Frame Frame::fromJson(QString jsonString)
 {
     // TODO
 }
+
+int Frame::getSizeX()
+{
+	return sizeX;
+}
+
+int Frame::getSizeY()
+{
+	return sizeY;
+}
