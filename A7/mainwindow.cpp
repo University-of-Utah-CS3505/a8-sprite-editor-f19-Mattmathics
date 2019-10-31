@@ -158,7 +158,7 @@ void MainWindow::on_pencilButton_clicked()
     setCursor(Qt::PointingHandCursor);
 }
 
-void MainWindow::on_paintAllSameButton_clicked()
+void MainWindow::on_paintAllSameColorButton_clicked()
 {
     if (tool != nullptr)
         delete tool;
