@@ -31,6 +31,12 @@ void MainWindow::mouseMoveEvent(QMouseEvent *e) {
     this->windowClicked(e->x(), e->y());
 }
 
+void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
+    if(Pencil* p = dynamic_cast<Pencil*>(tool)) {
+        p->resetStrokes();
+    }
+}
+
 void MainWindow::windowClicked(int posX, int posY) {
     // Check inside of canvas clicked
     if(posX >= horizontalOffset &&
@@ -81,17 +87,17 @@ void MainWindow::paintEvent(QPaintEvent *e) {
         }
     }
 
-//    for(int y = 0; y < canvas.getHeight() * 2; y++) {
-//        for(int x = 0; x < canvas.getWidth() * 2; x++) {
-//            int pointX = (x * (pixelSize / 2)) + horizontalOffset;
-//            int pointY = y * (pixelSize / 2);
+    for(int y = 0; y < canvas.getHeight() * 2; y++) {
+        for(int x = 0; x < canvas.getWidth() * 2; x++) {
+            int pointX = (x * (pixelSize / 2)) + horizontalOffset;
+            int pointY = y * (pixelSize / 2);
 
-//            painter.fillRect(QRect(pointX, pointY, pixelSize/2, pixelSize/2),
-//                             (colorFlag = !colorFlag) ? grayColor : lightGrayColor);
-//        }
+            painter.fillRect(QRect(pointX, pointY, pixelSize/2, pixelSize/2),
+                             (colorFlag = !colorFlag) ? grayColor : lightGrayColor);
+        }
 
-//        colorFlag = !colorFlag;
-//    }
+        colorFlag = !colorFlag;
+    }
 
     // Draw all pixels.
     for(int x = 0; x < canvas.getWidth(); x++) {

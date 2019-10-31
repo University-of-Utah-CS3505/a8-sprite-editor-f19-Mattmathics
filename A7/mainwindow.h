@@ -20,6 +20,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     Canvas canvas = Canvas(16, 16);
+    bool brushStrokes[16][16];
 
     int horizontalOffset = 150;
     int pixelSize = 10;
@@ -47,6 +48,7 @@ private:
 
 protected:
     void mousePressEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
     void paintEvent(QPaintEvent *e);
     void resizeEvent(QResizeEvent *e);
