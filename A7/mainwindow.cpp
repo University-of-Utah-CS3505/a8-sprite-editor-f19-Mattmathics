@@ -158,6 +158,17 @@ void MainWindow::on_pencilButton_clicked()
     setCursor(Qt::PointingHandCursor);
 }
 
+void MainWindow::on_paintAllSameButton_clicked()
+{
+    if (tool != nullptr)
+        delete tool;
+
+    tool = new PaintAllSameColor(brushColor, canvas.getCurrentFrame());
+
+    setCursor(Qt::PointingHandCursor);
+}
+
+
 void MainWindow::on_eraserButton_clicked()
 {
     if (tool != nullptr)
