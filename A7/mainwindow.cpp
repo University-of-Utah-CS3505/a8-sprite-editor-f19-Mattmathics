@@ -54,6 +54,46 @@ void MainWindow::paintEvent(QPaintEvent *e) {
     QPainter painter(this);
     Frame* currentFrame = canvas.getCurrentFrame();
 
+    // Draw background pixels;
+    bool colorFlag = false;
+    QColor grayColor(97, 97, 97, 255);
+    QColor lightGrayColor(125, 125, 125, 255);
+
+    /*for(int x = 0; x < canvas.getWidth(); x++) {
+        for(int y = 0; y < canvas.getHeight(); y++) {
+            QColor fillColor = currentFrame->getPixel(x, y);
+
+            // Get point of pixel.
+            int pointX = (x * pixelSize) + horizontalOffset;
+            int pointY = y * pixelSize;
+
+            // Get middle point of pixel.
+            int middleX = (pointX + pixelSize) / 2;
+            int middleY = (pointY + pixelSize) / 2;
+
+            int width = pixelSize / 2;
+            int height = pixelSize / 2;
+            int pointPixelHalf = pixelSize / 2;
+
+            painter.fillRect(QRect(pointX, pointY, middleX - pointX, height), grayColor);
+            painter.fillRect(QRect(middleX, pointY, width, height), lightGrayColor);
+            painter.fillRect(QRect(pointX, middleY, width, height), lightGrayColor);
+            painter.fillRect(QRect(middleX, middleY, width, height), grayColor);
+        }
+    }*/
+
+//    for(int y = 0; y < canvas.getHeight() * 2; y++) {
+//        for(int x = 0; x < canvas.getWidth() * 2; x++) {
+//            int pointX = (x * (pixelSize / 2)) + horizontalOffset;
+//            int pointY = y * (pixelSize / 2);
+
+//            painter.fillRect(QRect(pointX, pointY, pixelSize/2, pixelSize/2),
+//                             (colorFlag = !colorFlag) ? grayColor : lightGrayColor);
+//        }
+
+//        colorFlag = !colorFlag;
+//    }
+
     // Draw all pixels.
     for(int x = 0; x < canvas.getWidth(); x++) {
         for(int y = 0; y < canvas.getHeight(); y++) {
@@ -138,6 +178,8 @@ void MainWindow::on_swapBrushesButton_clicked()
     QColor temp = brushColor;
     brushColor = brushSubColor;
     brushSubColor = temp;
+
+    tool->setBrushColor(brushColor);
 }
 
 void MainWindow::on_primaryBrushButton_clicked()
@@ -148,6 +190,8 @@ void MainWindow::on_primaryBrushButton_clicked()
         std::string colorString = "background-color: rgb(" + std::to_string(newColor.red()) + ", " + std::to_string(newColor.green()) + ", " + std::to_string(newColor.blue()) + ");";
         this->ui->primaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
     }
+
+    tool->setBrushColor(brushColor);
 }
 
 void MainWindow::on_resetBrushesButton_clicked()
@@ -156,6 +200,8 @@ void MainWindow::on_resetBrushesButton_clicked()
     brushSubColor = QColor(255,255,255,255);
     this->ui->primaryBrushButton->setStyleSheet(QString("background-color: rgba(0,0,0,255);"));
     this->ui->secondaryBrushButton->setStyleSheet(QString("background-color: rgba(255,255,255,255);"));
+
+    tool->setBrushColor(brushColor);
 }
 
 void MainWindow::on_secondaryBrushButton_clicked()
