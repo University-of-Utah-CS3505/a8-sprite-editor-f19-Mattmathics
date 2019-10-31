@@ -1,4 +1,4 @@
-#include<QDebug>
+#include <QDebug>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -68,15 +68,16 @@ void MainWindow::paintEvent(QPaintEvent *e) {
             int pointY = y * pixelSize;
 
             // Get middle point of pixel.
-            int middleX = (pointX + pixelSize) / 2;
-            int middleY = (pointY + pixelSize) / 2;
+            int middleX = pointX + (pixelSize / 2);
+            int middleY = pointY + (pixelSize / 2);
 
             int sizeHalf = pixelSize / 2;
 
-//            painter.fillRect(QRect(pointX, pointY, sizeHalf, sizeHalf), grayColor);
-//            painter.fillRect(QRect(middleX, pointY, width - pointPixelHalf, height - pointX), lightGrayColor);
-//            painter.fillRect(QRect(pointX, middleY, width, height), lightGrayColor);
-//            painter.fillRect(QRect(middleX, middleY, width, height), grayColor);
+            painter.fillRect(QRect(pointX, pointY, sizeHalf, sizeHalf), grayColor);
+            painter.fillRect(QRect(middleX, pointY, pixelSize - sizeHalf, sizeHalf), lightGrayColor);
+
+            painter.fillRect(QRect(pointX, middleY, sizeHalf, pixelSize - sizeHalf), lightGrayColor);
+            painter.fillRect(QRect(middleX, middleY, pixelSize - sizeHalf, pixelSize - sizeHalf), grayColor);
         }
     }
 

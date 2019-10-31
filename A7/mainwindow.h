@@ -35,7 +35,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    Tool *tool;
+    Tool *tool = nullptr;
 
     /**
      * When window is cliked, update pixel with current tool.
