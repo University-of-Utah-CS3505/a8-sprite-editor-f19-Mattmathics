@@ -211,3 +211,6 @@ void MainWindow::on_secondaryBrushButton_clicked()
         this->ui->secondaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
     }
 }
+
+
+
