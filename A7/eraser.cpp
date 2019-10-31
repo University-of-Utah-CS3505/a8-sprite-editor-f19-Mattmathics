@@ -12,6 +12,5 @@ Eraser::~Eraser()
 
 void Eraser::perform(int x, int y)
 {
-    qDebug() << "Eraser : " << brushColor;
     currentFrame->setPixel(x, y, brushColor);
 }

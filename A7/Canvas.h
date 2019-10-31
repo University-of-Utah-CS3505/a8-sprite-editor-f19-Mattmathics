@@ -41,13 +41,9 @@ public:
     Frame* moveFrame(int index);
     Frame* getFrame(int index);
     Frame* getCurrentFrame();
-
     void addFrame();
-
     void addFrame(Frame frame);
-
     int sizeFrame();
-
     int currentIndex();
 
     int getWidth();
