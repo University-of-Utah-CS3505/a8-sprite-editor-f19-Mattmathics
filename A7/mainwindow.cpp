@@ -2,6 +2,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QVBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -15,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Set tool to pencil
     on_pencilButton_clicked();
+    framePreviews.push_back(ui->frame1Label);
 }
 
 MainWindow::~MainWindow()
@@ -59,6 +61,13 @@ void MainWindow::paintEvent(QPaintEvent *e) {
 
     QPainter painter(this);
     Frame* currentFrame = canvas.getCurrentFrame();
+
+    for(int i = 0; i < canvas.sizeFrame(); i++) {
+        QPixmap pixmap;
+        pixmap = pixmap.fromImage(canvas.getFrame(i)->getImage());
+        framePreviews[i]->setPixmap(pixmap);
+        framePreviews[i]->setScaledContents(true);
+    }
 
     // Draw background pixels;
     bool colorFlag = false;
@@ -156,7 +165,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 
 void MainWindow::on_pencilButton_clicked()
 {
-    if (tool != nullptr)
+    if (tool)
         delete tool;
 
     tool = new Pencil(brushColor, canvas.getCurrentFrame());
@@ -164,20 +173,9 @@ void MainWindow::on_pencilButton_clicked()
     setCursor(Qt::PointingHandCursor);
 }
 
-void MainWindow::on_paintAllSameColorButton_clicked()
-{
-    if (tool != nullptr)
-        delete tool;
-
-    tool = new PaintAllSameColor(brushColor, canvas.getCurrentFrame());
-
-    setCursor(Qt::PointingHandCursor);
-}
-
-
 void MainWindow::on_eraserButton_clicked()
 {
-    if (tool != nullptr)
+    if (tool)
         delete tool;
 
     tool = new Eraser(canvas.getCurrentFrame());
@@ -230,5 +228,20 @@ void MainWindow::on_secondaryBrushButton_clicked()
     }
 }
 
+void MainWindow::on_findAndReplaceButton_clicked()
+{
+    if (tool)
+        delete tool;
 
+    //tool = new PaintAllSameColor(brushColor, canvas.getCurrentFrame());
 
+    setCursor(Qt::PointingHandCursor);
+}
+
+void MainWindow::on_addFrameButton_clicked()
+{
+//    QLabel newLabel("Test", this->ui->framesFrame);
+//    newLabel.setGeometry(framePreviews[framePreviews.size()-1]->x(),framePreviews[framePreviews.size()-1]->y()+126,124,124);
+//    framePreviews.push_back(&newLabel);
+//    canvas.addFrame();
+}
