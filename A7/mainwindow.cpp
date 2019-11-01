@@ -1,7 +1,16 @@
 #include <QDebug>
+#include <QMainWindow>
+#include <QtGui>
+#include <QtCore>
+#include <QColorDialog>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "canvas.h"
+#include "tool.h"
+#include "eraser.h"
+#include "pencil.h"
+#include "paintAllSameColor.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -160,6 +169,7 @@ void MainWindow::on_pencilButton_clicked()
 
     setCursor(Qt::PointingHandCursor);
 }
+
 
 void MainWindow::on_paintAllSameColorButton_clicked()
 {
