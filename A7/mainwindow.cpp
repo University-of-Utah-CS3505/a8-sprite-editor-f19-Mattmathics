@@ -81,18 +81,6 @@ void MainWindow::paintEvent(QPaintEvent *e) {
         }
     }
 
-//    for(int y = 0; y < canvas.getHeight() * 2; y++) {
-//        for(int x = 0; x < canvas.getWidth() * 2; x++) {
-//            int pointX = (x * (pixelSize / 2)) + horizontalOffset;
-//            int pointY = y * (pixelSize / 2);
-
-//            painter.fillRect(QRect(pointX, pointY, pixelSize/2, pixelSize/2),
-//                             (colorFlag = !colorFlag) ? grayColor : lightGrayColor);
-//        }
-
-//        colorFlag = !colorFlag;
-//    }
-
     // Draw all pixels.
     for(int x = 0; x < canvas.getWidth(); x++) {
         for(int y = 0; y < canvas.getHeight(); y++) {
@@ -146,6 +134,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_P) {
         on_pencilButton_clicked();
     }
+    if(event->key() == Qt::Key_M) {
+        on_paintAllSameColorButton_clicked();
+    }
 }
 
 void MainWindow::on_pencilButton_clicked()
@@ -157,6 +148,17 @@ void MainWindow::on_pencilButton_clicked()
 
     setCursor(Qt::PointingHandCursor);
 }
+
+void MainWindow::on_paintAllSameColorButton_clicked()
+{
+    if (tool != nullptr)
+        delete tool;
+
+    tool = new PaintAllSameColor(brushColor, canvas.getCurrentFrame());
+
+    setCursor(Qt::PointingHandCursor);
+}
+
 
 void MainWindow::on_eraserButton_clicked()
 {
@@ -215,7 +217,6 @@ void MainWindow::on_secondaryBrushButton_clicked()
 
 
 
-
 void MainWindow::on_bucketButton_clicked()
 {
     if (tool != nullptr)
@@ -225,4 +226,5 @@ void MainWindow::on_bucketButton_clicked()
     tool = new Bucket(brushColor, canvas.getCurrentFrame());
 
     setCursor(Qt::CrossCursor);
+
 }

@@ -5,12 +5,17 @@
 #include <QtGui>
 #include <QtCore>
 #include <QColorDialog>
+#include <QFileDialog>
 
 #include "canvas.h"
 #include "tool.h"
 #include "eraser.h"
 #include "pencil.h"
+<<<<<<< HEAD
 #include "bucket.h"
+=======
+#include "projectmanager.h"
+>>>>>>> 9e7a509e143f2f7d8e8c63a69d1549788daee1f0
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -56,10 +61,15 @@ protected:
 private slots:
     void on_pencilButton_clicked();
     void on_eraserButton_clicked();
+    void on_paintAllSameColorButton_clicked();
     void on_swapBrushesButton_clicked();
     void on_primaryBrushButton_clicked();
     void on_resetBrushesButton_clicked();
     void on_secondaryBrushButton_clicked();
+<<<<<<< HEAD
     void on_bucketButton_clicked();
+=======
+    void on_pushButton_clicked();
+>>>>>>> 9e7a509e143f2f7d8e8c63a69d1549788daee1f0
 };
 #endif // MAINWINDOW_H

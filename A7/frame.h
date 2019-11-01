@@ -5,6 +5,9 @@
 #include <QImage>
 #include <QColor>
 
+#include "json.hpp"
+using json = nlohmann::json;
+
 class Frame
 {
 public:
@@ -14,7 +17,7 @@ public:
     QColor getPixel(int x, int y);
     void setPixel(int x, int y, QColor color);
 
-    QString toJson();
+    std::string toJson();
     static Frame fromJson(QString jsonString);
 
     QImage getImage();

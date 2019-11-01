@@ -155,6 +155,7 @@
      <pixmap>background.png</pixmap>
     </property>
    </widget>
+<<<<<<< HEAD
    <widget class="QPushButton" name="bucketButton">
     <property name="geometry">
      <rect>
@@ -166,6 +167,19 @@
     </property>
     <property name="text">
      <string>Bucket</string>
+=======
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>570</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save</string>
+>>>>>>> 9e7a509e143f2f7d8e8c63a69d1549788daee1f0
     </property>
    </widget>
    <zorder>background</zorder>
@@ -177,7 +191,11 @@
    <zorder>primaryBrushButton</zorder>
    <zorder>resetBrushesButton</zorder>
    <zorder>swapBrushesButton</zorder>
+<<<<<<< HEAD
    <zorder>bucketButton</zorder>
+=======
+   <zorder>pushButton</zorder>
+>>>>>>> 9e7a509e143f2f7d8e8c63a69d1549788daee1f0
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
