@@ -146,6 +146,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_P) {
         on_pencilButton_clicked();
     }
+    if(event->key() == Qt::Key_M) {
+        on_paintAllSameColorButton_clicked();
+    }
 }
 
 void MainWindow::on_pencilButton_clicked()
