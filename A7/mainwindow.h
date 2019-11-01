@@ -6,11 +6,13 @@
 #include <QtCore>
 #include <QColorDialog>
 #include <QLabel>
+#include <QFileDialog>
 
 #include "canvas.h"
 #include "tool.h"
 #include "eraser.h"
 #include "pencil.h"
+#include "projectmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

@@ -29,7 +29,7 @@ void MainWindow::mousePressEvent(QMouseEvent *e) {
     this->windowClicked(e->x(), e->y());
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent *e) {    
+void MainWindow::mouseMoveEvent(QMouseEvent *e) {
     this->windowClicked(e->x(), e->y());
 }
 
@@ -161,6 +161,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_P) {
         on_pencilButton_clicked();
     }
+    if(event->key() == Qt::Key_M) {
+        on_paintAllSameColorButton_clicked();
+    }
 }
 
 void MainWindow::on_pencilButton_clicked()
@@ -244,4 +247,13 @@ void MainWindow::on_addFrameButton_clicked()
 //    newLabel.setGeometry(framePreviews[framePreviews.size()-1]->x(),framePreviews[framePreviews.size()-1]->y()+126,124,124);
 //    framePreviews.push_back(&newLabel);
 //    canvas.addFrame();
-}
+//void MainWindow::on_pushButton_clicked()
+//{
+//    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+//                                "untitled.ssp",
+//                                tr("SIMP Project file (*.ssp)"));
+
+//    ProjectManager::saveProject(&canvas, fileName);
+
+//>>>>>>> 9e7a509e143f2f7d8e8c63a69d1549788daee1f0
+//}
