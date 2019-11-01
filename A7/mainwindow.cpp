@@ -1,8 +1,15 @@
 #include <QDebug>
+#include <QVBoxLayout>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QVBoxLayout>
+#include "canvas.h"
+#include "tool.h"
+#include "eraser.h"
+#include "pencil.h"
+#include "bucket.h"
+#include "projectmanager.h"
+#include "paintAllSameColor.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -162,7 +169,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         on_pencilButton_clicked();
     }
     if(event->key() == Qt::Key_M) {
-        on_paintAllSameColorButton_clicked();
+        on_findAndReplaceButton_clicked();
     }
 }
 
@@ -236,8 +243,8 @@ void MainWindow::on_findAndReplaceButton_clicked()
     if (tool)
         delete tool;
 
-    //tool = new PaintAllSameColor(brushColor, canvas.getCurrentFrame());
-
+    tool = new PaintAllSameColor(brushColor, canvas.getCurrentFrame());
+}
 
 void MainWindow::on_bucketButton_clicked()
 {
@@ -267,4 +274,4 @@ void MainWindow::on_addFrameButton_clicked()
 //    ProjectManager::saveProject(&canvas, fileName);
 
 //>>>>>>> 9e7a509e143f2f7d8e8c63a69d1549788daee1f0
-//}
+}
