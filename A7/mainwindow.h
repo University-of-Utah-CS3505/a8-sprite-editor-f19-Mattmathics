@@ -12,6 +12,7 @@
 #include "tool.h"
 #include "eraser.h"
 #include "pencil.h"
+#include "bucket.h"
 #include "projectmanager.h"
 
 QT_BEGIN_NAMESPACE
@@ -67,5 +68,7 @@ private slots:
     void on_secondaryBrushButton_clicked();
     void on_findAndReplaceButton_clicked();
     void on_addFrameButton_clicked();
+    void on_bucketButton_clicked();
+    void on_pushButton_clicked();
 };
 #endif // MAINWINDOW_H

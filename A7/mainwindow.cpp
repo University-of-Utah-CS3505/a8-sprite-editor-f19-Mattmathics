@@ -238,6 +238,17 @@ void MainWindow::on_findAndReplaceButton_clicked()
 
     //tool = new PaintAllSameColor(brushColor, canvas.getCurrentFrame());
 
+
+void MainWindow::on_bucketButton_clicked()
+{
+    if (tool != nullptr)
+        delete tool;
+
+
+    tool = new Bucket(brushColor, canvas.getCurrentFrame());
+
+    setCursor(Qt::CrossCursor);
+
     setCursor(Qt::PointingHandCursor);
 }
 

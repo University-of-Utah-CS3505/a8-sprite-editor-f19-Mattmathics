@@ -211,6 +211,17 @@
     </property>
     <property name="text">
      <string>+</string>
+   <widget class="QPushButton" name="bucketButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>180</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bucket</string>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
@@ -236,6 +247,7 @@
    <zorder>findAndReplaceButton</zorder>
    <zorder>framesFrame</zorder>
    <zorder>addFrameButton</zorder>
+   <zorder>bucketButton</zorder>
    <zorder>pushButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
