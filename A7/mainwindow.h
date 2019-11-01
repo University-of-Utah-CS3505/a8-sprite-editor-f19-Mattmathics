@@ -5,11 +5,13 @@
 #include <QtGui>
 #include <QtCore>
 #include <QColorDialog>
+#include <QFileDialog>
 
 #include "canvas.h"
 #include "tool.h"
 #include "eraser.h"
 #include "pencil.h"
+#include "projectmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -59,5 +61,6 @@ private slots:
     void on_primaryBrushButton_clicked();
     void on_resetBrushesButton_clicked();
     void on_secondaryBrushButton_clicked();
+    void on_pushButton_clicked();
 };
 #endif // MAINWINDOW_H

@@ -69,9 +69,23 @@ Canvas Canvas::fromJson(QString jsonString)
     // TODO
 }
 
-QString Canvas::toJson()
+std::string Canvas::toJson()
 {
-    // TODO
+    json j;
+
+    j["frameSize"] = frames.size();
+    j["width"] = sizeX;
+    j["height"] = sizeY;
+
+    std::vector<std::string> framesVector;
+
+    for(int index = 0; index < frames.size(); index++)
+    {
+        framesVector.push_back(frames[index].toJson());
+    }
+
+    j["frames"] = framesVector;
+    return j.dump();
 }
 
 

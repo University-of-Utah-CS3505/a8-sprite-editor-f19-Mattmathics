@@ -81,18 +81,6 @@ void MainWindow::paintEvent(QPaintEvent *e) {
         }
     }
 
-//    for(int y = 0; y < canvas.getHeight() * 2; y++) {
-//        for(int x = 0; x < canvas.getWidth() * 2; x++) {
-//            int pointX = (x * (pixelSize / 2)) + horizontalOffset;
-//            int pointY = y * (pixelSize / 2);
-
-//            painter.fillRect(QRect(pointX, pointY, pixelSize/2, pixelSize/2),
-//                             (colorFlag = !colorFlag) ? grayColor : lightGrayColor);
-//        }
-
-//        colorFlag = !colorFlag;
-//    }
-
     // Draw all pixels.
     for(int x = 0; x < canvas.getWidth(); x++) {
         for(int y = 0; y < canvas.getHeight(); y++) {
@@ -213,5 +201,12 @@ void MainWindow::on_secondaryBrushButton_clicked()
     }
 }
 
+void MainWindow::on_pushButton_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                "untitled.ssp",
+                                tr("SIMP Project file (*.ssp)"));
 
+    ProjectManager::saveProject(&canvas, fileName);
 
+}

@@ -155,6 +155,19 @@
      <pixmap>background.png</pixmap>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>570</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save</string>
+    </property>
+   </widget>
    <zorder>background</zorder>
    <zorder>leftPanel</zorder>
    <zorder>eraserButton</zorder>
@@ -164,6 +177,7 @@
    <zorder>primaryBrushButton</zorder>
    <zorder>resetBrushesButton</zorder>
    <zorder>swapBrushesButton</zorder>
+   <zorder>pushButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -171,7 +185,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QFile>
+#include <QTextStream>
 
 #include "frame.h"
 #include "canvas.h"
@@ -21,6 +22,8 @@ public:
     static bool saveAsGif(Canvas* canvas, QString uri);
 
     static bool saveProject(Canvas* canvas, QString uri);
+
+    int x;
 
 private:
     ProjectManager() {}

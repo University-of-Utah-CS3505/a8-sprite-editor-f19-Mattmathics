@@ -41,9 +41,28 @@ QImage Frame::getImage()
     return image;
 }
 
-QString Frame::toJson()
+std::string Frame::toJson()
 {
-    // TODO
+    json j;
+    std::vector<std::vector<int>> pixels;
+
+    for(int x = 0; x < sizeX; x++)
+        for(int y = 0; y < sizeY; y++)
+        {
+            std::vector<int> colors;
+
+            QColor color = this->getPixel(x, y);
+            colors.push_back(color.red());
+            colors.push_back(color.green());
+            colors.push_back(color.blue());
+            colors.push_back(color.alpha());
+
+            pixels.push_back(colors);
+        }
+
+    j["pixels"] = pixels;
+
+    return j.dump();
 }
 
 Frame Frame::fromJson(QString jsonString)
