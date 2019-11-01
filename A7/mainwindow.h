@@ -57,6 +57,7 @@ protected:
 private slots:
     void on_pencilButton_clicked();
     void on_eraserButton_clicked();
+    void on_paintAllSameColorButton_clicked();
     void on_swapBrushesButton_clicked();
     void on_primaryBrushButton_clicked();
     void on_resetBrushesButton_clicked();

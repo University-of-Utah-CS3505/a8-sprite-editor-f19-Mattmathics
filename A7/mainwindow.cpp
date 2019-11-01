@@ -134,6 +134,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_P) {
         on_pencilButton_clicked();
     }
+    if(event->key() == Qt::Key_M) {
+        on_paintAllSameColorButton_clicked();
+    }
 }
 
 void MainWindow::on_pencilButton_clicked()
@@ -145,6 +148,17 @@ void MainWindow::on_pencilButton_clicked()
 
     setCursor(Qt::PointingHandCursor);
 }
+
+void MainWindow::on_paintAllSameColorButton_clicked()
+{
+    if (tool != nullptr)
+        delete tool;
+
+    tool = new PaintAllSameColor(brushColor, canvas.getCurrentFrame());
+
+    setCursor(Qt::PointingHandCursor);
+}
+
 
 void MainWindow::on_eraserButton_clicked()
 {
