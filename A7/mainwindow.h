@@ -5,11 +5,15 @@
 #include <QtGui>
 #include <QtCore>
 #include <QColorDialog>
+#include <QLabel>
+#include <QFileDialog>
 
 #include "canvas.h"
 #include "tool.h"
 #include "eraser.h"
 #include "pencil.h"
+#include "bucket.h"
+#include "projectmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,6 +24,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     Canvas canvas = Canvas(16, 16);
+    bool brushStrokes[16][16];
 
     int horizontalOffset = 150;
     int pixelSize = 10;
@@ -36,6 +41,7 @@ public:
 private:
     Ui::MainWindow *ui;
     Tool *tool = nullptr;
+    QVector<QLabel*> framePreviews;
 
     /**
      * When window is cliked, update pixel with current tool.
@@ -47,6 +53,7 @@ private:
 
 protected:
     void mousePressEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
     void paintEvent(QPaintEvent *e);
     void resizeEvent(QResizeEvent *e);
@@ -55,10 +62,13 @@ protected:
 private slots:
     void on_pencilButton_clicked();
     void on_eraserButton_clicked();
-    void on_paintAllSameColorButton_clicked();
     void on_swapBrushesButton_clicked();
     void on_primaryBrushButton_clicked();
     void on_resetBrushesButton_clicked();
     void on_secondaryBrushButton_clicked();
+    void on_findAndReplaceButton_clicked();
+    void on_addFrameButton_clicked();
+    void on_bucketButton_clicked();
+    void on_pushButton_clicked();
 };
 #endif // MAINWINDOW_H
