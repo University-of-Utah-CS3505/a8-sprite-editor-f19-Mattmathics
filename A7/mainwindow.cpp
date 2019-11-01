@@ -215,3 +215,14 @@ void MainWindow::on_secondaryBrushButton_clicked()
 
 
 
+
+void MainWindow::on_bucketButton_clicked()
+{
+    if (tool != nullptr)
+        delete tool;
+
+
+    tool = new Bucket(brushColor, canvas.getCurrentFrame());
+
+    setCursor(Qt::CrossCursor);
+}
