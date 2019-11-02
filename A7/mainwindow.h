@@ -28,6 +28,7 @@ class MainWindow : public QMainWindow
     int canvasWidth = 16;
     int canvasHeight = 16;
 
+    bool clickedColor = false;
     QColor brushColor = QColor(0,0,0,255);
     QColor brushSubColor = QColor(255,255,255,255);
 
@@ -62,7 +63,9 @@ private slots:
     void on_resetBrushesButton_clicked();
     void on_secondaryBrushButton_clicked();
     void on_bucketButton_clicked();
-    void on_pickColor_clicked();
-    void on_setColor_clicked();
+    //void on_pickColor_clicked();
+    //void on_setColor_clicked();
+    //void on_toggleTest_clicked(bool checked);
+    void on_pushButton_clicked();
 };
 #endif // MAINWINDOW_H

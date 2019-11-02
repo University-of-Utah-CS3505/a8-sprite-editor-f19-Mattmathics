@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->statusbar->hide();      //For macOS user.
+    ui->toggleTest->setCheckable(true);
 
     //Scaling pixel editer.
     resizeEvent(nullptr);
@@ -40,6 +41,25 @@ void MainWindow::windowClicked(int posX, int posY) {
 
         int pointX = (posX - horizontalOffset) / pixelSize;
         int pointY = posY / pixelSize;
+
+        if(clickedColor) {
+
+            tool = new ColorPicker(brushColor, canvas.getCurrentFrame());
+            tool->perform(pointX, pointY);
+
+            QColor newColor = tool->getClickedColor();
+
+            std::string colorString = "background-color: rgb(" + std::to_string(newColor.red()) + ", " + std::to_string(newColor.green()) + ", " + std::to_string(newColor.blue()) + ");";
+            this->ui->primaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
+
+            QColor temp = brushColor;
+            brushColor = newColor;
+            newColor = temp;
+
+            tool->setBrushColor(brushColor);
+
+            clickedColor = false;
+        }
 
         tool->perform(pointX, pointY);
 
@@ -146,6 +166,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_P) {
         on_pencilButton_clicked();
     }
+
 }
 
 void MainWindow::on_pencilButton_clicked()
@@ -226,7 +247,7 @@ void MainWindow::on_bucketButton_clicked()
 }
 
 
-
+/**
 void MainWindow::on_pickColor_clicked()
 {
     if (tool != nullptr)
@@ -251,3 +272,37 @@ void MainWindow::on_setColor_clicked()
     tool->setBrushColor(brushColor);
 }
 
+
+void MainWindow::on_toggleTest_clicked(bool checked)
+{
+   if(checked) {
+       if (tool != nullptr)
+           delete tool;
+
+       tool = new ColorPicker(brushColor, canvas.getCurrentFrame());
+
+       setCursor(Qt::PointingHandCursor);
+
+
+
+   }
+   if(!checked) {
+       QColor clickedColor = tool->getClickedColor();
+
+       std::string colorString = "background-color: rgb(" + std::to_string(clickedColor.red()) + ", " + std::to_string(clickedColor.green()) + ", " + std::to_string(clickedColor.blue()) + ");";
+       this->ui->primaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
+
+       QColor temp = brushColor;
+       brushColor = clickedColor;
+       clickedColor = temp;
+
+       tool->setBrushColor(brushColor);
+   }
+}
+
+
+**/
+void MainWindow::on_pushButton_clicked()
+{
+    clickedColor = true;
+}
