@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->statusbar->hide();      //For macOS user.
-    ui->toggleTest->setCheckable(true);
+
 
     //Scaling pixel editer.
     resizeEvent(nullptr);
@@ -246,63 +246,7 @@ void MainWindow::on_bucketButton_clicked()
     setCursor(Qt::CrossCursor);
 }
 
-
-/**
-void MainWindow::on_pickColor_clicked()
-{
-    if (tool != nullptr)
-        delete tool;
-
-    tool = new ColorPicker(brushColor, canvas.getCurrentFrame());
-
-    setCursor(Qt::PointingHandCursor);
-}
-
-void MainWindow::on_setColor_clicked()
-{
-    QColor clickedColor = tool->getClickedColor();
-
-    std::string colorString = "background-color: rgb(" + std::to_string(clickedColor.red()) + ", " + std::to_string(clickedColor.green()) + ", " + std::to_string(clickedColor.blue()) + ");";
-    this->ui->primaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
-
-    QColor temp = brushColor;
-    brushColor = clickedColor;
-    clickedColor = temp;
-
-    tool->setBrushColor(brushColor);
-}
-
-
-void MainWindow::on_toggleTest_clicked(bool checked)
-{
-   if(checked) {
-       if (tool != nullptr)
-           delete tool;
-
-       tool = new ColorPicker(brushColor, canvas.getCurrentFrame());
-
-       setCursor(Qt::PointingHandCursor);
-
-
-
-   }
-   if(!checked) {
-       QColor clickedColor = tool->getClickedColor();
-
-       std::string colorString = "background-color: rgb(" + std::to_string(clickedColor.red()) + ", " + std::to_string(clickedColor.green()) + ", " + std::to_string(clickedColor.blue()) + ");";
-       this->ui->primaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
-
-       QColor temp = brushColor;
-       brushColor = clickedColor;
-       clickedColor = temp;
-
-       tool->setBrushColor(brushColor);
-   }
-}
-
-
-**/
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_colorPicker_clicked()
 {
     clickedColor = true;
 }

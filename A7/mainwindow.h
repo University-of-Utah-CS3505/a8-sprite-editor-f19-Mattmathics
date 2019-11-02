@@ -63,9 +63,7 @@ private slots:
     void on_resetBrushesButton_clicked();
     void on_secondaryBrushButton_clicked();
     void on_bucketButton_clicked();
-    //void on_pickColor_clicked();
-    //void on_setColor_clicked();
-    //void on_toggleTest_clicked(bool checked);
-    void on_pushButton_clicked();
+
+    void on_colorPicker_clicked();
 };
 #endif // MAINWINDOW_H
