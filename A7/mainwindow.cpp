@@ -214,8 +214,6 @@ void MainWindow::on_secondaryBrushButton_clicked()
 }
 
 
-
-
 void MainWindow::on_bucketButton_clicked()
 {
     if (tool != nullptr)
@@ -226,3 +224,30 @@ void MainWindow::on_bucketButton_clicked()
 
     setCursor(Qt::CrossCursor);
 }
+
+
+
+void MainWindow::on_pickColor_clicked()
+{
+    if (tool != nullptr)
+        delete tool;
+
+    tool = new ColorPicker(brushColor, canvas.getCurrentFrame());
+
+    setCursor(Qt::PointingHandCursor);
+}
+
+void MainWindow::on_setColor_clicked()
+{
+    QColor clickedColor = tool->getClickedColor();
+
+    std::string colorString = "background-color: rgb(" + std::to_string(clickedColor.red()) + ", " + std::to_string(clickedColor.green()) + ", " + std::to_string(clickedColor.blue()) + ");";
+    this->ui->primaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
+
+    QColor temp = brushColor;
+    brushColor = clickedColor;
+    clickedColor = temp;
+
+    tool->setBrushColor(brushColor);
+}
+

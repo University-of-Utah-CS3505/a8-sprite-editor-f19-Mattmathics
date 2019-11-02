@@ -11,6 +11,7 @@
 #include "eraser.h"
 #include "pencil.h"
 #include "bucket.h"
+#include "colorpicker.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -61,5 +62,7 @@ private slots:
     void on_resetBrushesButton_clicked();
     void on_secondaryBrushButton_clicked();
     void on_bucketButton_clicked();
+    void on_pickColor_clicked();
+    void on_setColor_clicked();
 };
 #endif // MAINWINDOW_H

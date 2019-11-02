@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     bucket.cpp \
     canvas.cpp \
+    colorpicker.cpp \
     eraser.cpp \
     frame.cpp \
     main.cpp \
@@ -29,6 +30,7 @@ SOURCES += \
 HEADERS += \
     bucket.h \
     canvas.h \
+    colorpicker.h \
     eraser.h \
     frame.h \
     gif.h \
