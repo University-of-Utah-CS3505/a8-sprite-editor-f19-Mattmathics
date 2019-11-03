@@ -6,7 +6,7 @@
 class Eraser : public Tool
 {
 public:
-    Eraser(Frame* frame);
+    Eraser(Canvas* canvas);
     ~Eraser() override;
 
     void perform(int x, int y) override;

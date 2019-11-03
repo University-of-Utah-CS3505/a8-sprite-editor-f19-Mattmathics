@@ -8,10 +8,10 @@ bool ProjectManager::saveAsPng(Frame *frame, QString uri)
     return frame->getImage().save(file.fileName(), "PNG");
 }
 
-//bool ProjectManager::saveAsGif(Canvas *canvas, QString uri)
-//{
+bool ProjectManager::saveAsGif(Canvas *canvas, QString uri)
+{
 
-//}
+}
 
 bool ProjectManager::saveProject(Canvas *canvas, QString uri)
 {
@@ -29,4 +29,25 @@ bool ProjectManager::saveProject(Canvas *canvas, QString uri)
     }
 
     return false;
+}
+
+Canvas ProjectManager::openProject(QString uri)
+{
+    QFile file(uri);
+
+    qDebug() << "Load project from : " << uri << endl;
+
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QTextStream in(&file);
+        QString line = in.readLine();
+        file.close();
+
+         qDebug() << "JSOM :: " << line << endl;
+
+        return Canvas::fromJson(line);
+    }
+
+    qDebug() << "Load Project Failed" << endl;
+    throw false;
 }

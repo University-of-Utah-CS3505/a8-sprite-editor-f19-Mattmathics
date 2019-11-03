@@ -1,13 +1,13 @@
 #include "tool.h"
 
-Tool::Tool(QColor color, Frame* frame)
+Tool::Tool(QColor color, Canvas *canvas)
 {
-    if (frame == nullptr)
+    if (canvas == nullptr)
     {
         // TODO: throw error.
     }
 
-    currentFrame = frame;
+    currentCanvas = canvas;
     brushColor = color;
 
 }
@@ -17,14 +17,19 @@ Tool::~Tool()
 
 }
 
-void Tool::setCurrentFrame(Frame *frame)
+void Tool::setCurrentCanvas(Canvas *canvas)
 {
-    currentFrame = frame;
+    currentCanvas = canvas;
 }
 
 void Tool::setBrushColor(QColor color)
 {
     brushColor = color;
+}
+
+Frame* Tool::getCurrentFrame()
+{
+    return currentCanvas->getCurrentFrame();
 }
 
 QColor Tool::getBrushColor()

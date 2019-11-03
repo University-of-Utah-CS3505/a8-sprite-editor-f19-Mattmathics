@@ -6,7 +6,7 @@
 class ColorPicker : public Tool
 {
 public:
-    ColorPicker(QColor color, Frame* frame);
+    ColorPicker(QColor color, Canvas* canvas);
     ~ColorPicker() override;
 
     void perform(int x, int y) override;

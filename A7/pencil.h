@@ -6,7 +6,7 @@
 class Pencil : public Tool
 {
 public:
-    Pencil(QColor color, Frame* frame);
+    Pencil(QColor color, Canvas* canvas);
     ~Pencil() override;
 
     void perform(int x, int y) override;

@@ -1,6 +1,6 @@
 #include "colorpicker.h"
 
-ColorPicker::ColorPicker(QColor color, Frame* frame) : Tool(color, frame)
+ColorPicker::ColorPicker(QColor color, Canvas* canvas) : Tool(color, canvas)
 {
 
 }
@@ -12,5 +12,5 @@ ColorPicker::~ColorPicker()
 
 void ColorPicker::perform(int x, int y)
 {
-    brushColor = currentFrame->getPixel(x,y);
+    brushColor = getCurrentFrame()->getPixel(x,y);
 }

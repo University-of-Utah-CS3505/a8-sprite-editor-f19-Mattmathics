@@ -25,6 +25,8 @@ public:
      */
     Canvas(int sizeX, int sizeY, QVector<Frame> *frames = nullptr);
 
+    Canvas(const Canvas &canvas);
+
     /**
      * Create canvas object from JSON string.
      *

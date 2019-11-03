@@ -243,6 +243,45 @@
      </property>
     </widget>
    </widget>
+   <widget class="QPushButton" name="openButton">
+    <property name="geometry">
+     <rect>
+      <x>1140</x>
+      <y>40</y>
+      <width>131</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Open</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="redoButton">
+    <property name="geometry">
+     <rect>
+      <x>1140</x>
+      <y>70</y>
+      <width>131</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Redo</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="undoButton">
+    <property name="geometry">
+     <rect>
+      <x>1140</x>
+      <y>100</y>
+      <width>131</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Undo</string>
+    </property>
+   </widget>
    <zorder>background</zorder>
    <zorder>leftPanel</zorder>
    <zorder>eraserButton</zorder>
@@ -258,6 +297,9 @@
    <zorder>saveButton</zorder>
    <zorder>addFrameButton</zorder>
    <zorder>framesScroll</zorder>
+   <zorder>openButton</zorder>
+   <zorder>redoButton</zorder>
+   <zorder>undoButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

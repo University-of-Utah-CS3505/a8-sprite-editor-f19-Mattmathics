@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QColor>
 
+#include "canvas.h"
 #include "frame.h"
 
 /**
@@ -17,14 +18,16 @@ public:
     virtual ~Tool();
     virtual void perform(int x, int y) = 0;
 
-    void setCurrentFrame(Frame* frame);
+    void setCurrentCanvas(Canvas* canvas);
     void setBrushColor(QColor color);
     QColor getBrushColor();
 
 protected:
-    Tool(QColor color, Frame* frame);
+    Tool(QColor color, Canvas* canvas);
 
-    Frame* currentFrame;
+    Frame* getCurrentFrame();
+    Canvas* currentCanvas;
+
     QColor brushColor;
 };
 

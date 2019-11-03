@@ -23,6 +23,8 @@ public:
 
     static bool saveProject(Canvas* canvas, QString uri);
 
+    static Canvas openProject(QString uri);
+
     int x;
 
 private:

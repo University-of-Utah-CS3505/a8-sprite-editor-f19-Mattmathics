@@ -6,7 +6,7 @@
 class PaintAllSameColor : public Tool
 {
 public:
-    PaintAllSameColor(QColor color, Frame* frame);
+    PaintAllSameColor(QColor color, Canvas* Canvas);
     ~PaintAllSameColor() override;
 
     void perform(int x, int y) override;

@@ -1,5 +1,9 @@
 #include "canvas.h"
 
+#include <QDebug>
+
+using json = nlohmann::json;
+
 Canvas::Canvas(int sizeX, int sizeY, QVector<Frame> *frames)
 {
     this->sizeX = sizeX;
@@ -16,6 +20,14 @@ Canvas::Canvas(int sizeX, int sizeY, QVector<Frame> *frames)
     {
         this->frames.push_back(Frame(sizeX, sizeY));
     }
+}
+
+Canvas::Canvas(const Canvas &copyCanvas)
+{
+    this->sizeX = copyCanvas.sizeX;
+    this->sizeY = copyCanvas.sizeY;
+    this->index = copyCanvas.index;
+    this->frames = QVector<Frame>(copyCanvas.frames);
 }
 
 void Canvas::addFrame()
@@ -66,7 +78,21 @@ int Canvas::getHeight()
 
 Canvas Canvas::fromJson(QString jsonString)
 {
-    // TODO
+    auto j = json::parse(jsonString.toStdString());
+
+    int sizeX = j["width"].get<int>();
+    int sizeY = j["height"].get<int>();
+    int frameSize = j["frameSize"].get<int>();
+
+    std::vector<std::string> framesVector = j["frames"].get<std::vector<std::string>>();
+    QVector<Frame> frames;
+
+    foreach (std::string json, framesVector) {
+        Frame frame = Frame::fromJson(QString::fromStdString(json), sizeX, sizeY);
+        frames.push_back(frame);
+    }
+
+    return Canvas(sizeX, sizeY, &frames);
 }
 
 std::string Canvas::toJson()

@@ -21,12 +21,14 @@ SOURCES += \
     colorpicker.cpp \
     eraser.cpp \
     frame.cpp \
+    history.cpp \
     main.cpp \
     mainwindow.cpp \
     paintAllSameColor.cpp \
     pencil.cpp \
     projectmanager.cpp \
     qimagebutton.cpp \
+    redoundomanager.cpp \
     tool.cpp
 
 HEADERS += \
@@ -36,12 +38,14 @@ HEADERS += \
     eraser.h \
     frame.h \
     gif.h \
+    history.h \
     json.hpp \
     mainwindow.h \
     paintAllSameColor.h \
     pencil.h \
     projectmanager.h \
     qimagebutton.h \
+    redoundomanager.h \
     tool.h
 
 FORMS += \

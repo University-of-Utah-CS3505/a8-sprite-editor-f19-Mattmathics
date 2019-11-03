@@ -8,7 +8,7 @@
 class Bucket : public Tool
 {
 public:
-    Bucket(QColor color, Frame* frame);
+    Bucket(QColor color, Canvas* canvas);
     ~Bucket() override;
 
     void perform(int x, int y) override;

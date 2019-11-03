@@ -1,6 +1,6 @@
 #include "eraser.h"
 
-Eraser::Eraser(Frame* frame): Tool(QColor(0, 0, 0, 0), frame)
+Eraser::Eraser(Canvas* canvas): Tool(QColor(0, 0, 0, 0), canvas)
 {
 
 }
@@ -12,5 +12,5 @@ Eraser::~Eraser()
 
 void Eraser::perform(int x, int y)
 {
-    currentFrame->setPixel(x, y, brushColor);
+    getCurrentFrame()->setPixel(x, y, brushColor);
 }

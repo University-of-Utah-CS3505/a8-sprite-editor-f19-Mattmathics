@@ -19,6 +19,7 @@
 #include "colorpicker.h"
 #include "projectmanager.h"
 #include "qimagebutton.h"
+#include "json.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,29 +29,30 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    Canvas canvas = Canvas(16, 16);
-    bool brushStrokes[16][16];
-
-    int horizontalOffset = 150;
-    int pixelSize = 10;
-    int canvasWidth = 16;
-    int canvasHeight = 16;
-
-    QColor brushColor = QColor(0,0,0,255);
-    QColor brushSubColor = QColor(255,255,255,255);
-
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Canvas *copyCanvas = nullptr, QWidget *parent = nullptr);
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
-    Tool *tool = nullptr;
-    QVector<QImageButton*> framePreviews;
 
+    Canvas *canvas = nullptr;
+    Tool *tool = nullptr;
+
+    QVector<QImageButton*> framePreviews;
     QGridLayout *frameGridLayout;
 
+    int horizontalOffset = 150;
+    int pixelSize = 10;
+
+    QColor brushColor = QColor(0,0,0,255);
+    QColor brushSubColor = QColor(255,255,255,255);
+
+    bool initialized = false;
     QString projectLocation = "";
+
+    void initialize(Canvas *canvas);
+    void deinitalize();
 
     /**
      * When window is cliked, update pixel with current tool.
@@ -69,6 +71,7 @@ private:
     QString getColorString(QColor color);
     void primaryBrushColorUpdate(QColor color);
     void secondaryBrushColorUpdate(QColor color);
+    void addFramePreview();
 
 protected:
     void mousePressEvent(QMouseEvent *e);
@@ -91,5 +94,8 @@ private slots:
     void on_colorPicker_clicked();
     void on_saveButton_clicked();
     void on_framePriview_clicked();
+    void on_openButton_clicked();
+    void on_redoButton_clicked();
+    void on_undoButton_clicked();
 };
 #endif // MAINWINDOW_H

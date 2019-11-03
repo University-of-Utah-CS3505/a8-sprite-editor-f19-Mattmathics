@@ -1,13 +1,13 @@
 #include "pencil.h"
 
-Pencil::Pencil(QColor color, Frame* frame) : Tool(color, frame)
+Pencil::Pencil(QColor color, Canvas* canvas) : Tool(color, canvas)
 {
     resetStrokes();
 }
 
 Pencil::~Pencil()
 {
-    delete[] brushStrokes;
+    delete [] brushStrokes;
 }
 
 void Pencil::perform(int x, int y)
@@ -16,9 +16,9 @@ void Pencil::perform(int x, int y)
         return;
 
     brushStrokes[x][y] = true;
-    QColor backColor = currentFrame->getPixel(x,y);
+    QColor backColor = getCurrentFrame()->getPixel(x,y);
     if(backColor == QColor(0,0,0,0)) {
-        currentFrame->setPixel(x, y, brushColor);
+        getCurrentFrame()->setPixel(x, y, brushColor);
     }
     else {
         int brushAlpha = brushColor.alpha();
@@ -39,17 +39,17 @@ void Pencil::perform(int x, int y)
         if(outB>255) {
             outB = 255;
         }
-        currentFrame->setPixel(x,y, QColor(outR, outG, outB, outA));
+        getCurrentFrame()->setPixel(x,y, QColor(outR, outG, outB, outA));
     }
 }
 
 void Pencil::resetStrokes(){
 
-    brushStrokes = new bool*[currentFrame->getSizeX()];
-    for (int x = 0; x < currentFrame->getSizeX(); x++) {
-        brushStrokes[x] = new bool[currentFrame->getSizeY()];
+    brushStrokes = new bool*[getCurrentFrame()->getSizeX()];
+    for (int x = 0; x < getCurrentFrame()->getSizeX(); x++) {
+        brushStrokes[x] = new bool[getCurrentFrame()->getSizeY()];
 
-        for (int y = 0; y < currentFrame->getSizeY(); y++) {
+        for (int y = 0; y < getCurrentFrame()->getSizeY(); y++) {
             brushStrokes[x][y] = false;
         }
     }
