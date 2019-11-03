@@ -168,38 +168,6 @@
      <string>Find and Replace</string>
     </property>
    </widget>
-   <widget class="QFrame" name="framesFrame">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>300</y>
-      <width>131</width>
-      <height>331</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <widget class="QLabel" name="frame1Label">
-     <property name="geometry">
-      <rect>
-       <x>4</x>
-       <y>4</y>
-       <width>124</width>
-       <height>124</height>
-      </rect>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Box</enum>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </widget>
    <widget class="QPushButton" name="bucketButton">
     <property name="geometry">
      <rect>
@@ -252,6 +220,29 @@
      <string>+</string>
     </property>
    </widget>
+   <widget class="QScrollArea" name="framesScroll">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>300</y>
+      <width>131</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="framesScrollWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>129</width>
+       <height>329</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
    <zorder>background</zorder>
    <zorder>leftPanel</zorder>
    <zorder>eraserButton</zorder>
@@ -262,11 +253,11 @@
    <zorder>resetBrushesButton</zorder>
    <zorder>swapBrushesButton</zorder>
    <zorder>findAndReplaceButton</zorder>
-   <zorder>framesFrame</zorder>
    <zorder>bucketButton</zorder>
    <zorder>colorPicker</zorder>
    <zorder>saveButton</zorder>
    <zorder>addFrameButton</zorder>
+   <zorder>framesScroll</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

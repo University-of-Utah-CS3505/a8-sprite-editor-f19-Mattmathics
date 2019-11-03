@@ -11,6 +11,8 @@
 #include "projectmanager.h"
 #include "paintAllSameColor.h"
 
+#define PREVIEW_IMAGE_SIZE 110
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -18,18 +20,44 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->statusbar->hide();      //For macOS user.
 
+    //Set Frames View
+    QWidget *client = ui->framesScrollWidget;
+
+    QScrollArea *scrollArea = ui->framesScroll;
+    scrollArea->setWidgetResizable(true);
+
+    frameGridLayout = new QGridLayout;
+    frameGridLayout->setContentsMargins(0, 0, 0, 0);
+    frameGridLayout->setSpacing(5);
+
+    client->setLayout(frameGridLayout);
+
+    QImageButton *previewLabel = new QImageButton(client);
+    previewLabel->setStyleSheet("border: 1px solid black");
+    previewLabel->setFixedSize(PREVIEW_IMAGE_SIZE, PREVIEW_IMAGE_SIZE);
+    previewLabel->setObjectName("previewLabel-0");
+    connect(previewLabel, &QImageButton::clicked, this, &MainWindow::on_framePriview_clicked);
+
+    frameGridLayout->addWidget(previewLabel);
+    framePreviews.push_back(previewLabel);
+    on_addFrameButton_clicked();
+
     //Scaling pixel editer.
     resizeEvent(nullptr);
 
     //Set tool to pencil
     on_pencilButton_clicked();
-    framePreviews.push_back(ui->frame1Label);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete tool;
+    delete frameGridLayout;
+
+    foreach (auto obj, framePreviews) {
+        delete obj;
+    }
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *e) {
@@ -266,9 +294,27 @@ void MainWindow::on_addFrameButton_clicked()
 {
     canvas.addFrame();
 
-    QLabel newLabel("Test", this->ui->framesFrame);
-    newLabel.setGeometry(framePreviews[framePreviews.size()-1]->x(),framePreviews[framePreviews.size()-1]->y()+126,124,124);
-    framePreviews.push_back(&newLabel);
+    QWidget *client = ui->framesScrollWidget;
+
+    QImageButton *previewLabel = new QImageButton(client);
+    previewLabel->setStyleSheet("border: 1px solid black");
+    previewLabel->setFixedSize(PREVIEW_IMAGE_SIZE, PREVIEW_IMAGE_SIZE);
+    previewLabel->setObjectName("previewLabel-" + QString::number(canvas.sizeFrame() - 1));
+    connect(previewLabel, &QImageButton::clicked, this, &MainWindow::on_framePriview_clicked);
+
+    frameGridLayout->addWidget(previewLabel);
+    framePreviews.push_back(previewLabel);
+}
+
+void MainWindow::on_framePriview_clicked()
+{
+    // Get which button is clicekd
+    QImageButton* buttonSender = qobject_cast<QImageButton*>(sender());
+    int index = buttonSender->objectName().split("-")[1].toInt();
+
+    canvas.moveFrame(index);
+    tool->setCurrentFrame(canvas.getCurrentFrame());
+    repaint();
 }
 
 QString MainWindow::getColorString(QColor color)

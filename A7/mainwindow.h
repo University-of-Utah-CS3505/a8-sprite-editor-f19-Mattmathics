@@ -7,6 +7,9 @@
 #include <QColorDialog>
 #include <QLabel>
 #include <QFileDialog>
+#include <QScrollArea>
+#include <QGridLayout>
+#include <QWidget>
 
 #include "canvas.h"
 #include "tool.h"
@@ -15,6 +18,7 @@
 #include "bucket.h"
 #include "colorpicker.h"
 #include "projectmanager.h"
+#include "qimagebutton.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,7 +46,9 @@ public:
 private:
     Ui::MainWindow *ui;
     Tool *tool = nullptr;
-    QVector<QLabel*> framePreviews;
+    QVector<QImageButton*> framePreviews;
+
+    QGridLayout *frameGridLayout;
 
     QString projectLocation = "";
 
@@ -84,5 +90,6 @@ private slots:
     void on_bucketButton_clicked();
     void on_colorPicker_clicked();
     void on_saveButton_clicked();
+    void on_framePriview_clicked();
 };
 #endif // MAINWINDOW_H

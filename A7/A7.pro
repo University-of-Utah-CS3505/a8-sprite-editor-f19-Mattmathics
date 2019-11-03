@@ -26,6 +26,7 @@ SOURCES += \
     paintAllSameColor.cpp \
     pencil.cpp \
     projectmanager.cpp \
+    qimagebutton.cpp \
     tool.cpp
 
 HEADERS += \
@@ -40,6 +41,7 @@ HEADERS += \
     paintAllSameColor.h \
     pencil.h \
     projectmanager.h \
+    qimagebutton.h \
     tool.h
 
 FORMS += \
