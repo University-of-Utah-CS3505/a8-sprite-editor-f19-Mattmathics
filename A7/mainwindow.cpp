@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->statusbar->hide();      //For macOS user.
 
-
     //Scaling pixel editer.
     resizeEvent(nullptr);
 
@@ -85,7 +84,6 @@ void MainWindow::paintEvent(QPaintEvent *e) {
     }
 
     // Draw background pixels;
-    bool colorFlag = false;
     QColor grayColor(97, 97, 97, 255);
     QColor lightGrayColor(125, 125, 125, 255);
 

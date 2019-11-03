@@ -11,8 +11,9 @@ public:
 
     void perform(int x, int y) override;
     void resetStrokes();
+
 private:
-    bool brushStrokes[16][16];
+    bool **brushStrokes;
 };
 
 #endif // PENCIL_H

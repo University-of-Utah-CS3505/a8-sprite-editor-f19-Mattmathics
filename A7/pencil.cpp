@@ -2,22 +2,22 @@
 
 Pencil::Pencil(QColor color, Frame* frame) : Tool(color, frame)
 {
-
+    resetStrokes();
 }
 
 Pencil::~Pencil()
 {
-    resetStrokes();
+    delete[] brushStrokes;
 }
 
 void Pencil::perform(int x, int y)
 {
-    if(brushStrokes[x][y]) {
+    if(brushStrokes[x][y])
         return;
-    }
+
     brushStrokes[x][y] = true;
     QColor backColor = currentFrame->getPixel(x,y);
-    if(backColor == QColor(0,0,0,0)){
+    if(backColor == QColor(0,0,0,0)) {
         currentFrame->setPixel(x, y, brushColor);
     }
     else {
@@ -44,9 +44,13 @@ void Pencil::perform(int x, int y)
 }
 
 void Pencil::resetStrokes(){
-    for (int i = 0; i < currentFrame->getSizeX(); i++) {
-        for (int j = 0; j < currentFrame->getSizeY(); j++) {
-            brushStrokes[i][j] = false;
+
+    brushStrokes = new bool*[currentFrame->getSizeX()];
+    for (int x = 0; x < currentFrame->getSizeX(); x++) {
+        brushStrokes[x] = new bool[currentFrame->getSizeY()];
+
+        for (int y = 0; y < currentFrame->getSizeY(); y++) {
+            brushStrokes[x][y] = false;
         }
     }
 }
