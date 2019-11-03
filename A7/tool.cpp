@@ -9,6 +9,7 @@ Tool::Tool(QColor color, Frame* frame)
 
     currentFrame = frame;
     brushColor = color;
+
 }
 
 Tool::~Tool()
@@ -24,4 +25,9 @@ void Tool::setCurrentFrame(Frame *frame)
 void Tool::setBrushColor(QColor color)
 {
     brushColor = color;
+}
+
+QColor Tool::getClickedColor()
+{
+    return clickedColor;
 }

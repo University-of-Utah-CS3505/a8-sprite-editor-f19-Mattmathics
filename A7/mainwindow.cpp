@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->statusbar->hide();      //For macOS user.
 
+
     //Scaling pixel editer.
     resizeEvent(nullptr);
 
@@ -57,6 +58,25 @@ void MainWindow::windowClicked(int posX, int posY) {
 
         int pointX = (posX - horizontalOffset) / pixelSize;
         int pointY = posY / pixelSize;
+
+        if(clickedColor) {
+
+            tool = new ColorPicker(brushColor, canvas.getCurrentFrame());
+            tool->perform(pointX, pointY);
+
+            QColor newColor = tool->getClickedColor();
+
+            std::string colorString = "background-color: rgb(" + std::to_string(newColor.red()) + ", " + std::to_string(newColor.green()) + ", " + std::to_string(newColor.blue()) + ");";
+            this->ui->primaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
+
+            QColor temp = brushColor;
+            brushColor = newColor;
+            newColor = temp;
+
+            tool->setBrushColor(brushColor);
+
+            clickedColor = false;
+        }
 
         tool->perform(pointX, pointY);
 
@@ -168,9 +188,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_P) {
         on_pencilButton_clicked();
     }
+<<<<<<< HEAD
+
+=======
     if(event->key() == Qt::Key_M) {
         on_findAndReplaceButton_clicked();
     }
+>>>>>>> master
 }
 
 void MainWindow::on_pencilButton_clicked()
@@ -260,7 +284,11 @@ void MainWindow::on_secondaryBrushButton_clicked()
 }
 
 
+<<<<<<< HEAD
+void MainWindow::on_bucketButton_clicked()
+=======
 void MainWindow::on_addFrameButton_clicked()
+>>>>>>> master
 {
     QLabel newLabel("Test", this->ui->framesFrame);
     newLabel.setGeometry(framePreviews[framePreviews.size()-1]->x(),framePreviews[framePreviews.size()-1]->y()+126,124,124);
@@ -275,4 +303,9 @@ void MainWindow::on_pushButton_clicked()
                                 tr("SIMP Project file (*.ssp)"));
 
     ProjectManager::saveProject(&canvas, fileName);
+}
+
+void MainWindow::on_colorPicker_clicked()
+{
+    clickedColor = true;
 }

@@ -213,6 +213,19 @@
      <string>Bucket</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="colorPicker">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>210</y>
+      <width>112</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Color Picker</string>
+     </property>
+   </widget>
    <widget class="QPushButton" name="saveButton">
     <property name="geometry">
      <rect>
@@ -251,8 +264,12 @@
    <zorder>findAndReplaceButton</zorder>
    <zorder>framesFrame</zorder>
    <zorder>bucketButton</zorder>
+<<<<<<< HEAD
+   <zorder>colorPicker</zorder>
+=======
    <zorder>saveButton</zorder>
    <zorder>addFrameButton</zorder>
+>>>>>>> master
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

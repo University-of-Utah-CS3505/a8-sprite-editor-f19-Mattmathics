@@ -13,6 +13,7 @@
 #include "eraser.h"
 #include "pencil.h"
 #include "bucket.h"
+#include "colorpicker.h"
 #include "projectmanager.h"
 
 QT_BEGIN_NAMESPACE
@@ -31,6 +32,7 @@ class MainWindow : public QMainWindow
     int canvasWidth = 16;
     int canvasHeight = 16;
 
+    bool clickedColor = false;
     QColor brushColor = QColor(0,0,0,255);
     QColor brushSubColor = QColor(255,255,255,255);
 
@@ -69,6 +71,7 @@ private slots:
     void on_findAndReplaceButton_clicked();
     void on_addFrameButton_clicked();
     void on_bucketButton_clicked();
+    void on_colorPicker_clicked();
     void on_pushButton_clicked();
 };
 #endif // MAINWINDOW_H
