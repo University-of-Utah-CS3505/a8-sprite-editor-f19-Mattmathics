@@ -27,7 +27,7 @@ void Tool::setBrushColor(QColor color)
     brushColor = color;
 }
 
-QColor Tool::getClickedColor()
+QColor Tool::getBrushColor()
 {
-    return clickedColor;
+    return brushColor;
 }

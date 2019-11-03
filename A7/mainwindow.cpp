@@ -59,26 +59,12 @@ void MainWindow::windowClicked(int posX, int posY) {
         int pointX = (posX - horizontalOffset) / pixelSize;
         int pointY = posY / pixelSize;
 
-        if(clickedColor) {
-
-            tool = new ColorPicker(brushColor, canvas.getCurrentFrame());
-            tool->perform(pointX, pointY);
-
-            QColor newColor = tool->getClickedColor();
-
-            std::string colorString = "background-color: rgb(" + std::to_string(newColor.red()) + ", " + std::to_string(newColor.green()) + ", " + std::to_string(newColor.blue()) + ");";
-            this->ui->primaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
-
-            QColor temp = brushColor;
-            brushColor = newColor;
-            newColor = temp;
-
-            tool->setBrushColor(brushColor);
-
-            clickedColor = false;
-        }
-
         tool->perform(pointX, pointY);
+
+        // If tool's brush color is diffrent with brush color, update primary color
+        if (tool->getBrushColor() != brushColor)
+            primaryBrushColorUpdate(tool->getBrushColor());
+
 
         // Update Screen
         this->repaint();
@@ -121,18 +107,6 @@ void MainWindow::paintEvent(QPaintEvent *e) {
             painter.fillRect(QRect(pointX, middleY, sizeHalf, pixelSize - sizeHalf), lightGrayColor);
             painter.fillRect(QRect(middleX, middleY, pixelSize - sizeHalf, pixelSize - sizeHalf), grayColor);
         }
-    }
-
-    for(int y = 0; y < canvas.getHeight() * 2; y++) {
-        for(int x = 0; x < canvas.getWidth() * 2; x++) {
-            int pointX = (x * (pixelSize / 2)) + horizontalOffset;
-            int pointY = y * (pixelSize / 2);
-
-            painter.fillRect(QRect(pointX, pointY, pixelSize/2, pixelSize/2),
-                             (colorFlag = !colorFlag) ? grayColor : lightGrayColor);
-        }
-
-        colorFlag = !colorFlag;
     }
 
     // Draw all pixels.
@@ -188,13 +162,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_P) {
         on_pencilButton_clicked();
     }
-<<<<<<< HEAD
-
-=======
     if(event->key() == Qt::Key_M) {
         on_findAndReplaceButton_clicked();
     }
->>>>>>> master
 }
 
 void MainWindow::on_pencilButton_clicked()
@@ -223,6 +193,8 @@ void MainWindow::on_findAndReplaceButton_clicked()
         delete tool;
 
     tool = new PaintAllSameColor(brushColor, canvas.getCurrentFrame());
+
+    setCursor(Qt::PointingHandCursor);
 }
 
 void MainWindow::on_bucketButton_clicked()
@@ -230,65 +202,69 @@ void MainWindow::on_bucketButton_clicked()
     if (tool != nullptr)
         delete tool;
 
-
     tool = new Bucket(brushColor, canvas.getCurrentFrame());
-
-    setCursor(Qt::CrossCursor);
 
     setCursor(Qt::PointingHandCursor);
 }
 
+void MainWindow::on_colorPicker_clicked()
+{
+    if (tool != nullptr)
+        delete tool;
+
+    tool = new ColorPicker(brushColor, canvas.getCurrentFrame());
+
+    setCursor(Qt::CrossCursor);
+}
+
+
 void MainWindow::on_swapBrushesButton_clicked()
 {
-    std::string colorString = "background-color: rgb(" + std::to_string(brushSubColor.red()) + ", " + std::to_string(brushSubColor.green()) + ", " + std::to_string(brushSubColor.blue()) + ");";
-    this->ui->primaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
-    colorString = "background-color: rgb(" + std::to_string(brushColor.red()) + ", " + std::to_string(brushColor.green()) + ", " + std::to_string(brushColor.blue()) + ");";
-    this->ui->secondaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
-    QColor temp = brushColor;
-    brushColor = brushSubColor;
-    brushSubColor = temp;
+    QColor swap = brushColor;
 
-    tool->setBrushColor(brushColor);
+    primaryBrushColorUpdate(brushSubColor);
+    secondaryBrushColorUpdate(swap);
 }
 
 void MainWindow::on_primaryBrushButton_clicked()
 {
     QColor newColor = QColorDialog::getColor(brushColor,this,QString("Choose Color"), QColorDialog::ShowAlphaChannel);
-    if(newColor.isValid()) {
-        brushColor = newColor;
-        std::string colorString = "background-color: rgb(" + std::to_string(newColor.red()) + ", " + std::to_string(newColor.green()) + ", " + std::to_string(newColor.blue()) + ");";
-        this->ui->primaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
-    }
 
-    tool->setBrushColor(brushColor);
+    primaryBrushColorUpdate(newColor);
 }
 
 void MainWindow::on_resetBrushesButton_clicked()
 {
-    brushColor = QColor(0,0,0,255);
-    brushSubColor = QColor(255,255,255,255);
-    this->ui->primaryBrushButton->setStyleSheet(QString("background-color: rgba(0,0,0,255);"));
-    this->ui->secondaryBrushButton->setStyleSheet(QString("background-color: rgba(255,255,255,255);"));
-
-    tool->setBrushColor(brushColor);
+    primaryBrushColorUpdate(QColor(0,0,0,255));
+    secondaryBrushColorUpdate(QColor(255,255,255,255));
 }
 
 void MainWindow::on_secondaryBrushButton_clicked()
 {
     QColor newColor = QColorDialog::getColor(brushColor,this,QString("Choose Color"), QColorDialog::ShowAlphaChannel);
-    if(newColor.isValid()) {
-        brushSubColor = newColor;
-        std::string colorString = "background-color: rgb(" + std::to_string(newColor.red()) + ", " + std::to_string(newColor.green()) + ", " + std::to_string(newColor.blue()) + ");";
-        this->ui->secondaryBrushButton->setStyleSheet(QString::fromStdString(colorString));
+
+    secondaryBrushColorUpdate(newColor);
+}
+
+void MainWindow::primaryBrushColorUpdate(QColor color)
+{
+    if(color.isValid()) {
+        brushColor = color;
+        this->ui->primaryBrushButton->setStyleSheet(getColorString(color));
+
+        tool->setBrushColor(color);
     }
 }
 
+void MainWindow::secondaryBrushColorUpdate(QColor color)
+{
+    if(color.isValid()) {
+        brushSubColor = color;
+        this->ui->secondaryBrushButton->setStyleSheet(getColorString(color));
+    }
+}
 
-<<<<<<< HEAD
-void MainWindow::on_bucketButton_clicked()
-=======
 void MainWindow::on_addFrameButton_clicked()
->>>>>>> master
 {
     QLabel newLabel("Test", this->ui->framesFrame);
     newLabel.setGeometry(framePreviews[framePreviews.size()-1]->x(),framePreviews[framePreviews.size()-1]->y()+126,124,124);
@@ -305,7 +281,8 @@ void MainWindow::on_pushButton_clicked()
     ProjectManager::saveProject(&canvas, fileName);
 }
 
-void MainWindow::on_colorPicker_clicked()
+QString MainWindow::getColorString(QColor color)
 {
-    clickedColor = true;
+    std::string colorString = "background-color: rgb(" + std::to_string(color.red()) + ", " + std::to_string(color.green()) + ", " + std::to_string(color.blue()) + ");";
+    return QString::fromStdString(colorString);
 }

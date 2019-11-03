@@ -12,5 +12,5 @@ ColorPicker::~ColorPicker()
 
 void ColorPicker::perform(int x, int y)
 {
-    clickedColor = currentFrame->getPixel(x,y);
+    brushColor = currentFrame->getPixel(x,y);
 }

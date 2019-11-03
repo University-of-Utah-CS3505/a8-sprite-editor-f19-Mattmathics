@@ -32,7 +32,6 @@ class MainWindow : public QMainWindow
     int canvasWidth = 16;
     int canvasHeight = 16;
 
-    bool clickedColor = false;
     QColor brushColor = QColor(0,0,0,255);
     QColor brushSubColor = QColor(255,255,255,255);
 
@@ -52,6 +51,16 @@ private:
      * @param posY Clicked posision Y
      */
     void windowClicked(int posX, int posY);
+
+    /**
+     * Get background CSS from color.
+     *
+     * @param color
+     * @return
+     */
+    QString getColorString(QColor color);
+    void primaryBrushColorUpdate(QColor color);
+    void secondaryBrushColorUpdate(QColor color);
 
 protected:
     void mousePressEvent(QMouseEvent *e);

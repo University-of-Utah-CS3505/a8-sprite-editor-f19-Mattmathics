@@ -172,9 +172,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>290</y>
+      <y>300</y>
       <width>131</width>
-      <height>421</height>
+      <height>331</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -216,15 +216,15 @@
    <widget class="QPushButton" name="colorPicker">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>210</y>
-      <width>112</width>
+      <x>10</x>
+      <y>260</y>
+      <width>131</width>
       <height>32</height>
      </rect>
     </property>
     <property name="text">
      <string>Color Picker</string>
-     </property>
+    </property>
    </widget>
    <widget class="QPushButton" name="saveButton">
     <property name="geometry">
@@ -243,7 +243,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>260</y>
+      <y>640</y>
       <width>131</width>
       <height>28</height>
      </rect>
@@ -264,12 +264,9 @@
    <zorder>findAndReplaceButton</zorder>
    <zorder>framesFrame</zorder>
    <zorder>bucketButton</zorder>
-<<<<<<< HEAD
    <zorder>colorPicker</zorder>
-=======
    <zorder>saveButton</zorder>
    <zorder>addFrameButton</zorder>
->>>>>>> master
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -21,7 +21,7 @@ void PaintAllSameColor::perform(int x, int y)
 		{
     		if (currentFrame->getPixel(x, y) == paintAllSame)
 			{
-				currentFrame->setPixel(x, y, currentBrushColor);
+                currentFrame->setPixel(x, y, brushColor);
 			}
 		}
 	}
