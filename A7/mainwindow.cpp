@@ -64,7 +64,6 @@ void MainWindow::windowClicked(int posX, int posY) {
         if (tool->getBrushColor() != brushColor)
             primaryBrushColorUpdate(tool->getBrushColor());
 
-
         // Update Screen
         this->repaint();
     }
@@ -77,10 +76,11 @@ void MainWindow::paintEvent(QPaintEvent *e) {
     Frame* currentFrame = canvas.getCurrentFrame();
 
     for(int i = 0; i < canvas.sizeFrame(); i++) {
-        QPixmap pixmap;
+        QPixmap pixmap = QPixmap::fromImage(canvas.getFrame(i)->getImage());
         pixmap = pixmap.fromImage(canvas.getFrame(i)->getImage());
+        pixmap = pixmap.scaled(framePreviews[i]->size(), Qt::KeepAspectRatio);
+
         framePreviews[i]->setPixmap(pixmap);
-        framePreviews[i]->setScaledContents(true);
     }
 
     // Draw background pixels;
@@ -264,23 +264,36 @@ void MainWindow::secondaryBrushColorUpdate(QColor color)
 
 void MainWindow::on_addFrameButton_clicked()
 {
+    canvas.addFrame();
+
     QLabel newLabel("Test", this->ui->framesFrame);
     newLabel.setGeometry(framePreviews[framePreviews.size()-1]->x(),framePreviews[framePreviews.size()-1]->y()+126,124,124);
     framePreviews.push_back(&newLabel);
-    canvas.addFrame();
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
-                                "untitled.ssp",
-                                tr("SIMP Project file (*.ssp)"));
-
-    ProjectManager::saveProject(&canvas, fileName);
 }
 
 QString MainWindow::getColorString(QColor color)
 {
     std::string colorString = "background-color: rgb(" + std::to_string(color.red()) + ", " + std::to_string(color.green()) + ", " + std::to_string(color.blue()) + ");";
     return QString::fromStdString(colorString);
+}
+
+void MainWindow::on_saveButton_clicked()
+{
+    if (projectLocation.isEmpty())
+        projectLocation = QDir::homePath() + "/" + "untitled.ssp";
+
+    QString filter = "SIMP Project file (*.ssp);; PNG image file (*.png)";
+    QString filePath = QFileDialog::getSaveFileName(this, "Choose file to save", projectLocation, filter, &filter);
+
+    if (filePath.isEmpty()) return;
+
+    if (filePath.toLower().endsWith(".ssp"))
+        ProjectManager::saveProject(&canvas, filePath);
+
+    else if (filePath.toLower().endsWith(".png"))
+        ProjectManager::saveAsPng(canvas.getCurrentFrame(), filePath);
+    else
+        ProjectManager::saveProject(&canvas, filePath);
+
+    projectLocation = filePath;
 }

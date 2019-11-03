@@ -44,6 +44,8 @@ private:
     Tool *tool = nullptr;
     QVector<QLabel*> framePreviews;
 
+    QString projectLocation = "";
+
     /**
      * When window is cliked, update pixel with current tool.
      *
@@ -81,6 +83,6 @@ private slots:
     void on_addFrameButton_clicked();
     void on_bucketButton_clicked();
     void on_colorPicker_clicked();
-    void on_pushButton_clicked();
+    void on_saveButton_clicked();
 };
 #endif // MAINWINDOW_H
