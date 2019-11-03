@@ -5,6 +5,7 @@
 #include <QVector>
 
 #include "frame.h"
+#include "json.hpp"
 
 /**
  * The Canvas class
@@ -34,7 +35,7 @@ public:
      */
     static Canvas fromJson(QString jsonString);
 
-    QString toJson();
+    std::string toJson();
 
     void update();
 

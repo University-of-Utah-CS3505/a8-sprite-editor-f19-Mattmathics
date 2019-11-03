@@ -23,6 +23,7 @@ SOURCES += \
     frame.cpp \
     main.cpp \
     mainwindow.cpp \
+    paintAllSameColor.cpp \
     pencil.cpp \
     projectmanager.cpp \
     tool.cpp
@@ -36,6 +37,7 @@ HEADERS += \
     gif.h \
     json.hpp \
     mainwindow.h \
+    paintAllSameColor.h \
     pencil.h \
     projectmanager.h \
     tool.h

@@ -1,7 +1,15 @@
 #include <QDebug>
+#include <QVBoxLayout>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "canvas.h"
+#include "tool.h"
+#include "eraser.h"
+#include "pencil.h"
+#include "bucket.h"
+#include "projectmanager.h"
+#include "paintAllSameColor.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Set tool to pencil
     on_pencilButton_clicked();
+    framePreviews.push_back(ui->frame1Label);
 }
 
 MainWindow::~MainWindow()
@@ -28,8 +37,16 @@ void MainWindow::mousePressEvent(QMouseEvent *e) {
     this->windowClicked(e->x(), e->y());
 }
 
-void MainWindow::mouseMoveEvent(QMouseEvent *e) {    
+void MainWindow::mouseMoveEvent(QMouseEvent *e) {
     this->windowClicked(e->x(), e->y());
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
+    Q_UNUSED(e)
+
+    if(Pencil* p = dynamic_cast<Pencil*>(tool)) {
+        p->resetStrokes();
+    }
 }
 
 void MainWindow::windowClicked(int posX, int posY) {
@@ -74,15 +91,20 @@ void MainWindow::paintEvent(QPaintEvent *e) {
     QPainter painter(this);
     Frame* currentFrame = canvas.getCurrentFrame();
 
+    for(int i = 0; i < canvas.sizeFrame(); i++) {
+        QPixmap pixmap;
+        pixmap = pixmap.fromImage(canvas.getFrame(i)->getImage());
+        framePreviews[i]->setPixmap(pixmap);
+        framePreviews[i]->setScaledContents(true);
+    }
+
     // Draw background pixels;
     bool colorFlag = false;
     QColor grayColor(97, 97, 97, 255);
     QColor lightGrayColor(125, 125, 125, 255);
 
     for(int x = 0; x < canvas.getWidth(); x++) {
-        for(int y = 0; y < canvas.getHeight(); y++) {
-            QColor fillColor = currentFrame->getPixel(x, y);
-
+        for(int y = 0; y < canvas.getHeight(); y++) {\
             // Get point of pixel.
             int pointX = (x * pixelSize) + horizontalOffset;
             int pointY = y * pixelSize;
@@ -101,17 +123,17 @@ void MainWindow::paintEvent(QPaintEvent *e) {
         }
     }
 
-//    for(int y = 0; y < canvas.getHeight() * 2; y++) {
-//        for(int x = 0; x < canvas.getWidth() * 2; x++) {
-//            int pointX = (x * (pixelSize / 2)) + horizontalOffset;
-//            int pointY = y * (pixelSize / 2);
+    for(int y = 0; y < canvas.getHeight() * 2; y++) {
+        for(int x = 0; x < canvas.getWidth() * 2; x++) {
+            int pointX = (x * (pixelSize / 2)) + horizontalOffset;
+            int pointY = y * (pixelSize / 2);
 
-//            painter.fillRect(QRect(pointX, pointY, pixelSize/2, pixelSize/2),
-//                             (colorFlag = !colorFlag) ? grayColor : lightGrayColor);
-//        }
+            painter.fillRect(QRect(pointX, pointY, pixelSize/2, pixelSize/2),
+                             (colorFlag = !colorFlag) ? grayColor : lightGrayColor);
+        }
 
-//        colorFlag = !colorFlag;
-//    }
+        colorFlag = !colorFlag;
+    }
 
     // Draw all pixels.
     for(int x = 0; x < canvas.getWidth(); x++) {
@@ -166,7 +188,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_P) {
         on_pencilButton_clicked();
     }
+<<<<<<< HEAD
 
+=======
+    if(event->key() == Qt::Key_M) {
+        on_findAndReplaceButton_clicked();
+    }
+>>>>>>> master
 }
 
 void MainWindow::on_pencilButton_clicked()
@@ -187,6 +215,27 @@ void MainWindow::on_eraserButton_clicked()
     tool = new Eraser(canvas.getCurrentFrame());
 
     setCursor(Qt::OpenHandCursor);
+}
+
+void MainWindow::on_findAndReplaceButton_clicked()
+{
+    if (tool != nullptr)
+        delete tool;
+
+    tool = new PaintAllSameColor(brushColor, canvas.getCurrentFrame());
+}
+
+void MainWindow::on_bucketButton_clicked()
+{
+    if (tool != nullptr)
+        delete tool;
+
+
+    tool = new Bucket(brushColor, canvas.getCurrentFrame());
+
+    setCursor(Qt::CrossCursor);
+
+    setCursor(Qt::PointingHandCursor);
 }
 
 void MainWindow::on_swapBrushesButton_clicked()
@@ -235,15 +284,25 @@ void MainWindow::on_secondaryBrushButton_clicked()
 }
 
 
+<<<<<<< HEAD
 void MainWindow::on_bucketButton_clicked()
+=======
+void MainWindow::on_addFrameButton_clicked()
+>>>>>>> master
 {
-    if (tool != nullptr)
-        delete tool;
+    QLabel newLabel("Test", this->ui->framesFrame);
+    newLabel.setGeometry(framePreviews[framePreviews.size()-1]->x(),framePreviews[framePreviews.size()-1]->y()+126,124,124);
+    framePreviews.push_back(&newLabel);
+    canvas.addFrame();
+}
 
+void MainWindow::on_pushButton_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                "untitled.ssp",
+                                tr("SIMP Project file (*.ssp)"));
 
-    tool = new Bucket(brushColor, canvas.getCurrentFrame());
-
-    setCursor(Qt::CrossCursor);
+    ProjectManager::saveProject(&canvas, fileName);
 }
 
 void MainWindow::on_colorPicker_clicked()
