@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>brush.png</file>
+        <file>bucket.png</file>
+        <file>fill.png</file>
+        <file>palette.png</file>
+        <file>pencil.png</file>
+        <file>roller.png</file>
+    </qresource>
+</RCC>

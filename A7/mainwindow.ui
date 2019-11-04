@@ -22,7 +22,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>150</width>
+      <width>151</width>
       <height>720</height>
      </rect>
     </property>
@@ -39,27 +39,27 @@
    <widget class="QPushButton" name="eraserButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>80</x>
       <y>10</y>
-      <width>131</width>
-      <height>28</height>
+      <width>61</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Eraser</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="pencilButton">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
-      <width>131</width>
-      <height>28</height>
+      <y>10</y>
+      <width>61</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Pencil</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="rightPanel">
@@ -85,9 +85,9 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>110</y>
+      <y>200</y>
       <width>81</width>
-      <height>61</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -101,9 +101,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
+      <y>180</y>
       <width>81</width>
-      <height>61</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -117,9 +117,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>150</y>
+      <y>250</y>
       <width>51</width>
-      <height>21</height>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
@@ -130,9 +130,9 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>90</y>
+      <y>180</y>
       <width>51</width>
-      <height>21</height>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
@@ -158,10 +158,10 @@
    <widget class="QPushButton" name="findAndReplaceButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>220</y>
-      <width>131</width>
-      <height>28</height>
+      <x>80</x>
+      <y>70</y>
+      <width>61</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -172,22 +172,22 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
-      <width>131</width>
-      <height>31</height>
+      <y>70</y>
+      <width>61</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Bucket</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="colorPicker">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>260</y>
-      <width>131</width>
-      <height>32</height>
+      <y>130</y>
+      <width>61</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">

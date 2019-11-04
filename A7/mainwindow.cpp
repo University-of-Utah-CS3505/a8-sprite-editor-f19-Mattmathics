@@ -21,6 +21,29 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
 
     QWidget *client = ui->framesScrollWidget;
 
+    //set icons
+    QPixmap iconPencil(":/pencil.png");
+    QIcon iconP(iconPencil);
+    ui->pencilButton->setIcon(iconP);
+    ui->pencilButton->setIconSize(QSize(33,33));
+
+    //set button tool tips
+    ui->pencilButton->setToolTip("pencil(HotKey[P])");
+    ui->eraserButton->setToolTip("eraser(HotKey[E])");
+    ui->bucketButton->setToolTip("bucket(HotKey[B])");
+    ui->findAndReplaceButton->setToolTip("findAndReplace(HotKey[M])");
+    ui->colorPicker->setToolTip("pencil.HotKey(C)");
+    ui->swapBrushesButton->setToolTip("swapBrushes(HotKey[X])");
+    ui->resetBrushesButton->setToolTip("resetBrushes");
+    ui->addFrameButton->setToolTip("addFrames");
+    ui->saveButton->setToolTip("save");
+    ui->openButton->setToolTip("open");
+    ui->redoButton->setToolTip("redo");
+    ui->undoButton->setToolTip("undo");
+
+
+
+
     QScrollArea *scrollArea = ui->framesScroll;
     scrollArea->setWidgetResizable(true);
 
@@ -209,6 +232,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_M) {
         on_findAndReplaceButton_clicked();
     }
+    if(event->key() == Qt::Key_C) {
+         on_colorPicker_clicked();
+     }
 }
 
 void MainWindow::on_pencilButton_clicked()
