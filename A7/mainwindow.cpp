@@ -22,10 +22,24 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     QWidget *client = ui->framesScrollWidget;
 
     //set icons
-    QPixmap iconPencil(":/pencil.png");
-    QIcon iconP(iconPencil);
-    ui->pencilButton->setIcon(iconP);
+    ui->pencilButton->setIcon(QIcon (QPixmap (":/paint.png")));             //pencil
     ui->pencilButton->setIconSize(QSize(33,33));
+    ui->bucketButton->setIcon(QIcon (QPixmap (":/bucket.png")));            //bucket
+    ui->bucketButton->setIconSize(QSize(33,33));
+    ui->eraserButton->setIcon(QIcon (QPixmap (":/erase.png")));             //eraser
+    ui->eraserButton->setIconSize(QSize(33,33));
+    ui->colorPicker->setIcon(QIcon (QPixmap (":/colorPicker.png")));        //colorPicker
+    ui->colorPicker->setIconSize(QSize(33,33));
+    ui->findAndReplaceButton->setIcon(QIcon (QPixmap (":/brush.png")));     //findAndReplace
+    ui->findAndReplaceButton->setIconSize(QSize(33,33));
+    ui->openButton->setIcon(QIcon (QPixmap (":/open.png")));                //open
+    ui->openButton->setIconSize(QSize(33,33));
+    ui->saveButton->setIcon(QIcon (QPixmap (":/save.png")));                //save
+    ui->saveButton->setIconSize(QSize(33,33));
+    ui->redoButton->setIcon(QIcon (QPixmap (":/redo.png")));                //redo
+    ui->redoButton->setIconSize(QSize(33,33));
+    ui->undoButton->setIcon(QIcon (QPixmap (":/undo.png")));                //undo
+    ui->undoButton->setIconSize(QSize(33,33));
 
     //set button tool tips
     ui->pencilButton->setToolTip("pencil(HotKey[P])");
