@@ -104,9 +104,9 @@ void MainWindow::windowClicked(int posX, int posY) {
 
         tool->perform(pointX, pointY);
 
-        // If tool's brush color is diffrent with brush color, update primary color
-        if (tool->getBrushColor() != brushColor)
-            primaryBrushColorUpdate(tool->getBrushColor());
+        // If tool is Colorpicker, update primary color
+        if(ColorPicker* picker = dynamic_cast<ColorPicker*>(tool))
+             primaryBrushColorUpdate(tool->getBrushColor());
 
         // Update Screen
         this->repaint();

@@ -7,7 +7,7 @@ Pencil::Pencil(QColor color, Canvas* canvas) : Tool(color, canvas)
 
 Pencil::~Pencil()
 {
-    delete [] brushStrokes;
+    //delete [] brushStrokes;
 }
 
 void Pencil::perform(int x, int y)
