@@ -335,7 +335,9 @@ void MainWindow::on_pencilButton_clicked()
 
     tool = new Pencil(brushColor, canvas);
 
-    setCursor(Qt::PointingHandCursor);
+    //custom cursor
+    QCursor eraserCursor = QCursor(QPixmap(":/paint_cursor.png"),0,0);
+    setCursor(eraserCursor);
 }
 
 void MainWindow::on_eraserButton_clicked()
@@ -346,7 +348,7 @@ void MainWindow::on_eraserButton_clicked()
     tool = new Eraser(canvas);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/erase.png"),0,-50);
+    QCursor eraserCursor = QCursor(QPixmap(":/erase_cursor.png"),0,0);
     setCursor(eraserCursor);
 }
 
@@ -358,7 +360,7 @@ void MainWindow::on_findAndReplaceButton_clicked()
     tool = new PaintAllSameColor(brushColor, canvas);
 
     //custom cursor
-    QCursor findAndReplaceCursor = QCursor(QPixmap(":/brush.png"),0,-10);
+    QCursor findAndReplaceCursor = QCursor(QPixmap(":/brush_cursor.png"),0,-0);
     setCursor(findAndReplaceCursor);
 }
 
@@ -370,7 +372,7 @@ void MainWindow::on_bucketButton_clicked()
     tool = new Bucket(brushColor, canvas);
 
     //custom cursor
-    QCursor bucketCursor = QCursor(QPixmap(":/bucket.png"),0,-10);
+    QCursor bucketCursor = QCursor(QPixmap(":/bucket_cursor.png"),0,0);
     setCursor(bucketCursor);
 }
 
@@ -382,7 +384,7 @@ void MainWindow::on_colorPicker_clicked()
     tool = new ColorPicker(brushColor, canvas);
 
     //custom cursor
-    QCursor colorPicker = QCursor(QPixmap(":/colorPicker.png"),0,-70);
+    QCursor colorPicker = QCursor(QPixmap(":/colorPicker_cursor.png").scaled(32,32),0,0);
     setCursor(colorPicker);
 }
 
