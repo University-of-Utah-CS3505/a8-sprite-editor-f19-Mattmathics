@@ -23,7 +23,7 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     QWidget *client = ui->framesScrollWidget;
 
     //set icons
-    ui->pencilButton->setIcon(QIcon (QPixmap (":/paint.png")));             //pencil
+    ui->pencilButton->setIcon(QIcon (QPixmap (":/pencil.png")));             //pencil
     ui->pencilButton->setIconSize(QSize(33,33));
     ui->bucketButton->setIcon(QIcon (QPixmap (":/bucket.png")));            //bucket
     ui->bucketButton->setIconSize(QSize(33,33));
@@ -341,7 +341,7 @@ void MainWindow::on_pencilButton_clicked()
     tool = new Pencil(brushColor, canvas);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/paint_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
     setCursor(eraserCursor);
 }
 
@@ -410,7 +410,7 @@ void MainWindow::on_primaryBrushButton_clicked()
     primaryBrushColorUpdate(newColor);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/paint_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
     setCursor(eraserCursor);
 }
 
@@ -429,7 +429,7 @@ void MainWindow::on_secondaryBrushButton_clicked()
     secondaryBrushColorUpdate(newColor);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/paint_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
     setCursor(eraserCursor);
 }
 
