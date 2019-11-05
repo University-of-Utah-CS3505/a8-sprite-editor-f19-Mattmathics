@@ -79,7 +79,14 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
 
     client->setLayout(frameGridLayout);
 
-    initialize(copyCanvas);
+    //bool choseSize{};
+    //int size = QInputDialog::getInt(this, "Size", "Select the size of your canvas",
+     //                                  32, 16, 512, 2, &choseSize);
+
+    //if (!choseSize)
+        initialize((copyCanvas));
+
+   // initialize(new Canvas(size, size));
 }
 
 MainWindow::~MainWindow()
