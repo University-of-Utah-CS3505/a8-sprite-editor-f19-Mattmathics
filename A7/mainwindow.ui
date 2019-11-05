@@ -195,7 +195,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>640</y>
+      <y>610</y>
       <width>131</width>
       <height>28</height>
      </rect>
@@ -210,7 +210,7 @@
       <x>5</x>
       <y>340</y>
       <width>141</width>
-      <height>291</height>
+      <height>261</height>
      </rect>
     </property>
     <property name="widgetResizable">
@@ -222,7 +222,7 @@
        <x>0</x>
        <y>0</y>
        <width>139</width>
-       <height>289</height>
+       <height>259</height>
       </rect>
      </property>
     </widget>
@@ -356,6 +356,19 @@
      <string>per second</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="deleteFrameButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>640</y>
+      <width>131</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
    <zorder>leftPanel</zorder>
    <zorder>eraserButton</zorder>
    <zorder>pencilButton</zorder>
@@ -379,6 +392,9 @@
    <zorder>fpsBox</zorder>
    <zorder>label_2</zorder>
    <zorder>label_3</zorder>
+   <zorder>spinDelay</zorder>
+   <zorder>label</zorder>
+   <zorder>deleteFrameButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

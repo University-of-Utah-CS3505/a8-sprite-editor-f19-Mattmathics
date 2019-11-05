@@ -10,5 +10,10 @@
         <file>save.png</file>
         <file>undo.png</file>
         <file>background.png</file>
+        <file>colorPicker_cursor.png</file>
+        <file>brush_cursor.png</file>
+        <file>bucket_cursor.png</file>
+        <file>erase_cursor.png</file>
+        <file>paint_cursor.png</file>
     </qresource>
 </RCC>

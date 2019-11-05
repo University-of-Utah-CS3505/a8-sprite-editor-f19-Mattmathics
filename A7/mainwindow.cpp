@@ -67,6 +67,7 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     frameGridLayout->setSpacing(5);
 
     //Shortcuts support using ctrl
+    //On macOS, CTRL is Command.
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z), this, SLOT(on_undoButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Y), this, SLOT(on_redoButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z), this, SLOT(on_redoButton_clicked()));
@@ -266,7 +267,7 @@ void MainWindow::paintEvent(QPaintEvent *e) {
         }
     }
 
-    // Draw outline.
+    // Draw pixel border lines.
     QPen linepen(Qt::gray);
     linepen.setWidth(1);
     painter.setPen(linepen);
@@ -275,7 +276,6 @@ void MainWindow::paintEvent(QPaintEvent *e) {
         painter.drawLine(i, 0, i, canvas->getHeight()*pixelSize);
     }
 
-    // Draw left, right menu guide line.
     for(int i = 0; i < canvas->getHeight() + 1; i++){
         painter.drawLine(horizontalOffset, pixelSize*i, horizontalOffset+canvas->getWidth()*pixelSize, pixelSize*i);
     }
@@ -285,6 +285,9 @@ void MainWindow::paintEvent(QPaintEvent *e) {
     // Update redo, undo button
     ui->undoButton->setEnabled(currentFrame->isUndoable());
     ui->redoButton->setEnabled(currentFrame->isRedoable());
+
+    // Update frame delete button
+    ui->deleteFrameButton->setEnabled(canvas->sizeFrame() != 1);
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
@@ -337,7 +340,9 @@ void MainWindow::on_pencilButton_clicked()
 
     tool = new Pencil(brushColor, canvas);
 
-    setCursor(Qt::PointingHandCursor);
+    //custom cursor
+    QCursor eraserCursor = QCursor(QPixmap(":/paint_cursor.png"),0,0);
+    setCursor(eraserCursor);
 }
 
 void MainWindow::on_eraserButton_clicked()
@@ -348,7 +353,7 @@ void MainWindow::on_eraserButton_clicked()
     tool = new Eraser(canvas);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/erase.png"),0,-50);
+    QCursor eraserCursor = QCursor(QPixmap(":/erase_cursor.png"),0,0);
     setCursor(eraserCursor);
 }
 
@@ -360,7 +365,7 @@ void MainWindow::on_findAndReplaceButton_clicked()
     tool = new PaintAllSameColor(brushColor, canvas);
 
     //custom cursor
-    QCursor findAndReplaceCursor = QCursor(QPixmap(":/brush.png"),0,-10);
+    QCursor findAndReplaceCursor = QCursor(QPixmap(":/brush_cursor.png"),0,-0);
     setCursor(findAndReplaceCursor);
 }
 
@@ -372,7 +377,7 @@ void MainWindow::on_bucketButton_clicked()
     tool = new Bucket(brushColor, canvas);
 
     //custom cursor
-    QCursor bucketCursor = QCursor(QPixmap(":/bucket.png"),0,-10);
+    QCursor bucketCursor = QCursor(QPixmap(":/bucket_cursor.png"),0,0);
     setCursor(bucketCursor);
 }
 
@@ -384,7 +389,7 @@ void MainWindow::on_colorPicker_clicked()
     tool = new ColorPicker(brushColor, canvas);
 
     //custom cursor
-    QCursor colorPicker = QCursor(QPixmap(":/colorPicker.png"),0,-70);
+    QCursor colorPicker = QCursor(QPixmap(":/colorPicker_cursor.png").scaled(32,32),0,0);
     setCursor(colorPicker);
 }
 
@@ -453,6 +458,34 @@ void MainWindow::on_addFrameButton_clicked()
 }
 
 void MainWindow::on_framePreview_clicked()
+void MainWindow::on_deleteFrameButton_clicked()
+{
+    //If frame size is 1, ignore.
+    if(canvas->sizeFrame() == 1)
+        return;
+
+    int currentIndex = canvas->currentIndex();
+
+    //Get framePreview and delete from memory and layout.
+    QImageButton *framePreview = framePreviews[currentIndex];
+    layout()->removeWidget(framePreview);
+    framePreviews.remove(currentIndex);
+    delete framePreview;
+
+    //Delete that frame.
+    canvas->deleteFrame(currentIndex);
+
+    //Move previous frame, if deleted farme's index is 0, move to 0.
+    if(currentIndex == 0)
+        canvas->moveFrame(0);
+    else
+        canvas->moveFrame(currentIndex - 1);
+
+    repaint();
+}
+
+
+void MainWindow::on_framePriview_clicked()
 {
     // Get which button is clicekd
     QImageButton* buttonSender = qobject_cast<QImageButton*>(sender());
@@ -506,6 +539,7 @@ void MainWindow::on_openButton_clicked()
     }
 }
 
+
 void MainWindow::addFramePreview()
 {
     //Error prevent.
@@ -514,7 +548,7 @@ void MainWindow::addFramePreview()
     QWidget *client = ui->framesScrollWidget;
 
     QImageButton *previewLabel = new QImageButton(client);
-    previewLabel->setStyleSheet("border: 1px solid white");
+    previewLabel->setStyleSheet("border: 1px solid black");
     previewLabel->setFixedSize(PREVIEW_IMAGE_SIZE, PREVIEW_IMAGE_SIZE);
     previewLabel->setObjectName("previewLabel-" + QString::number(framePreviews.size()));
     connect(previewLabel, &QImageButton::clicked, this, &MainWindow::on_framePreview_clicked);
