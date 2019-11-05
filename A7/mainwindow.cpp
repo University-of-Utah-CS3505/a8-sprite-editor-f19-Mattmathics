@@ -461,7 +461,7 @@ void MainWindow::on_addFrameButton_clicked()
     repaint();
 }
 
-void MainWindow::on_framePreview_clicked()
+
 void MainWindow::on_deleteFrameButton_clicked()
 {
     //If frame size is 1, ignore.
@@ -489,7 +489,7 @@ void MainWindow::on_deleteFrameButton_clicked()
 }
 
 
-void MainWindow::on_framePriview_clicked()
+void MainWindow::on_framePreview_clicked()
 {
     // Get which button is clicekd
     QImageButton* buttonSender = qobject_cast<QImageButton*>(sender());
