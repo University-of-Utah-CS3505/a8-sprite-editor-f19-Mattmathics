@@ -44,14 +44,24 @@ private:
 
     int horizontalOffset = 150;
     int pixelSize = 10;
+    bool canvasClicked = false;
 
     QColor brushColor = QColor(0,0,0,255);
     QColor brushSubColor = QColor(255,255,255,255);
 
-    bool initialized = false;
     QString projectLocation = "";
 
+    /**
+     * Initialize canvas.
+     *
+     * @param canvas Should be not nullptr.
+     */
     void initialize(Canvas *canvas);
+
+    /**
+     * Deinitalize canvas.
+     *
+     */
     void deinitalize();
 
     /**
@@ -63,14 +73,37 @@ private:
     void windowClicked(int posX, int posY);
 
     /**
+     * When mouse is released after clicked, update pixel with current tool.
+     *
+     */
+    void windowReleased();
+
+    /**
      * Get background CSS from color.
      *
      * @param color
      * @return
      */
     QString getColorString(QColor color);
+
+    /**
+     * Update primary brush color.
+     *
+     * @param color
+     */
     void primaryBrushColorUpdate(QColor color);
+
+    /**
+     * Update secondary brush color.
+     *
+     * @param color
+     */
     void secondaryBrushColorUpdate(QColor color);
+
+    /**
+     * Add frame preview widget to prview section.
+     *
+     */
     void addFramePreview();
 
 protected:

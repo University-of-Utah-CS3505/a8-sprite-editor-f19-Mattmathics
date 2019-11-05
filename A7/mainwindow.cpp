@@ -41,9 +41,7 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->redoButton->setToolTip("redo");
     ui->undoButton->setToolTip("undo");
 
-
-
-
+    // Create frame prview area
     QScrollArea *scrollArea = ui->framesScroll;
     scrollArea->setWidgetResizable(true);
 
@@ -108,11 +106,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *e) {
 void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
     Q_UNUSED(e)
 
-    if(Pencil* p = dynamic_cast<Pencil*>(tool)) {
-        p->resetStrokes();
-    }
-
-    canvas->getCurrentFrame()->captureHistory("TEST");
+    this->windowReleased();
 }
 
 void MainWindow::windowClicked(int posX, int posY) {
@@ -121,6 +115,12 @@ void MainWindow::windowClicked(int posX, int posY) {
        posX <= horizontalOffset + (pixelSize * canvas->getWidth()-1) &&
        posY <= pixelSize * canvas->getHeight() - 1 &&
        posY >= 0) {
+
+        //When user starts click canvas, capture current image for undo redo.
+        //When canvasClicked is false, it means user starts edit pixels.
+        //When canvasClicked is true, it means user is still editing pixels.
+        if(!canvasClicked)
+            canvas->getCurrentFrame()->captureHistory();
 
         int pointX = (posX - horizontalOffset) / pixelSize;
         int pointY = posY / pixelSize;
@@ -133,6 +133,18 @@ void MainWindow::windowClicked(int posX, int posY) {
 
         // Update Screen
         this->repaint();
+
+        canvasClicked = true;
+    }
+}
+
+void MainWindow::windowReleased() {
+    // Check inside of canvas clicked
+    if(canvasClicked) {
+        canvasClicked = false;
+
+        if(Pencil* p = dynamic_cast<Pencil*>(tool))
+            p->resetStrokes();
     }
 }
 
@@ -144,12 +156,19 @@ void MainWindow::paintEvent(QPaintEvent *e) {
     QPainter painter(this);
     Frame* currentFrame = canvas->getCurrentFrame();
 
+    // Update preview pixels.
     for(int i = 0; i < canvas->sizeFrame(); i++) {
         QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(i)->getImage());
         pixmap = pixmap.fromImage(canvas->getFrame(i)->getImage());
         pixmap = pixmap.scaled(framePreviews[i]->size(), Qt::KeepAspectRatio);
 
         framePreviews[i]->setPixmap(pixmap);
+
+        // Show to user certain frame is using now.
+        if(i == canvas->currentIndex())
+            framePreviews[i]->setStyleSheet("border: 1px solid black");
+        else
+            framePreviews[i]->setStyleSheet("border: 1px solid white");
     }
 
     // Draw background pixels;
@@ -203,6 +222,10 @@ void MainWindow::paintEvent(QPaintEvent *e) {
     }
 
     painter.end();
+
+    // Update redo, undo button
+    ui->undoButton->setEnabled(currentFrame->isUndoable());
+    ui->redoButton->setEnabled(currentFrame->isRedoable());
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
@@ -403,7 +426,7 @@ void MainWindow::addFramePreview()
     QWidget *client = ui->framesScrollWidget;
 
     QImageButton *previewLabel = new QImageButton(client);
-    previewLabel->setStyleSheet("border: 1px solid black");
+    previewLabel->setStyleSheet("border: 1px solid white");
     previewLabel->setFixedSize(PREVIEW_IMAGE_SIZE, PREVIEW_IMAGE_SIZE);
     previewLabel->setObjectName("previewLabel-" + QString::number(framePreviews.size()));
     connect(previewLabel, &QImageButton::clicked, this, &MainWindow::on_framePriview_clicked);
