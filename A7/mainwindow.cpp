@@ -563,6 +563,11 @@ void MainWindow::addFramePreview()
 
 void MainWindow::on_redoButton_clicked()
 {
+    // when it's unable to redo
+    if(!canvas->getCurrentFrame()->isRedoable())
+        return;
+
+
     canvas->getCurrentFrame()->redo();
     repaint();
 
@@ -571,6 +576,10 @@ void MainWindow::on_redoButton_clicked()
 
 void MainWindow::on_undoButton_clicked()
 {
+    // when it's unable to undo
+    if(!canvas->getCurrentFrame()->isUndoable())
+        return;
+
     canvas->getCurrentFrame()->undo();
     repaint();
 
