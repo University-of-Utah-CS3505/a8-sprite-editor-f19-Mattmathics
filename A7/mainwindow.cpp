@@ -68,6 +68,7 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
 
     //Shortcuts support using ctrl
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z), this, SLOT(on_undoButton_clicked()));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Y), this, SLOT(on_redoButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z), this, SLOT(on_redoButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_saveButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_O), this, SLOT(on_openButton_clicked()));
@@ -102,6 +103,7 @@ void MainWindow::initialize(Canvas *copyCanvas)
 
     //Set tool to pencil
     on_pencilButton_clicked();
+    QTimer::singleShot(1000, this, SLOT(update_animation()));
 }
 
 void MainWindow::deinitalize()
@@ -223,9 +225,9 @@ void MainWindow::paintEvent(QPaintEvent *e) {
 
         // Show to user certain frame is using now.
         if(i == canvas->currentIndex())
-            framePreviews[i]->setStyleSheet("border: 1px solid black");
-        else
             framePreviews[i]->setStyleSheet("border: 1px solid white");
+        else
+            framePreviews[i]->setStyleSheet("border: 1px solid black");
     }
 
     // Draw background pixels;
@@ -386,7 +388,6 @@ void MainWindow::on_colorPicker_clicked()
     setCursor(colorPicker);
 }
 
-
 void MainWindow::on_swapBrushesButton_clicked()
 {
     QColor swap = brushColor;
@@ -451,7 +452,7 @@ void MainWindow::on_addFrameButton_clicked()
     repaint();
 }
 
-void MainWindow::on_framePriview_clicked()
+void MainWindow::on_framePreview_clicked()
 {
     // Get which button is clicekd
     QImageButton* buttonSender = qobject_cast<QImageButton*>(sender());
@@ -480,7 +481,7 @@ void MainWindow::on_saveButton_clicked()
     if (filePath.toLower().endsWith(".png"))
         ProjectManager::saveAsPng(canvas->getCurrentFrame(), filePath);
     else if (filePath.toLower().endsWith(".gif"))
-        ProjectManager::saveAsGif(canvas, filePath, ui->spinDelay->value());
+        ProjectManager::saveAsGif(canvas, filePath, ui->fpsBox->value());
     else
     {
         ProjectManager::saveProject(&*canvas, filePath);
@@ -516,7 +517,7 @@ void MainWindow::addFramePreview()
     previewLabel->setStyleSheet("border: 1px solid white");
     previewLabel->setFixedSize(PREVIEW_IMAGE_SIZE, PREVIEW_IMAGE_SIZE);
     previewLabel->setObjectName("previewLabel-" + QString::number(framePreviews.size()));
-    connect(previewLabel, &QImageButton::clicked, this, &MainWindow::on_framePriview_clicked);
+    connect(previewLabel, &QImageButton::clicked, this, &MainWindow::on_framePreview_clicked);
 
     frameGridLayout->addWidget(previewLabel);
     framePreviews.push_back(previewLabel);
@@ -536,4 +537,18 @@ void MainWindow::on_undoButton_clicked()
     repaint();
 
     setCursor(Qt::PointingHandCursor);
+}
+
+void MainWindow::update_animation(){
+    animationFrame++;
+    if(animationFrame >= canvas->sizeFrame()) {
+        animationFrame = 0;
+    }
+    QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(animationFrame)->getImage());
+    pixmap = pixmap.fromImage(canvas->getFrame(animationFrame)->getImage());
+    pixmap = pixmap.scaled(ui->animationLabel->size(), Qt::KeepAspectRatio);
+
+    ui->animationLabel->setPixmap(pixmap);
+
+    QTimer::singleShot(1000/ui->fpsBox->value(), this, SLOT(update_animation()));
 }
