@@ -165,7 +165,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Find and Replace</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="bucketButton">
@@ -191,7 +191,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Color Picker</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="saveButton">
@@ -199,12 +199,12 @@
      <rect>
       <x>1140</x>
       <y>10</y>
-      <width>131</width>
-      <height>24</height>
+      <width>61</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Save</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="addFrameButton">
@@ -246,40 +246,40 @@
    <widget class="QPushButton" name="openButton">
     <property name="geometry">
      <rect>
-      <x>1140</x>
-      <y>40</y>
-      <width>131</width>
-      <height>24</height>
+      <x>1210</x>
+      <y>10</y>
+      <width>61</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Open</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="redoButton">
     <property name="geometry">
      <rect>
-      <x>1140</x>
+      <x>1210</x>
       <y>70</y>
-      <width>131</width>
-      <height>24</height>
+      <width>61</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Redo</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="undoButton">
     <property name="geometry">
      <rect>
       <x>1140</x>
-      <y>100</y>
-      <width>131</width>
-      <height>24</height>
+      <y>70</y>
+      <width>61</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Undo</string>
+     <string/>
     </property>
    </widget>
    <zorder>background</zorder>

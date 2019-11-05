@@ -1,4 +1,4 @@
-#include <QDebug>
+﻿#include <QDebug>
 #include <QVBoxLayout>
 #include <QDebug>
 
@@ -22,10 +22,24 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     QWidget *client = ui->framesScrollWidget;
 
     //set icons
-    QPixmap iconPencil(":/pencil.png");
-    QIcon iconP(iconPencil);
-    ui->pencilButton->setIcon(iconP);
+    ui->pencilButton->setIcon(QIcon (QPixmap (":/paint.png")));             //pencil
     ui->pencilButton->setIconSize(QSize(33,33));
+    ui->bucketButton->setIcon(QIcon (QPixmap (":/bucket.png")));            //bucket
+    ui->bucketButton->setIconSize(QSize(33,33));
+    ui->eraserButton->setIcon(QIcon (QPixmap (":/erase.png")));             //eraser
+    ui->eraserButton->setIconSize(QSize(33,33));
+    ui->colorPicker->setIcon(QIcon (QPixmap (":/colorPicker.png")));        //colorPicker
+    ui->colorPicker->setIconSize(QSize(33,33));
+    ui->findAndReplaceButton->setIcon(QIcon (QPixmap (":/brush.png")));     //findAndReplace
+    ui->findAndReplaceButton->setIconSize(QSize(33,33));
+    ui->openButton->setIcon(QIcon (QPixmap (":/open.png")));                //open
+    ui->openButton->setIconSize(QSize(33,33));
+    ui->saveButton->setIcon(QIcon (QPixmap (":/save.png")));                //save
+    ui->saveButton->setIconSize(QSize(33,33));
+    ui->redoButton->setIcon(QIcon (QPixmap (":/redo.png")));                //redo
+    ui->redoButton->setIconSize(QSize(33,33));
+    ui->undoButton->setIcon(QIcon (QPixmap (":/undo.png")));                //undo
+    ui->undoButton->setIconSize(QSize(33,33));
 
     //set button tool tips
     ui->pencilButton->setToolTip("pencil(HotKey[P])");
@@ -277,7 +291,9 @@ void MainWindow::on_eraserButton_clicked()
 
     tool = new Eraser(canvas);
 
-    setCursor(Qt::OpenHandCursor);
+    //custom cursor
+    QCursor eraserCursor = QCursor(QPixmap(":/erase.png"),0,-50);
+    setCursor(eraserCursor);
 }
 
 void MainWindow::on_findAndReplaceButton_clicked()
@@ -287,7 +303,9 @@ void MainWindow::on_findAndReplaceButton_clicked()
 
     tool = new PaintAllSameColor(brushColor, canvas);
 
-    setCursor(Qt::PointingHandCursor);
+    //custom cursor
+    QCursor findAndReplaceCursor = QCursor(QPixmap(":/brush.png"),0,-10);
+    setCursor(findAndReplaceCursor);
 }
 
 void MainWindow::on_bucketButton_clicked()
@@ -297,7 +315,9 @@ void MainWindow::on_bucketButton_clicked()
 
     tool = new Bucket(brushColor, canvas);
 
-    setCursor(Qt::PointingHandCursor);
+    //custom cursor
+    QCursor bucketCursor = QCursor(QPixmap(":/bucket.png"),0,-10);
+    setCursor(bucketCursor);
 }
 
 void MainWindow::on_colorPicker_clicked()
@@ -307,7 +327,9 @@ void MainWindow::on_colorPicker_clicked()
 
     tool = new ColorPicker(brushColor, canvas);
 
-    setCursor(Qt::CrossCursor);
+    //custom cursor
+    QCursor colorPicker = QCursor(QPixmap(":/colorPicker.png"),0,-70);
+    setCursor(colorPicker);
 }
 
 
@@ -317,6 +339,8 @@ void MainWindow::on_swapBrushesButton_clicked()
 
     primaryBrushColorUpdate(brushSubColor);
     secondaryBrushColorUpdate(swap);
+
+    setCursor(Qt::PointingHandCursor);
 }
 
 void MainWindow::on_primaryBrushButton_clicked()
@@ -324,12 +348,16 @@ void MainWindow::on_primaryBrushButton_clicked()
     QColor newColor = QColorDialog::getColor(brushColor,this,QString("Choose Color"), QColorDialog::ShowAlphaChannel);
 
     primaryBrushColorUpdate(newColor);
+
+    setCursor(Qt::PointingHandCursor);
 }
 
 void MainWindow::on_resetBrushesButton_clicked()
 {
     primaryBrushColorUpdate(QColor(0,0,0,255));
     secondaryBrushColorUpdate(QColor(255,255,255,255));
+
+    setCursor(Qt::PointingHandCursor);
 }
 
 void MainWindow::on_secondaryBrushButton_clicked()
@@ -337,6 +365,8 @@ void MainWindow::on_secondaryBrushButton_clicked()
     QColor newColor = QColorDialog::getColor(brushColor,this,QString("Choose Color"), QColorDialog::ShowAlphaChannel);
 
     secondaryBrushColorUpdate(newColor);
+
+    setCursor(Qt::PointingHandCursor);
 }
 
 void MainWindow::primaryBrushColorUpdate(QColor color)
@@ -347,6 +377,8 @@ void MainWindow::primaryBrushColorUpdate(QColor color)
 
         tool->setBrushColor(color);
     }
+
+
 }
 
 void MainWindow::secondaryBrushColorUpdate(QColor color)
@@ -355,12 +387,16 @@ void MainWindow::secondaryBrushColorUpdate(QColor color)
         brushSubColor = color;
         this->ui->secondaryBrushButton->setStyleSheet(getColorString(color));
     }
+
+
 }
 
 void MainWindow::on_addFrameButton_clicked()
 {
     canvas->addFrame();
     addFramePreview();
+
+    setCursor(Qt::PointingHandCursor);
 }
 
 void MainWindow::on_framePriview_clicked()
@@ -371,6 +407,8 @@ void MainWindow::on_framePriview_clicked()
 
     canvas->moveFrame(index);
     repaint();
+
+    setCursor(Qt::PointingHandCursor);
 }
 
 QString MainWindow::getColorString(QColor color)
@@ -398,6 +436,8 @@ void MainWindow::on_saveButton_clicked()
         ProjectManager::saveProject(&*canvas, filePath);
 
     projectLocation = filePath;
+
+
 }
 
 void MainWindow::on_openButton_clicked()
@@ -415,6 +455,8 @@ void MainWindow::on_openButton_clicked()
     } catch (bool failed) {
         // TODO : Show failed to load project.
     }
+
+
 
 }
 
@@ -441,10 +483,14 @@ void MainWindow::on_redoButton_clicked()
 {
     canvas->getCurrentFrame()->redo();
     repaint();
+
+    setCursor(Qt::PointingHandCursor);
 }
 
 void MainWindow::on_undoButton_clicked()
 {
     canvas->getCurrentFrame()->undo();
     repaint();
+
+    setCursor(Qt::PointingHandCursor);
 }
