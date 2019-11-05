@@ -36,6 +36,8 @@ public:
 private:
     Ui::MainWindow *ui;
 
+    QWidget previewWindow;
+    QLabel animationPreview;
     Canvas *canvas = nullptr;
     Tool *tool = nullptr;
 
@@ -46,6 +48,7 @@ private:
     int pixelSize = 10;
 
     int animationFrame = 0;
+    bool playAnimation = true;
 
     int lastPointX = 0;
     int lastPointY = 0;
@@ -143,5 +146,8 @@ private slots:
     void on_undoButton_clicked();
     void update_animation();
     void on_deleteFrameButton_clicked();
+    void on_actualSizeButton_clicked();
+    void on_playButton_clicked();
+    void on_pauseButton_clicked();
 };
 #endif // MAINWINDOW_H
