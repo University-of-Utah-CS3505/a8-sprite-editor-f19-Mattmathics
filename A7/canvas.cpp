@@ -40,6 +40,11 @@ void Canvas::addFrame(Frame frame)
     frames.push_back(frame);
 }
 
+void Canvas::deleteFrame(int index)
+{
+    frames.remove(index);
+}
+
 int Canvas::sizeFrame()
 {
     return frames.size();
