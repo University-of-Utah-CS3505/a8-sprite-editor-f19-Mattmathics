@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>720</height>
+    <height>742</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -15,6 +15,12 @@
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="leftPanel">
@@ -360,13 +366,26 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>640</y>
+      <y>670</y>
       <width>131</width>
       <height>28</height>
      </rect>
     </property>
     <property name="text">
      <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="duplicateFrameButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>640</y>
+      <width>131</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Duplicate</string>
     </property>
    </widget>
    <zorder>leftPanel</zorder>
@@ -392,9 +411,8 @@
    <zorder>fpsBox</zorder>
    <zorder>label_2</zorder>
    <zorder>label_3</zorder>
-   <zorder>spinDelay</zorder>
-   <zorder>label</zorder>
    <zorder>deleteFrameButton</zorder>
+   <zorder>duplicateFrameButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -402,7 +420,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

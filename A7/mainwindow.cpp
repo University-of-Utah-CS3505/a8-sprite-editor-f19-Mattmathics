@@ -193,6 +193,11 @@ void MainWindow::canvasMoved(int posX, int posY) {
         lastPointX = pointX;
         lastPointY = pointY;
     }
+    else
+    {
+        lastPointX = -1;
+        lastPointY = -1;
+    }
 }
 
 void MainWindow::canvasReleased() {
@@ -449,13 +454,11 @@ void MainWindow::secondaryBrushColorUpdate(QColor color)
         brushSubColor = color;
         this->ui->secondaryBrushButton->setStyleSheet(getColorString(color));
     }
-
-
 }
 
 void MainWindow::on_addFrameButton_clicked()
 {
-    canvas->addFrame();
+    canvas->addFrame(canvas->currentIndex());
     addFramePreview();
     canvas->moveFrame(canvas->sizeFrame() - 1);
     repaint();
@@ -488,6 +491,13 @@ void MainWindow::on_deleteFrameButton_clicked()
     repaint();
 }
 
+void MainWindow::on_duplicateFrameButton_clicked()
+{
+    canvas->addFrame(*canvas->getCurrentFrame(), canvas->currentIndex());
+    addFramePreview();
+    canvas->moveFrame(canvas->sizeFrame() - 1);
+    repaint();
+}
 
 void MainWindow::on_framePreview_clicked()
 {
@@ -592,3 +602,4 @@ void MainWindow::update_animation(){
 
     QTimer::singleShot(1000/ui->fpsBox->value(), this, SLOT(update_animation()));
 }
+

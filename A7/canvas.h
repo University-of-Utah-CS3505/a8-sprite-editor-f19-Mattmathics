@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVector>
+#include <QLinkedList>
 
 #include "frame.h"
 #include "json.hpp"
@@ -44,8 +45,8 @@ public:
     Frame* moveFrame(int index);
     Frame* getFrame(int index);
     Frame* getCurrentFrame();
-    void addFrame();
-    void addFrame(Frame frame);
+    void addFrame(int index = -1);
+    void addFrame(Frame frame, int index = -1);
     void deleteFrame(int index);
     int sizeFrame();
     int currentIndex();
