@@ -382,7 +382,7 @@ void MainWindow::on_swapBrushesButton_clicked()
     primaryBrushColorUpdate(brushSubColor);
     secondaryBrushColorUpdate(swap);
 
-    setCursor(Qt::PointingHandCursor);
+
 }
 
 void MainWindow::on_primaryBrushButton_clicked()
@@ -399,7 +399,7 @@ void MainWindow::on_resetBrushesButton_clicked()
     primaryBrushColorUpdate(QColor(0,0,0,255));
     secondaryBrushColorUpdate(QColor(255,255,255,255));
 
-    setCursor(Qt::PointingHandCursor);
+
 }
 
 void MainWindow::on_secondaryBrushButton_clicked()
