@@ -46,6 +46,7 @@ public:
     Frame* getCurrentFrame();
     void addFrame();
     void addFrame(Frame frame);
+    void deleteFrame(int index);
     int sizeFrame();
     int currentIndex();
 
