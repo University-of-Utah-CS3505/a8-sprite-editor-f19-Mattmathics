@@ -323,14 +323,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_C) {
          on_colorPicker_clicked();
     }
-    if(event->key() ==Qt::Key_BracketLeft) {
-        on_undoButton_clicked();
-    }
-    if(event->key() ==Qt::Key_BracketRight) {
-        on_redoButton_clicked();
-    }
-
-
 }
 
 void MainWindow::on_pencilButton_clicked()
