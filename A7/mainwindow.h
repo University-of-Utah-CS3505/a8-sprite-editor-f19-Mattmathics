@@ -34,6 +34,7 @@ public:
     ~MainWindow();
 
 private:
+    /* VAR */
     Ui::MainWindow *ui;
 
     QWidget previewWindow;
@@ -59,6 +60,8 @@ private:
 
     QString projectLocation = "";
 
+    /* METHOD */
+
     /**
      * Initialize canvas.
      *
@@ -73,13 +76,19 @@ private:
     void deinitalize();
 
     /**
-     * When window is cliked, update pixel with current tool.
+     * When canvas is cliked, update pixel with current tool.
      *
      * @param posX Clicked position X
      * @param posY Clicked posision Y
      */
     void canvasPressed(int posX, int posY);
 
+    /**
+     * When mouse is moving on canvas after clicked, update pixels with current tool
+     * .
+     * @param posX Clicked position X
+     * @param posY Clicked posision Y
+     */
     void canvasMoved(int posX, int posY);
 
     /**
@@ -88,6 +97,12 @@ private:
      */
     void canvasReleased();
 
+    /**
+     * After performing tool, do some after job.
+     *
+     * @param pointX Clicked position X
+     * @param pointY Clicked posision Y
+     */
     void aftrerToolPerform(int pointX, int pointY);
 
     /**
@@ -98,6 +113,10 @@ private:
      */
     QString getColorString(QColor color);
 
+    /**
+     * @brief updateColorPickerButton
+     * @param button
+     */
     void updateColorPickerButton(QImageButton* button);
 
     /**
@@ -144,10 +163,12 @@ private slots:
     void on_openButton_clicked();
     void on_redoButton_clicked();
     void on_undoButton_clicked();
+    void on_newProjectButton_clicked();
     void update_animation();
     void on_deleteFrameButton_clicked();
     void on_actualSizeButton_clicked();
     void on_playButton_clicked();
     void on_pauseButton_clicked();
+    void on_duplicateFrameButton_clicked();
 };
 #endif // MAINWINDOW_H

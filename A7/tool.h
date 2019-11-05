@@ -18,7 +18,14 @@ public:
     virtual ~Tool();
 
     /* METHOD */
+    /**
+     * Perfrom on (x, y).
+     */
     virtual void perform(int x, int y) = 0;
+
+    /**
+     * Perform as line(Linear Equation) from (x1, y1) to (x2, y2).
+     */
     void preformLine(int x1, int y1, int x2, int y2);
 
     /* GETTER, SETTER */

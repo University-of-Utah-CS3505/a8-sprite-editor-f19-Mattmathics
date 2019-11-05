@@ -12,6 +12,7 @@
 class Frame
 {
 public:
+    Frame() {}
     Frame(int sizeX, int sizeY, QImage *copyPixels = nullptr);
 
     /* METHOD */

@@ -15,5 +15,7 @@
         <file>bucket_cursor.png</file>
         <file>erase_cursor.png</file>
         <file>paint_cursor.png</file>
+        <file>pencil.png</file>
+        <file>pencil_cursor.png</file>
     </qresource>
 </RCC>

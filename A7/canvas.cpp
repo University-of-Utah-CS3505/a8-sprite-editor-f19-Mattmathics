@@ -30,14 +30,19 @@ Canvas::Canvas(const Canvas &copyCanvas)
     this->frames = QVector<Frame>(copyCanvas.frames);
 }
 
-void Canvas::addFrame()
+void Canvas::addFrame(int index)
 {
-    addFrame(Frame(sizeX, sizeY));
+    addFrame(Frame(sizeX, sizeY), index);
 }
 
-void Canvas::addFrame(Frame frame)
+void Canvas::addFrame(Frame frame, int index)
 {
-    frames.push_back(frame);
+    if(index < 0)
+        index = frames.size();
+    else
+        index++;
+
+    frames.insert(index, frame);
 }
 
 void Canvas::deleteFrame(int index)
@@ -79,6 +84,16 @@ int Canvas::getWidth()
 int Canvas::getHeight()
 {
     return sizeY;
+}
+
+bool Canvas::getSaved()
+{
+    return saved;
+}
+
+void Canvas::setSaved(bool status)
+{
+    saved = status;
 }
 
 Canvas Canvas::fromJson(QString jsonString)

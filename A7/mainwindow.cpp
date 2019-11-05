@@ -2,6 +2,8 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QShortcut>
+#include <QMessageBox>
+#include <QInputDialog>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -23,7 +25,7 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     QWidget *client = ui->framesScrollWidget;
 
     //set icons
-    ui->pencilButton->setIcon(QIcon (QPixmap (":/paint.png")));             //pencil
+    ui->pencilButton->setIcon(QIcon (QPixmap (":/pencil.png")));             //pencil
     ui->pencilButton->setIconSize(QSize(33,33));
     ui->bucketButton->setIcon(QIcon (QPixmap (":/bucket.png")));            //bucket
     ui->bucketButton->setIconSize(QSize(33,33));
@@ -194,6 +196,11 @@ void MainWindow::canvasMoved(int posX, int posY) {
         lastPointX = pointX;
         lastPointY = pointY;
     }
+    else
+    {
+        lastPointX = -1;
+        lastPointY = -1;
+    }
 }
 
 void MainWindow::canvasReleased() {
@@ -282,6 +289,9 @@ void MainWindow::paintEvent(QPaintEvent *e) {
 
     painter.end();
 
+    // a change was made to the canvas, not in saved state anymore
+    canvas->setSaved(false);
+
     // Update redo, undo button
     ui->undoButton->setEnabled(currentFrame->isUndoable());
     ui->redoButton->setEnabled(currentFrame->isRedoable());
@@ -323,14 +333,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_C) {
          on_colorPicker_clicked();
     }
-    if(event->key() ==Qt::Key_BracketLeft) {
-        on_undoButton_clicked();
-    }
-    if(event->key() ==Qt::Key_BracketRight) {
-        on_redoButton_clicked();
-    }
-
-
 }
 
 void MainWindow::on_pencilButton_clicked()
@@ -341,7 +343,7 @@ void MainWindow::on_pencilButton_clicked()
     tool = new Pencil(brushColor, canvas);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/paint_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
     setCursor(eraserCursor);
 }
 
@@ -410,7 +412,7 @@ void MainWindow::on_primaryBrushButton_clicked()
     primaryBrushColorUpdate(newColor);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/paint_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
     setCursor(eraserCursor);
 }
 
@@ -429,7 +431,7 @@ void MainWindow::on_secondaryBrushButton_clicked()
     secondaryBrushColorUpdate(newColor);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/paint_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
     setCursor(eraserCursor);
 }
 
@@ -449,17 +451,16 @@ void MainWindow::secondaryBrushColorUpdate(QColor color)
         brushSubColor = color;
         this->ui->secondaryBrushButton->setStyleSheet(getColorString(color));
     }
-
-
 }
 
 void MainWindow::on_addFrameButton_clicked()
 {
-    canvas->addFrame();
+    canvas->addFrame(canvas->currentIndex());
     addFramePreview();
     canvas->moveFrame(canvas->sizeFrame() - 1);
     repaint();
 }
+
 
 void MainWindow::on_deleteFrameButton_clicked()
 {
@@ -487,6 +488,13 @@ void MainWindow::on_deleteFrameButton_clicked()
     repaint();
 }
 
+void MainWindow::on_duplicateFrameButton_clicked()
+{
+    canvas->addFrame(*canvas->getCurrentFrame(), canvas->currentIndex());
+    addFramePreview();
+    canvas->moveFrame(canvas->sizeFrame() - 1);
+    repaint();
+}
 
 void MainWindow::on_framePreview_clicked()
 {
@@ -509,12 +517,14 @@ void MainWindow::on_saveButton_clicked()
     if (projectLocation.isEmpty())
         projectLocation = QDir::homePath() + "/" + "untitled";
 
-    QString filter = "SIMP Project file (*.ssp);; PNG image file (*.png);; Graphics Interchange Format (*.gif)";
+    QString filter = "SIMP Project file (*.ssp);; PNG image file (*.png);; Graphics Interchange Format (*.gif);; Strip Image (*.strip.png)";
     QString filePath = QFileDialog::getSaveFileName(this, "Choose file to save", projectLocation, filter, &filter);
 
     if (filePath.isEmpty()) return;
 
-    if (filePath.toLower().endsWith(".png"))
+    if (filePath.toLower().endsWith(".strip.png"))
+        ProjectManager::saveAsStripImage(canvas, filePath);
+    else if (filePath.toLower().endsWith(".png"))
         ProjectManager::saveAsPng(canvas->getCurrentFrame(), filePath);
     else if (filePath.toLower().endsWith(".gif"))
         ProjectManager::saveAsGif(canvas, filePath, ui->fpsBox->value());
@@ -523,6 +533,7 @@ void MainWindow::on_saveButton_clicked()
         ProjectManager::saveProject(&*canvas, filePath);
         projectLocation = filePath;
     }
+    canvas->setSaved(true);
 }
 
 void MainWindow::on_openButton_clicked()
@@ -562,18 +573,76 @@ void MainWindow::addFramePreview()
 
 void MainWindow::on_redoButton_clicked()
 {
+    // when it's unable to redo
+    if(!canvas->getCurrentFrame()->isRedoable())
+        return;
+
+
     canvas->getCurrentFrame()->redo();
     repaint();
+
+    canvas->setSaved(false);
 
     setCursor(Qt::PointingHandCursor);
 }
 
 void MainWindow::on_undoButton_clicked()
 {
+    // when it's unable to undo
+    if(!canvas->getCurrentFrame()->isUndoable())
+        return;
+
     canvas->getCurrentFrame()->undo();
     repaint();
 
+    canvas->setSaved(false);
+
     setCursor(Qt::PointingHandCursor);
+}
+
+void MainWindow::on_newProjectButton_clicked()
+{
+    // bool to check if cancel or ok is pressed for new project
+    bool isOkToNew{};
+
+    if(canvas->getSaved())//project has been saved, start a new project
+    {
+
+        int newsize = QInputDialog::getInt(this, "New Size", "Select the size of your new canvas",
+                                           32, 16, 512, 2, &isOkToNew);
+        // if canceled while attempting to start a new project
+        if (!isOkToNew)
+            return;
+
+        deinitalize();
+        initialize(new Canvas(newsize, newsize));
+        repaint();
+    }
+    else//project not saved
+    {
+        //ask user if they want to save
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "Save", "Do you want to save the current project?",
+                                      QMessageBox::Yes|QMessageBox::No);
+
+        // allow the user to save and exit from starting a new project
+        if (reply==QMessageBox::Yes)
+        {
+            on_saveButton_clicked();
+            return;
+        }
+        else{
+        int newsize = QInputDialog::getInt(this, "New Size", "Select the size of your new canvas",
+                                           32, 16, 512, 2, &isOkToNew);
+
+        if (!isOkToNew)
+            return;
+
+        deinitalize();
+        initialize(new Canvas(newsize, newsize));
+        repaint();
+        }
+    }
 }
 
 void MainWindow::update_animation(){

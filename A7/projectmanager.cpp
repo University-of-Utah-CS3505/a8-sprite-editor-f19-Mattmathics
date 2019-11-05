@@ -12,6 +12,33 @@ bool ProjectManager::saveAsPng(Frame *frame, QString uri)
     return frame->getImage().save(file.fileName(), "PNG");
 }
 
+bool ProjectManager::saveAsStripImage(Canvas *canvas, QString uri)
+{
+    QFile file(uri);
+
+    int width = canvas->getWidth() * canvas->sizeFrame();
+    int height = canvas->getHeight();
+
+    QImage stripImage(width, height, QImage::Format_ARGB32);
+
+    for(int index = 0; index < canvas->sizeFrame(); index++)
+    {
+        for(int x = 0; x < canvas->getWidth(); x++)
+        {
+            for(int y =0; y < canvas->getWidth(); y++)
+            {
+                QColor color = canvas->getFrame(index)->getPixel(x, y);
+                int pointX = x + (index * canvas->getWidth());
+                int pointY = y;
+
+                stripImage.setPixel(pointX, pointY, color.rgba());
+            }
+        }
+    }
+
+    return stripImage.save(file.fileName(), "PNG");
+}
+
 bool ProjectManager::saveAsGif(Canvas *canvas, QString uri, int fps)
 {
     GifAnim gifAnim;
