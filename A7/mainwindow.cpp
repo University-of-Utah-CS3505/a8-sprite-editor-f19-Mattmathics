@@ -185,6 +185,12 @@ void MainWindow::canvasMoved(int posX, int posY) {
         int pointX = (posX - horizontalOffset) / pixelSize;
         int pointY = posY / pixelSize;
 
+        if(lastPointX == -1)
+            lastPointX = pointX;
+
+        if(lastPointY == -1)
+            lastPointY = pointY;
+
         // Draw line from last point to current point.
         tool->preformLine(lastPointX, lastPointY, pointX, pointY);
         this->aftrerToolPerform(pointX, pointY);
@@ -198,6 +204,7 @@ void MainWindow::canvasMoved(int posX, int posY) {
     }
     else
     {
+        //When mouse is going out of canvas, reset lastPoint.
         lastPointX = -1;
         lastPointY = -1;
     }

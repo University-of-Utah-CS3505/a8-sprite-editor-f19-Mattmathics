@@ -441,6 +441,8 @@
     </property>
     <property name="text">
      <string>Duplicate</string>
+    </property>
+    </widget>
    <widget class="QPushButton" name="newProjectButton">
     <property name="geometry">
      <rect>
