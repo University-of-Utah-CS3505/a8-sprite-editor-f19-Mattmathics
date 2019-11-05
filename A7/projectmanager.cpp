@@ -39,14 +39,14 @@ bool ProjectManager::saveAsStripImage(Canvas *canvas, QString uri)
     return stripImage.save(file.fileName(), "PNG");
 }
 
-bool ProjectManager::saveAsGif(Canvas *canvas, QString uri, int milliseconds)
+bool ProjectManager::saveAsGif(Canvas *canvas, QString uri, int fps)
 {
     GifAnim gifAnim;
     GifWriter g;
 
     uint32_t w = canvas->getWidth();
     uint32_t h = canvas->getHeight();
-    uint32_t delay = milliseconds / 10;
+    uint32_t delay = 100/fps;
     uint32_t bitDepth = 8;
     int loopCount = 0;
 

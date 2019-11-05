@@ -46,6 +46,8 @@ private:
     int horizontalOffset = 150;
     int pixelSize = 10;
 
+    int animationFrame = 0;
+
     int lastPointX = 0;
     int lastPointY = 0;
     bool canvasClicked = false;
@@ -154,10 +156,11 @@ private slots:
     void on_bucketButton_clicked();
     void on_colorPicker_clicked();
     void on_saveButton_clicked();
-    void on_framePriview_clicked();
+    void on_framePreview_clicked();
     void on_openButton_clicked();
     void on_redoButton_clicked();
     void on_undoButton_clicked();
+    void update_animation();
     void on_deleteFrameButton_clicked();
 };
 #endif // MAINWINDOW_H

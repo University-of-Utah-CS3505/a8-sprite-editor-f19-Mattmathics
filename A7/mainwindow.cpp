@@ -69,6 +69,7 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     //Shortcuts support using ctrl
     //On macOS, CTRL is Command.
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z), this, SLOT(on_undoButton_clicked()));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Y), this, SLOT(on_redoButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z), this, SLOT(on_redoButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_saveButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_O), this, SLOT(on_openButton_clicked()));
@@ -103,6 +104,7 @@ void MainWindow::initialize(Canvas *copyCanvas)
 
     //Set tool to pencil
     on_pencilButton_clicked();
+    QTimer::singleShot(1000, this, SLOT(update_animation()));
 }
 
 void MainWindow::deinitalize()
@@ -338,7 +340,9 @@ void MainWindow::on_pencilButton_clicked()
 
     tool = new Pencil(brushColor, canvas);
 
-    setCursor(Qt::PointingHandCursor);
+    //custom cursor
+    QCursor eraserCursor = QCursor(QPixmap(":/paint_cursor.png"),0,0);
+    setCursor(eraserCursor);
 }
 
 void MainWindow::on_eraserButton_clicked()
@@ -349,7 +353,7 @@ void MainWindow::on_eraserButton_clicked()
     tool = new Eraser(canvas);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/erase.png"),0,-50);
+    QCursor eraserCursor = QCursor(QPixmap(":/erase_cursor.png"),0,0);
     setCursor(eraserCursor);
 }
 
@@ -361,7 +365,7 @@ void MainWindow::on_findAndReplaceButton_clicked()
     tool = new PaintAllSameColor(brushColor, canvas);
 
     //custom cursor
-    QCursor findAndReplaceCursor = QCursor(QPixmap(":/brush.png"),0,-10);
+    QCursor findAndReplaceCursor = QCursor(QPixmap(":/brush_cursor.png"),0,-0);
     setCursor(findAndReplaceCursor);
 }
 
@@ -373,7 +377,7 @@ void MainWindow::on_bucketButton_clicked()
     tool = new Bucket(brushColor, canvas);
 
     //custom cursor
-    QCursor bucketCursor = QCursor(QPixmap(":/bucket.png"),0,-10);
+    QCursor bucketCursor = QCursor(QPixmap(":/bucket_cursor.png"),0,0);
     setCursor(bucketCursor);
 }
 
@@ -385,10 +389,9 @@ void MainWindow::on_colorPicker_clicked()
     tool = new ColorPicker(brushColor, canvas);
 
     //custom cursor
-    QCursor colorPicker = QCursor(QPixmap(":/colorPicker.png"),0,-70);
+    QCursor colorPicker = QCursor(QPixmap(":/colorPicker_cursor.png").scaled(32,32),0,0);
     setCursor(colorPicker);
 }
-
 
 void MainWindow::on_swapBrushesButton_clicked()
 {
@@ -406,7 +409,9 @@ void MainWindow::on_primaryBrushButton_clicked()
 
     primaryBrushColorUpdate(newColor);
 
-    setCursor(Qt::PointingHandCursor);
+    //custom cursor
+    QCursor eraserCursor = QCursor(QPixmap(":/paint_cursor.png"),0,0);
+    setCursor(eraserCursor);
 }
 
 void MainWindow::on_resetBrushesButton_clicked()
@@ -423,7 +428,9 @@ void MainWindow::on_secondaryBrushButton_clicked()
 
     secondaryBrushColorUpdate(newColor);
 
-    setCursor(Qt::PointingHandCursor);
+    //custom cursor
+    QCursor eraserCursor = QCursor(QPixmap(":/paint_cursor.png"),0,0);
+    setCursor(eraserCursor);
 }
 
 void MainWindow::primaryBrushColorUpdate(QColor color)
@@ -454,6 +461,7 @@ void MainWindow::on_addFrameButton_clicked()
     repaint();
 }
 
+void MainWindow::on_framePreview_clicked()
 void MainWindow::on_deleteFrameButton_clicked()
 {
     //If frame size is 1, ignore.
@@ -512,7 +520,7 @@ void MainWindow::on_saveButton_clicked()
     else if (filePath.toLower().endsWith(".png"))
         ProjectManager::saveAsPng(canvas->getCurrentFrame(), filePath);
     else if (filePath.toLower().endsWith(".gif"))
-        ProjectManager::saveAsGif(canvas, filePath, ui->spinDelay->value());
+        ProjectManager::saveAsGif(canvas, filePath, ui->fpsBox->value());
     else
     {
         ProjectManager::saveProject(&*canvas, filePath);
@@ -549,7 +557,7 @@ void MainWindow::addFramePreview()
     previewLabel->setStyleSheet("border: 1px solid black");
     previewLabel->setFixedSize(PREVIEW_IMAGE_SIZE, PREVIEW_IMAGE_SIZE);
     previewLabel->setObjectName("previewLabel-" + QString::number(framePreviews.size()));
-    connect(previewLabel, &QImageButton::clicked, this, &MainWindow::on_framePriview_clicked);
+    connect(previewLabel, &QImageButton::clicked, this, &MainWindow::on_framePreview_clicked);
 
     frameGridLayout->addWidget(previewLabel);
     framePreviews.push_back(previewLabel);
@@ -571,4 +579,16 @@ void MainWindow::on_undoButton_clicked()
     setCursor(Qt::PointingHandCursor);
 }
 
+void MainWindow::update_animation(){
+    animationFrame++;
+    if(animationFrame >= canvas->sizeFrame()) {
+        animationFrame = 0;
+    }
+    QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(animationFrame)->getImage());
+    pixmap = pixmap.fromImage(canvas->getFrame(animationFrame)->getImage());
+    pixmap = pixmap.scaled(ui->animationLabel->size(), Qt::KeepAspectRatio);
 
+    ui->animationLabel->setPixmap(pixmap);
+
+    QTimer::singleShot(1000/ui->fpsBox->value(), this, SLOT(update_animation()));
+}
