@@ -39,6 +39,7 @@ private:
 
     QWidget previewWindow;
     QLabel animationPreview;
+    QLabel animationCheckerboard;
     Canvas *canvas = nullptr;
     Tool *tool = nullptr;
 

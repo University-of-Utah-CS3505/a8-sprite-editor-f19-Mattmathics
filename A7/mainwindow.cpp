@@ -107,6 +107,9 @@ void MainWindow::initialize(Canvas *copyCanvas)
     //Set tool to pencil
     on_pencilButton_clicked();
     QTimer::singleShot(1000, this, SLOT(update_animation()));
+
+    //For actual size preview
+    animationCheckerboard.setParent(&previewWindow);
     animationPreview.setParent(&previewWindow);
 }
 
@@ -674,12 +677,15 @@ void MainWindow::on_actualSizeButton_clicked()
 {
     previewWindow.setGeometry(200,200,canvas->getWidth()+100, canvas->getHeight()+100);
     previewWindow.setWindowTitle("Actual Size");
+    animationCheckerboard.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
     animationPreview.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
 
     QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(animationFrame)->getImage());
     pixmap = pixmap.scaled(animationPreview.size(), Qt::KeepAspectRatio);
 
     animationPreview.setPixmap(pixmap);
+
+    animationCheckerboard.setPixmap(QPixmap(":/background.png"));
 
     previewWindow.show();
     animationPreview.show();
