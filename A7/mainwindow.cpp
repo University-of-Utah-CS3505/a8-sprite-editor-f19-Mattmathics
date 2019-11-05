@@ -55,7 +55,7 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->saveButton->setToolTip("save");
     ui->openButton->setToolTip("open");
     ui->redoButton->setToolTip("redo(HotKey_])");
-    ui->undoButton->setToolTip("undo(HotKey_[])");
+    ui->undoButton->setToolTip("undo(HotKey_[)");
 
     // Create frame prview area
     QScrollArea *scrollArea = ui->framesScroll;
