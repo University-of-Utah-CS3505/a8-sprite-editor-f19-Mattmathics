@@ -1,6 +1,7 @@
 #ifndef GIFANIM_H
 #define GIFANIM_H
 
+#include "stdint.h"
 #include <stdlib.h>		// for malloc, calloc, free, memcpy, bzero, integer typedefs
 #include <stdio.h>		// for FILE*
 
