@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -44,6 +44,9 @@ private:
 
     int horizontalOffset = 150;
     int pixelSize = 10;
+
+    int lastPointX = 0;
+    int lastPointY = 0;
     bool canvasClicked = false;
 
     QColor brushColor = QColor(0,0,0,255);
@@ -70,13 +73,17 @@ private:
      * @param posX Clicked position X
      * @param posY Clicked posision Y
      */
-    void windowClicked(int posX, int posY);
+    void canvasPressed(int posX, int posY);
+
+    void canvasMoved(int posX, int posY);
 
     /**
      * When mouse is released after clicked, update pixel with current tool.
      *
      */
-    void windowReleased();
+    void canvasReleased();
+
+    void aftrerToolPerform(int pointX, int pointY);
 
     /**
      * Get background CSS from color.
@@ -85,6 +92,8 @@ private:
      * @return
      */
     QString getColorString(QColor color);
+
+    void updateColorPickerButton(QImageButton* button);
 
     /**
      * Update primary brush color.

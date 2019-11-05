@@ -9,5 +9,6 @@
         <file>redo.png</file>
         <file>save.png</file>
         <file>undo.png</file>
+        <file>background.png</file>
     </qresource>
 </RCC>

@@ -40,6 +40,8 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->redoButton->setIconSize(QSize(33,33));
     ui->undoButton->setIcon(QIcon (QPixmap (":/undo.png")));                //undo
     ui->undoButton->setIconSize(QSize(33,33));
+    ui->background_2->setPixmap(QPixmap(":/background.png"));
+    ui->background_3->setPixmap(QPixmap(":/background.png"));
 
     //set button tool tips
     ui->pencilButton->setToolTip("pencil(HotKey[P])");
@@ -78,7 +80,7 @@ MainWindow::~MainWindow()
 void MainWindow::initialize(Canvas *copyCanvas)
 {
     if (copyCanvas == nullptr)
-        canvas = new Canvas(16, 16);
+        canvas = new Canvas(32, 32);
     else
         canvas = copyCanvas;
 
@@ -110,20 +112,22 @@ void MainWindow::deinitalize()
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *e) {
-    this->windowClicked(e->x(), e->y());
+    this->canvasPressed(e->x(), e->y());
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *e) {
-    this->windowClicked(e->x(), e->y());
+    if(canvasClicked)
+        this->canvasMoved(e->x(), e->y());
 }
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
     Q_UNUSED(e)
 
-    this->windowReleased();
+    if(canvasClicked)
+        this->canvasReleased();
 }
 
-void MainWindow::windowClicked(int posX, int posY) {
+void MainWindow::canvasPressed(int posX, int posY) {
     // Check inside of canvas clicked
     if(posX >= horizontalOffset &&
        posX <= horizontalOffset + (pixelSize * canvas->getWidth()-1) &&
@@ -139,7 +143,9 @@ void MainWindow::windowClicked(int posX, int posY) {
         int pointX = (posX - horizontalOffset) / pixelSize;
         int pointY = posY / pixelSize;
 
+        // Perform tool
         tool->perform(pointX, pointY);
+        this->aftrerToolPerform(pointX, pointY);
 
         // If tool is Colorpicker, update primary color
         if(ColorPicker* picker = dynamic_cast<ColorPicker*>(tool))
@@ -149,17 +155,45 @@ void MainWindow::windowClicked(int posX, int posY) {
         this->repaint();
 
         canvasClicked = true;
+        lastPointX = pointX;
+        lastPointY = pointY;
     }
 }
 
-void MainWindow::windowReleased() {
+void MainWindow::canvasMoved(int posX, int posY) {
     // Check inside of canvas clicked
-    if(canvasClicked) {
-        canvasClicked = false;
+    if(posX >= horizontalOffset &&
+       posX <= horizontalOffset + (pixelSize * canvas->getWidth()-1) &&
+       posY <= pixelSize * canvas->getHeight() - 1 &&
+       posY >= 0) {
 
-        if(Pencil* p = dynamic_cast<Pencil*>(tool))
-            p->resetStrokes();
+        int pointX = (posX - horizontalOffset) / pixelSize;
+        int pointY = posY / pixelSize;
+
+        // Draw line from last point to current point.
+        tool->preformLine(lastPointX, lastPointY, pointX, pointY);
+        this->aftrerToolPerform(pointX, pointY);
+
+        // Update Screen
+        this->repaint();
+
+        canvasClicked = true;
+        lastPointX = pointX;
+        lastPointY = pointY;
     }
+}
+
+void MainWindow::canvasReleased() {
+    canvasClicked = false;
+
+    if(Pencil* p = dynamic_cast<Pencil*>(tool))
+        p->resetStrokes();
+}
+
+void MainWindow::aftrerToolPerform(int pointX, int pointY) {
+    // If tool is Colorpicker, update primary color
+    if(ColorPicker* picker = dynamic_cast<ColorPicker*>(tool))
+         primaryBrushColorUpdate(tool->getBrushColor());
 }
 
 void MainWindow::paintEvent(QPaintEvent *e) {
@@ -377,8 +411,6 @@ void MainWindow::primaryBrushColorUpdate(QColor color)
 
         tool->setBrushColor(color);
     }
-
-
 }
 
 void MainWindow::secondaryBrushColorUpdate(QColor color)
@@ -413,7 +445,7 @@ void MainWindow::on_framePriview_clicked()
 
 QString MainWindow::getColorString(QColor color)
 {
-    std::string colorString = "background-color: rgb(" + std::to_string(color.red()) + ", " + std::to_string(color.green()) + ", " + std::to_string(color.blue()) + ");";
+    std::string colorString = "background-color: rgba(" + std::to_string(color.red()) + ", " + std::to_string(color.green()) + ", " + std::to_string(color.blue()) + ", " + std::to_string(color.alpha()) + ");";
     return QString::fromStdString(colorString);
 }
 

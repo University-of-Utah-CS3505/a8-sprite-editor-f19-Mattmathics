@@ -19,6 +19,7 @@ public:
 
     /* METHOD */
     virtual void perform(int x, int y) = 0;
+    void preformLine(int x1, int y1, int x2, int y2);
 
     /* GETTER, SETTER */
     void setCurrentCanvas(Canvas* canvas);

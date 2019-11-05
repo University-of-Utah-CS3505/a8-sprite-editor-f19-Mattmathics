@@ -139,22 +139,6 @@
      <string>SWAP</string>
     </property>
    </widget>
-   <widget class="QLabel" name="background">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>1920</width>
-      <height>1080</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap>background.png</pixmap>
-    </property>
-   </widget>
    <widget class="QPushButton" name="findAndReplaceButton">
     <property name="geometry">
      <rect>
@@ -282,13 +266,42 @@
      <string/>
     </property>
    </widget>
-   <zorder>background</zorder>
+   <widget class="QLabel" name="background_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>180</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>background.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="background_3">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>200</y>
+      <width>81</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap>background.png</pixmap>
+    </property>
+   </widget>
    <zorder>leftPanel</zorder>
    <zorder>eraserButton</zorder>
    <zorder>pencilButton</zorder>
    <zorder>rightPanel</zorder>
-   <zorder>secondaryBrushButton</zorder>
-   <zorder>primaryBrushButton</zorder>
    <zorder>resetBrushesButton</zorder>
    <zorder>swapBrushesButton</zorder>
    <zorder>findAndReplaceButton</zorder>
@@ -300,6 +313,10 @@
    <zorder>openButton</zorder>
    <zorder>redoButton</zorder>
    <zorder>undoButton</zorder>
+   <zorder>background_3</zorder>
+   <zorder>secondaryBrushButton</zorder>
+   <zorder>background_2</zorder>
+   <zorder>primaryBrushButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
