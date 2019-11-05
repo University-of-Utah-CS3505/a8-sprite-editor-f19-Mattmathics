@@ -21,6 +21,7 @@ void Bucket::perform(int x, int y)
 
    recursivePerform(x,y);
 }
+
 void Bucket::recursivePerform(int x, int y){
 
     QColor checking;

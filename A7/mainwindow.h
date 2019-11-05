@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -45,13 +45,26 @@ private:
     int horizontalOffset = 150;
     int pixelSize = 10;
 
+    int lastPointX = 0;
+    int lastPointY = 0;
+    bool canvasClicked = false;
+
     QColor brushColor = QColor(0,0,0,255);
     QColor brushSubColor = QColor(255,255,255,255);
 
-    bool initialized = false;
     QString projectLocation = "";
 
+    /**
+     * Initialize canvas.
+     *
+     * @param canvas Should be not nullptr.
+     */
     void initialize(Canvas *canvas);
+
+    /**
+     * Deinitalize canvas.
+     *
+     */
     void deinitalize();
 
     /**
@@ -60,7 +73,17 @@ private:
      * @param posX Clicked position X
      * @param posY Clicked posision Y
      */
-    void windowClicked(int posX, int posY);
+    void canvasPressed(int posX, int posY);
+
+    void canvasMoved(int posX, int posY);
+
+    /**
+     * When mouse is released after clicked, update pixel with current tool.
+     *
+     */
+    void canvasReleased();
+
+    void aftrerToolPerform(int pointX, int pointY);
 
     /**
      * Get background CSS from color.
@@ -69,8 +92,27 @@ private:
      * @return
      */
     QString getColorString(QColor color);
+
+    void updateColorPickerButton(QImageButton* button);
+
+    /**
+     * Update primary brush color.
+     *
+     * @param color
+     */
     void primaryBrushColorUpdate(QColor color);
+
+    /**
+     * Update secondary brush color.
+     *
+     * @param color
+     */
     void secondaryBrushColorUpdate(QColor color);
+
+    /**
+     * Add frame preview widget to prview section.
+     *
+     */
     void addFramePreview();
 
 protected:

@@ -21,14 +21,13 @@ SOURCES += \
     colorpicker.cpp \
     eraser.cpp \
     frame.cpp \
-    history.cpp \
+    gifanim.cpp \
     main.cpp \
     mainwindow.cpp \
     paintAllSameColor.cpp \
     pencil.cpp \
     projectmanager.cpp \
     qimagebutton.cpp \
-    redoundomanager.cpp \
     tool.cpp
 
 HEADERS += \
@@ -37,15 +36,13 @@ HEADERS += \
     colorpicker.h \
     eraser.h \
     frame.h \
-    gif.h \
-    history.h \
+    gifanim.h \
     json.hpp \
     mainwindow.h \
     paintAllSameColor.h \
     pencil.h \
     projectmanager.h \
     qimagebutton.h \
-    redoundomanager.h \
     tool.h
 
 FORMS += \
@@ -55,3 +52,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    images.qrc

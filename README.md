@@ -1,5 +1,8 @@
 # S.I.M.P Project
 
+## Build
+Our project doesn't have a dependency, so you can build on any OS platform such as Windows, macOS, and Linux.
+
 ## Documents
 * [Software Requirement Specification](https://docs.google.com/document/d/1zaQkdcgKr2rfylTv9Rs_jiit-h4Hmh5rfObFnBgfR_M/edit?usp=sharing)
 * [UML](https://docs.google.com/drawings/d/13N8TnduTMLYup48KipsWSs9KNo5F3taIw7Sb6vhtysU/edit?usp=sharing)

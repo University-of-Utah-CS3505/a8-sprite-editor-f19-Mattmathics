@@ -6,6 +6,13 @@
 #include <QPixmap>
 #include <QPainter>
 
+/**
+ * QImagaeButton Widget
+ *
+ * QImageButton supports image background and it's clickable.
+ *
+ * @author Kyungyoon Kim
+ */
 class QImageButton : public QLabel
 {
 Q_OBJECT

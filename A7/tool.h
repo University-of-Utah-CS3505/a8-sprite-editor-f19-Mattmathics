@@ -8,16 +8,20 @@
 #include "frame.h"
 
 /**
- * Tool abstract/interface class
+ * Tool abstract class
  *
- *
+ * @author Kyungyoon Kim
  */
 class Tool
 {
 public:
     virtual ~Tool();
-    virtual void perform(int x, int y) = 0;
 
+    /* METHOD */
+    virtual void perform(int x, int y) = 0;
+    void preformLine(int x1, int y1, int x2, int y2);
+
+    /* GETTER, SETTER */
     void setCurrentCanvas(Canvas* canvas);
     void setBrushColor(QColor color);
     QColor getBrushColor();
@@ -25,9 +29,11 @@ public:
 protected:
     Tool(QColor color, Canvas* canvas);
 
+    /* GETTER, SETTER */
     Frame* getCurrentFrame();
-    Canvas* currentCanvas;
 
+    /* VARS */
+    Canvas* currentCanvas;
     QColor brushColor;
 };
 

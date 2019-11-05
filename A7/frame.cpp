@@ -5,6 +5,8 @@
 using namespace std;
 using json = nlohmann::json;
 
+#define MAX_HISTORY 50
+
 Frame::Frame(int sizeX, int sizeY, QImage *copyPixels)
 {
     this->sizeX = sizeX;
@@ -26,11 +28,6 @@ Frame::Frame(int sizeX, int sizeY, QImage *copyPixels)
        image = copyPixels->copy();
 }
 
-Frame::~Frame()
-{
-
-}
-
 QColor Frame::getPixel(int x, int y)
 {
     return QColor::fromRgba(image.pixel(x,y));
@@ -46,22 +43,43 @@ QImage Frame::getImage()
     return image;
 }
 
-void Frame::captureHistory(QString jobName)
+void Frame::captureHistory()
 {
-    History history(image.copy(), jobName);
-    redoUndoManager.addHistory(history);
-}
+    // When historyIndex is not 0, user did undo last time.
+    // So delete all undone datas.
+    if(historyIndex != 0) {
+        for(int i = 0; i < historyIndex; i++)
+            histories.removeFirst();
 
-void Frame::redo()
-{
-    QImage temp = redoUndoManager.redo();
-    image.swap(temp);
+        historyIndex = 0;
+    }
+
+    // If vector is over maximum history size, delete old data.
+
+    // Capture current image
+    histories.push_front(image);
+    while(histories.size() > MAX_HISTORY)
+        histories.removeLast();
 }
 
 void Frame::undo()
 {
-    QImage temp = redoUndoManager.undo();
-    image.swap(temp);
+    image.swap(histories[historyIndex++]);
+}
+
+void Frame::redo()
+{
+    image.swap(histories[--historyIndex]);
+}
+
+bool Frame::isRedoable()
+{
+    return historyIndex != 0;
+}
+
+bool Frame::isUndoable()
+{
+    return histories.size() != historyIndex;
 }
 
 std::string Frame::toJson()
@@ -99,8 +117,6 @@ Frame Frame::fromJson(QString jsonString, int sizeX, int sizeY)
     auto j = json::parse(jsonString.toStdString());
 
     vector<vector<vector<int>>> pixels = j["pixels"].get<vector<vector<vector<int>>> >();
-
-    qDebug() << "Load pixels..." << endl;
 
     Frame frame(sizeX, sizeY);
     for (int x = 0; x < sizeX; x++)
