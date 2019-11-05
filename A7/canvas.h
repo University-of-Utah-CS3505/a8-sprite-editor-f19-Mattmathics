@@ -50,6 +50,8 @@ public:
     void deleteFrame(int index);
     int sizeFrame();
     int currentIndex();
+    bool getSaved();
+    void setSaved(bool status);
 
     int getWidth();
     int getHeight();
@@ -59,6 +61,7 @@ private:
     int sizeX;
     int sizeY;
     int index;
+    bool saved = false;
 
 };
 

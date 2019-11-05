@@ -160,6 +160,7 @@ private slots:
     void on_openButton_clicked();
     void on_redoButton_clicked();
     void on_undoButton_clicked();
+    void on_newProjectButton_clicked();
     void update_animation();
     void on_deleteFrameButton_clicked();
     void on_duplicateFrameButton_clicked();
