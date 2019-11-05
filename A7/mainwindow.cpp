@@ -427,8 +427,8 @@ void MainWindow::on_addFrameButton_clicked()
 {
     canvas->addFrame();
     addFramePreview();
-
-    setCursor(Qt::PointingHandCursor);
+    canvas->moveFrame(canvas->sizeFrame() - 1);
+    repaint();
 }
 
 void MainWindow::on_framePriview_clicked()
@@ -439,8 +439,6 @@ void MainWindow::on_framePriview_clicked()
 
     canvas->moveFrame(index);
     repaint();
-
-    setCursor(Qt::PointingHandCursor);
 }
 
 QString MainWindow::getColorString(QColor color)
@@ -452,24 +450,22 @@ QString MainWindow::getColorString(QColor color)
 void MainWindow::on_saveButton_clicked()
 {
     if (projectLocation.isEmpty())
-        projectLocation = QDir::homePath() + "/" + "untitled.ssp";
+        projectLocation = QDir::homePath() + "/" + "untitled";
 
-    QString filter = "SIMP Project file (*.ssp);; PNG image file (*.png)";
+    QString filter = "SIMP Project file (*.ssp);; PNG image file (*.png);; Graphics Interchange Format (*.gif)";
     QString filePath = QFileDialog::getSaveFileName(this, "Choose file to save", projectLocation, filter, &filter);
 
     if (filePath.isEmpty()) return;
 
-    if (filePath.toLower().endsWith(".ssp"))
-        ProjectManager::saveProject(&*canvas, filePath);
-
-    else if (filePath.toLower().endsWith(".png"))
+    if (filePath.toLower().endsWith(".png"))
         ProjectManager::saveAsPng(canvas->getCurrentFrame(), filePath);
+    else if (filePath.toLower().endsWith(".gif"))
+        ProjectManager::saveAsGif(canvas, filePath, ui->spinDelay->value());
     else
+    {
         ProjectManager::saveProject(&*canvas, filePath);
-
-    projectLocation = filePath;
-
-
+        projectLocation = filePath;
+    }
 }
 
 void MainWindow::on_openButton_clicked()
@@ -487,9 +483,6 @@ void MainWindow::on_openButton_clicked()
     } catch (bool failed) {
         // TODO : Show failed to load project.
     }
-
-
-
 }
 
 void MainWindow::addFramePreview()
@@ -504,8 +497,6 @@ void MainWindow::addFramePreview()
     previewLabel->setFixedSize(PREVIEW_IMAGE_SIZE, PREVIEW_IMAGE_SIZE);
     previewLabel->setObjectName("previewLabel-" + QString::number(framePreviews.size()));
     connect(previewLabel, &QImageButton::clicked, this, &MainWindow::on_framePriview_clicked);
-
-    qDebug() << framePreviews.size();
 
     frameGridLayout->addWidget(previewLabel);
     framePreviews.push_back(previewLabel);

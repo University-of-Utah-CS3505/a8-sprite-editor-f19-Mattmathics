@@ -21,6 +21,7 @@ SOURCES += \
     colorpicker.cpp \
     eraser.cpp \
     frame.cpp \
+    gifanim.cpp \
     main.cpp \
     mainwindow.cpp \
     paintAllSameColor.cpp \
@@ -35,7 +36,7 @@ HEADERS += \
     colorpicker.h \
     eraser.h \
     frame.h \
-    gif.h \
+    gifanim.h \
     json.hpp \
     mainwindow.h \
     paintAllSameColor.h \

@@ -33,7 +33,7 @@ public:
      * @param uri Save location
      * @return When success, return true
      */
-    static bool saveAsGif(Canvas* canvas, QString uri);
+    static bool saveAsGif(Canvas* canvas, QString uri, int milliseconds);
 
     /**
      * Save project as SSP file.
