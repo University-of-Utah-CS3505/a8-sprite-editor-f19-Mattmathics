@@ -44,18 +44,18 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->background_3->setPixmap(QPixmap(":/background.png"));
 
     //set button tool tips
-    ui->pencilButton->setToolTip("pencil(HotKey[P])");
-    ui->eraserButton->setToolTip("eraser(HotKey[E])");
-    ui->bucketButton->setToolTip("bucket(HotKey[B])");
-    ui->findAndReplaceButton->setToolTip("findAndReplace(HotKey[M])");
-    ui->colorPicker->setToolTip("pencil.HotKey(C)");
-    ui->swapBrushesButton->setToolTip("swapBrushes(HotKey[X])");
+    ui->pencilButton->setToolTip("pencil(HotKey_P)");
+    ui->eraserButton->setToolTip("eraser(HotKey_E");
+    ui->bucketButton->setToolTip("bucket(HotKey_B)");
+    ui->findAndReplaceButton->setToolTip("findAndReplace(HotKey_M)");
+    ui->colorPicker->setToolTip("pencil.HotKey_C");
+    ui->swapBrushesButton->setToolTip("swapBrushes(HotKey_X)");
     ui->resetBrushesButton->setToolTip("resetBrushes");
     ui->addFrameButton->setToolTip("addFrames");
     ui->saveButton->setToolTip("save");
     ui->openButton->setToolTip("open");
-    ui->redoButton->setToolTip("redo");
-    ui->undoButton->setToolTip("undo");
+    ui->redoButton->setToolTip("redo(HotKey_])");
+    ui->undoButton->setToolTip("undo(HotKey_[])");
 
     // Create frame prview area
     QScrollArea *scrollArea = ui->framesScroll;
@@ -305,7 +305,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     }
     if(event->key() == Qt::Key_C) {
          on_colorPicker_clicked();
-     }
+    }
+    if(event->key() ==Qt::Key_BracketLeft) {
+        on_undoButton_clicked();
+    }
+    if(event->key() ==Qt::Key_BracketRight) {
+        on_redoButton_clicked();
+    }
+
+
 }
 
 void MainWindow::on_pencilButton_clicked()
