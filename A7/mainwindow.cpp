@@ -67,6 +67,7 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     frameGridLayout->setSpacing(5);
 
     //Shortcuts support using ctrl
+    //On macOS, CTRL is Command.
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z), this, SLOT(on_undoButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z), this, SLOT(on_redoButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_saveButton_clicked()));
@@ -223,9 +224,9 @@ void MainWindow::paintEvent(QPaintEvent *e) {
 
         // Show to user certain frame is using now.
         if(i == canvas->currentIndex())
-            framePreviews[i]->setStyleSheet("border: 1px solid black");
-        else
             framePreviews[i]->setStyleSheet("border: 1px solid white");
+        else
+            framePreviews[i]->setStyleSheet("border: 1px solid black");
     }
 
     // Draw background pixels;
@@ -264,7 +265,7 @@ void MainWindow::paintEvent(QPaintEvent *e) {
         }
     }
 
-    // Draw outline.
+    // Draw pixel border lines.
     QPen linepen(Qt::gray);
     linepen.setWidth(1);
     painter.setPen(linepen);
@@ -273,7 +274,6 @@ void MainWindow::paintEvent(QPaintEvent *e) {
         painter.drawLine(i, 0, i, canvas->getHeight()*pixelSize);
     }
 
-    // Draw left, right menu guide line.
     for(int i = 0; i < canvas->getHeight() + 1; i++){
         painter.drawLine(horizontalOffset, pixelSize*i, horizontalOffset+canvas->getWidth()*pixelSize, pixelSize*i);
     }
@@ -283,6 +283,9 @@ void MainWindow::paintEvent(QPaintEvent *e) {
     // Update redo, undo button
     ui->undoButton->setEnabled(currentFrame->isUndoable());
     ui->redoButton->setEnabled(currentFrame->isRedoable());
+
+    // Update frame delete button
+    ui->deleteFrameButton->setEnabled(canvas->sizeFrame() != 1);
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
@@ -453,6 +456,33 @@ void MainWindow::on_addFrameButton_clicked()
     repaint();
 }
 
+void MainWindow::on_deleteFrameButton_clicked()
+{
+    //If frame size is 1, ignore.
+    if(canvas->sizeFrame() == 1)
+        return;
+
+    int currentIndex = canvas->currentIndex();
+
+    //Get framePreview and delete from memory and layout.
+    QImageButton *framePreview = framePreviews[currentIndex];
+    layout()->removeWidget(framePreview);
+    framePreviews.remove(currentIndex);
+    delete framePreview;
+
+    //Delete that frame.
+    canvas->deleteFrame(currentIndex);
+
+    //Move previous frame, if deleted farme's index is 0, move to 0.
+    if(currentIndex == 0)
+        canvas->moveFrame(0);
+    else
+        canvas->moveFrame(currentIndex - 1);
+
+    repaint();
+}
+
+
 void MainWindow::on_framePriview_clicked()
 {
     // Get which button is clicekd
@@ -507,6 +537,7 @@ void MainWindow::on_openButton_clicked()
     }
 }
 
+
 void MainWindow::addFramePreview()
 {
     //Error prevent.
@@ -515,7 +546,7 @@ void MainWindow::addFramePreview()
     QWidget *client = ui->framesScrollWidget;
 
     QImageButton *previewLabel = new QImageButton(client);
-    previewLabel->setStyleSheet("border: 1px solid white");
+    previewLabel->setStyleSheet("border: 1px solid black");
     previewLabel->setFixedSize(PREVIEW_IMAGE_SIZE, PREVIEW_IMAGE_SIZE);
     previewLabel->setObjectName("previewLabel-" + QString::number(framePreviews.size()));
     connect(previewLabel, &QImageButton::clicked, this, &MainWindow::on_framePriview_clicked);
@@ -539,3 +570,5 @@ void MainWindow::on_undoButton_clicked()
 
     setCursor(Qt::PointingHandCursor);
 }
+
+
