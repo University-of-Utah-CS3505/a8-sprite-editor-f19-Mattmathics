@@ -53,10 +53,10 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->swapBrushesButton->setToolTip("swapBrushes(HotKey_X)");
     ui->resetBrushesButton->setToolTip("resetBrushes");
     ui->addFrameButton->setToolTip("addFrames");
-    ui->saveButton->setToolTip("save");
-    ui->openButton->setToolTip("open");
-    ui->redoButton->setToolTip("redo(HotKey_])");
-    ui->undoButton->setToolTip("undo(HotKey_[)");
+    ui->saveButton->setToolTip("save(HotKey_ctrl+S)");
+    ui->openButton->setToolTip("open(HotKey_ctrl+O)");
+    ui->redoButton->setToolTip("redo(HotKey_ctrl+shift+Z)");
+    ui->undoButton->setToolTip("undo(HotKey_ctrl+Z)");
 
     // Create frame prview area
     QScrollArea *scrollArea = ui->framesScroll;
@@ -111,6 +111,7 @@ void MainWindow::deinitalize()
         layout()->removeWidget(obj);
         delete obj;
     }
+
     framePreviews.clear();
 
     delete canvas;
