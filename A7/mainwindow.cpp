@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QVBoxLayout>
 #include <QDebug>
+#include <QShortcut>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -27,6 +28,13 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     frameGridLayout = new QGridLayout;
     frameGridLayout->setContentsMargins(0, 0, 0, 0);
     frameGridLayout->setSpacing(5);
+
+    //Shortcuts support using ctrl
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z), this, SLOT(on_undoButton_clicked()));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z), this, SLOT(on_redoButton_clicked()));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_saveButton_clicked()));
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_O), this, SLOT(on_openButton_clicked()));
+    // add another for exporting a sprite to a gif
 
     client->setLayout(frameGridLayout);
 
@@ -205,6 +213,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     }
     if(event->key() == Qt::Key_P) {
         on_pencilButton_clicked();
+    }
+    if(event->key() == Qt::Key_B) {
+        on_bucketButton_clicked();
     }
     if(event->key() == Qt::Key_M) {
         on_findAndReplaceButton_clicked();

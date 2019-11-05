@@ -26,8 +26,9 @@ void Bucket::recursivePerform(int x, int y){
     QColor checking;
     getCurrentFrame()->setPixel(x, y, brushColor);
 
+    //recursively color adjacent pixels of the same color to brushColor
     if(x<getCurrentFrame()->getSizeX()-1 && x>-1){
-        checking = getCurrentFrame()->getPixel(x+1, y);//right
+        checking = getCurrentFrame()->getPixel(x+1, y);//check pixel to the right
         if(checking == changingColor) {
             recursivePerform(x+1, y);
         }

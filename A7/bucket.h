@@ -12,6 +12,7 @@ public:
     ~Bucket() override;
 
     void perform(int x, int y) override;
+
 private:
     void recursivePerform(int x, int y);
     QColor changingColor;
