@@ -34,6 +34,7 @@ public:
     ~MainWindow();
 
 private:
+    /* VAR */
     Ui::MainWindow *ui;
 
     Canvas *canvas = nullptr;
@@ -54,6 +55,8 @@ private:
 
     QString projectLocation = "";
 
+    /* METHOD */
+
     /**
      * Initialize canvas.
      *
@@ -68,13 +71,19 @@ private:
     void deinitalize();
 
     /**
-     * When window is cliked, update pixel with current tool.
+     * When canvas is cliked, update pixel with current tool.
      *
      * @param posX Clicked position X
      * @param posY Clicked posision Y
      */
     void canvasPressed(int posX, int posY);
 
+    /**
+     * When mouse is moving on canvas after clicked, update pixels with current tool
+     * .
+     * @param posX Clicked position X
+     * @param posY Clicked posision Y
+     */
     void canvasMoved(int posX, int posY);
 
     /**
@@ -83,6 +92,12 @@ private:
      */
     void canvasReleased();
 
+    /**
+     * After performing tool, do some after job.
+     *
+     * @param pointX Clicked position X
+     * @param pointY Clicked posision Y
+     */
     void aftrerToolPerform(int pointX, int pointY);
 
     /**
@@ -93,6 +108,10 @@ private:
      */
     QString getColorString(QColor color);
 
+    /**
+     * @brief updateColorPickerButton
+     * @param button
+     */
     void updateColorPickerButton(QImageButton* button);
 
     /**

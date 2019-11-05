@@ -502,12 +502,14 @@ void MainWindow::on_saveButton_clicked()
     if (projectLocation.isEmpty())
         projectLocation = QDir::homePath() + "/" + "untitled";
 
-    QString filter = "SIMP Project file (*.ssp);; PNG image file (*.png);; Graphics Interchange Format (*.gif)";
+    QString filter = "SIMP Project file (*.ssp);; PNG image file (*.png);; Graphics Interchange Format (*.gif);; Strip Image (*.strip.png)";
     QString filePath = QFileDialog::getSaveFileName(this, "Choose file to save", projectLocation, filter, &filter);
 
     if (filePath.isEmpty()) return;
 
-    if (filePath.toLower().endsWith(".png"))
+    if (filePath.toLower().endsWith(".strip.png"))
+        ProjectManager::saveAsStripImage(canvas, filePath);
+    else if (filePath.toLower().endsWith(".png"))
         ProjectManager::saveAsPng(canvas->getCurrentFrame(), filePath);
     else if (filePath.toLower().endsWith(".gif"))
         ProjectManager::saveAsGif(canvas, filePath, ui->spinDelay->value());

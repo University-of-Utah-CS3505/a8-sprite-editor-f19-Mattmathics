@@ -3,6 +3,11 @@
 
 #include "tool.h"
 
+/**
+ * Pencil Tool
+ *
+ * Set color of a one pixer.
+ */
 class Pencil : public Tool
 {
 public:
