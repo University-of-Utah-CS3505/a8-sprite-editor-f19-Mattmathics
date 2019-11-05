@@ -76,6 +76,16 @@ int Canvas::getHeight()
     return sizeY;
 }
 
+bool Canvas::getSaved()
+{
+    return saved;
+}
+
+void Canvas::setSaved(bool status)
+{
+    saved = status;
+}
+
 Canvas Canvas::fromJson(QString jsonString)
 {
     auto j = json::parse(jsonString.toStdString());

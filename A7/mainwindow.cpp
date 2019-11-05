@@ -2,6 +2,8 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QShortcut>
+#include <QMessageBox>
+#include <QInputDialog>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -279,6 +281,9 @@ void MainWindow::paintEvent(QPaintEvent *e) {
 
     painter.end();
 
+    // a change was made to the canvas, not in saved state anymore
+    canvas->setSaved(false);
+
     // Update redo, undo button
     ui->undoButton->setEnabled(currentFrame->isUndoable());
     ui->redoButton->setEnabled(currentFrame->isRedoable());
@@ -485,6 +490,7 @@ void MainWindow::on_saveButton_clicked()
         ProjectManager::saveProject(&*canvas, filePath);
         projectLocation = filePath;
     }
+    canvas->setSaved(true);
 }
 
 void MainWindow::on_openButton_clicked()
@@ -526,6 +532,8 @@ void MainWindow::on_redoButton_clicked()
     canvas->getCurrentFrame()->redo();
     repaint();
 
+    canvas->setSaved(false);
+
     setCursor(Qt::PointingHandCursor);
 }
 
@@ -534,5 +542,52 @@ void MainWindow::on_undoButton_clicked()
     canvas->getCurrentFrame()->undo();
     repaint();
 
+    canvas->setSaved(false);
+
     setCursor(Qt::PointingHandCursor);
+}
+
+void MainWindow::on_newProjectButton_clicked()
+{
+    // bool to check if cancel or ok is pressed for new project
+    bool isOkToNew{};
+
+    if(canvas->getSaved())//project has been saved, start a new project
+    {
+
+        int newsize = QInputDialog::getInt(this, "New Size", "Select the size of your new canvas",
+                                           32, 16, 512, 2, &isOkToNew);
+        // if canceled while attempting to start a new project
+        if (!isOkToNew)
+            return;
+
+        deinitalize();
+        initialize(new Canvas(newsize, newsize));
+        repaint();
+    }
+    else//project not saved
+    {
+        //ask user if they want to save
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "Save", "Do you want to save the current project?",
+                                      QMessageBox::Yes|QMessageBox::No);
+
+        // allow the user to save and exit from starting a new project
+        if (reply==QMessageBox::Yes)
+        {
+            on_saveButton_clicked();
+            return;
+        }
+        else{
+        int newsize = QInputDialog::getInt(this, "New Size", "Select the size of your new canvas",
+                                           32, 16, 512, 2, &isOkToNew);
+
+        if (!isOkToNew)
+            return;
+
+        deinitalize();
+        initialize(new Canvas(newsize, newsize));
+        repaint();
+        }
+    }
 }
