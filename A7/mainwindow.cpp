@@ -121,6 +121,10 @@ void MainWindow::initialize(Canvas *copyCanvas)
     //Set tool to pencil
     on_pencilButton_clicked();
     QTimer::singleShot(1000, this, SLOT(update_animation()));
+
+    //For actual size preview
+    animationCheckerboard.setParent(&previewWindow);
+    animationPreview.setParent(&previewWindow);
 }
 
 void MainWindow::deinitalize()
@@ -247,7 +251,6 @@ void MainWindow::paintEvent(QPaintEvent *e) {
     // Update preview pixels.
     for(int i = 0; i < canvas->sizeFrame(); i++) {
         QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(i)->getImage());
-        pixmap = pixmap.fromImage(canvas->getFrame(i)->getImage());
         pixmap = pixmap.scaled(framePreviews[i]->size(), Qt::KeepAspectRatio);
 
         framePreviews[i]->setPixmap(pixmap);
@@ -667,16 +670,51 @@ void MainWindow::on_newProjectButton_clicked()
 }
 
 void MainWindow::update_animation(){
-    animationFrame++;
-    if(animationFrame >= canvas->sizeFrame()) {
-        animationFrame = 0;
+    if(playAnimation){
+        QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(animationFrame)->getImage());
+        pixmap = pixmap.scaled(ui->animationLabel->size(), Qt::KeepAspectRatio);
+
+        ui->animationLabel->setPixmap(pixmap);
+
+        pixmap = pixmap.scaled(animationPreview.size(), Qt::KeepAspectRatio);
+        animationPreview.setPixmap(pixmap);
+
+        animationFrame++;
+        if(animationFrame >= canvas->sizeFrame()) {
+            animationFrame = 0;
+        }
+        QTimer::singleShot(1000/ui->fpsBox->value(), this, SLOT(update_animation()));
     }
-    QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(animationFrame)->getImage());
-    pixmap = pixmap.fromImage(canvas->getFrame(animationFrame)->getImage());
-    pixmap = pixmap.scaled(ui->animationLabel->size(), Qt::KeepAspectRatio);
-
-    ui->animationLabel->setPixmap(pixmap);
-
-    QTimer::singleShot(1000/ui->fpsBox->value(), this, SLOT(update_animation()));
 }
 
+void MainWindow::on_actualSizeButton_clicked()
+{
+    previewWindow.setGeometry(200,200,canvas->getWidth()+100, canvas->getHeight()+100);
+    previewWindow.setWindowTitle("Actual Size");
+    animationCheckerboard.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
+    animationPreview.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
+
+    QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(animationFrame)->getImage());
+    pixmap = pixmap.scaled(animationPreview.size(), Qt::KeepAspectRatio);
+
+    animationPreview.setPixmap(pixmap);
+
+    animationCheckerboard.setPixmap(QPixmap(":/background.png"));
+
+    previewWindow.show();
+    animationPreview.show();
+    animationPreview.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
+}
+
+void MainWindow::on_playButton_clicked()
+{
+    if(!playAnimation){
+        playAnimation = true;
+        QTimer::singleShot(1000/ui->fpsBox->value(), this, SLOT(update_animation()));
+    }
+}
+
+void MainWindow::on_pauseButton_clicked()
+{
+    playAnimation = false;
+}
