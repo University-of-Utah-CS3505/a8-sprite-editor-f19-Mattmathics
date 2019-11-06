@@ -690,6 +690,9 @@ void MainWindow::on_newProjectButton_clicked()
 
 void MainWindow::update_animation(){
     if (playAnimation) {
+        if(animationFrame >= canvas->sizeFrame()) {
+            animationFrame = 0;
+        }
         QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(animationFrame)->getImage());
         pixmap = pixmap.scaled(ui->animationLabel->size(), Qt::KeepAspectRatio);
 
@@ -699,9 +702,6 @@ void MainWindow::update_animation(){
         animationPreview.setPixmap(pixmap);
 
         animationFrame++;
-
-        if(animationFrame >= canvas->sizeFrame())
-            animationFrame = 0;
 
         QTimer::singleShot(1000/ui->fpsBox->value(), this, SLOT(update_animation()));
     }
