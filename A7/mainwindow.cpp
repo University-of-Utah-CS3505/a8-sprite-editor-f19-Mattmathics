@@ -572,7 +572,9 @@ void MainWindow::on_openButton_clicked()
         initialize(new Canvas(ProjectManager::openProject(filePath)));
         repaint();
     } catch (bool failed) {
-        // TODO : Show failed to load project.
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","An error has occured !");
+        messageBox.show();
     }
 }
 
