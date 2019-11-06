@@ -627,7 +627,6 @@ void MainWindow::on_redoButton_clicked()
 
     canvas->setSaved(false);
 
-    setCursor(Qt::PointingHandCursor);
 }
 
 void MainWindow::on_undoButton_clicked()
@@ -641,7 +640,6 @@ void MainWindow::on_undoButton_clicked()
 
     canvas->setSaved(false);
 
-    setCursor(Qt::PointingHandCursor);
 }
 
 void MainWindow::on_newProjectButton_clicked()
