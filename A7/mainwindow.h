@@ -33,6 +33,9 @@ public:
     MainWindow(Canvas *copyCanvas = nullptr, QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private:
     /* VAR */
     Ui::MainWindow *ui;

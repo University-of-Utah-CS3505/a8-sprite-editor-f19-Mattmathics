@@ -734,3 +734,24 @@ void MainWindow::on_pauseButton_clicked()
 {
     playAnimation = false;
 }
+
+void MainWindow::closeEvent(QCloseEvent *event){
+
+    // if project not saved, ask user if they want to save before exiting
+    if(!canvas->getSaved()){
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "Warning!", "Do you want to save the project before exiting?",
+                                      QMessageBox::Yes|QMessageBox::No);
+
+        // allow the user to save
+        if (reply==QMessageBox::Yes) {
+            event->ignore();
+            on_saveButton_clicked();
+            return;
+        }
+        else
+            event->ignore();
+     }
+
+    event->accept();
+}
