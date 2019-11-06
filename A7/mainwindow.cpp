@@ -701,6 +701,9 @@ void MainWindow::update_animation(){
 
 void MainWindow::on_actualSizeButton_clicked()
 {
+    if(animationFrame >= canvas->sizeFrame()) {
+        animationFrame = 0;
+    }
     previewWindow.setGeometry(200,200,canvas->getWidth()+100, canvas->getHeight()+100);
     previewWindow.setWindowTitle("Actual Size");
 
