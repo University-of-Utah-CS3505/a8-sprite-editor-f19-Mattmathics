@@ -2,14 +2,8 @@
 
 Tool::Tool(QColor color, Canvas *canvas)
 {
-    if (canvas == nullptr)
-    {
-        // TODO: throw error.
-    }
-
     currentCanvas = canvas;
     brushColor = color;
-
 }
 
 Tool::~Tool()

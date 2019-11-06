@@ -20,7 +20,9 @@
 MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->statusbar->hide();      //For macOS user.
+
+    //For macOS user.
+    ui->statusbar->hide();
 
     QWidget *client = ui->framesScrollWidget;
 
@@ -64,8 +66,6 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->actualSizeButton->setIcon(QIcon(QPixmap(":/view.png")));           //view
     ui->actualSizeButton->setIconSize(QSize(22,22));
 
-
-
     //set button tool tips
     ui->pencilButton->setToolTip("pencil(HotKey_P)");
     ui->eraserButton->setToolTip("eraser(HotKey_E");
@@ -95,11 +95,11 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z), this, SLOT(on_redoButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_saveButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_O), this, SLOT(on_openButton_clicked()));
-    // add another for exporting a sprite to a gif
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_E), this, SLOT(on_saveButton_clicked()));
 
     client->setLayout(frameGridLayout);
 
-    initialize(copyCanvas);
+    initialize((copyCanvas));
 }
 
 MainWindow::~MainWindow()
@@ -112,7 +112,7 @@ MainWindow::~MainWindow()
 void MainWindow::initialize(Canvas *copyCanvas)
 {
     if (copyCanvas == nullptr)
-        canvas = new Canvas(16, 16);
+        canvas = new Canvas(32, 32);
     else
         canvas = copyCanvas;
 
@@ -126,7 +126,7 @@ void MainWindow::initialize(Canvas *copyCanvas)
 
     //Set tool to pencil
     on_pencilButton_clicked();
-    on_playButton_clicked();
+    QTimer::singleShot(1000, this, SLOT(update_animation()));
 
     //For actual size preview
     animationCheckerboard.setParent(&previewWindow);
@@ -336,8 +336,7 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 
     this->ui->rightPanel->setGeometry(this->width() -150, 0, 150, this->height());
     this->ui->leftPanel->setGeometry(0, 0, 150, this->height());
-    this->ui->rightButtonsFrame->setGeometry(this->width() -150, 0, this->ui->rightButtonsFrame->width(), this->ui->rightButtonsFrame->height());
-    this->ui->playbackFrame->setGeometry(this->width() -150, 380, this->ui->playbackFrame->width(), this->ui->playbackFrame->height());
+
     int horizontalScaling = (this->width() - 300) / canvas->getWidth();
     int verticalScaling = this->height() / canvas->getHeight();
 
@@ -346,24 +345,23 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event){
-    if(event->key() == Qt::Key_X) {
+    if(event->key() == Qt::Key_X)
         on_swapBrushesButton_clicked();
-    }
-    if(event->key() == Qt::Key_E) {
+
+    if(event->key() == Qt::Key_E)
         on_eraserButton_clicked();
-    }
-    if(event->key() == Qt::Key_P) {
+
+    if(event->key() == Qt::Key_P)
         on_pencilButton_clicked();
-    }
-    if(event->key() == Qt::Key_B) {
+
+    if(event->key() == Qt::Key_B)
         on_bucketButton_clicked();
-    }
-    if(event->key() == Qt::Key_M) {
+
+    if(event->key() == Qt::Key_M)
         on_findAndReplaceButton_clicked();
-    }
-    if(event->key() == Qt::Key_C) {
+
+    if(event->key() == Qt::Key_C)
          on_colorPicker_clicked();
-    }
 }
 
 void MainWindow::on_pencilButton_clicked()
@@ -432,8 +430,6 @@ void MainWindow::on_swapBrushesButton_clicked()
 
     primaryBrushColorUpdate(brushSubColor);
     secondaryBrushColorUpdate(swap);
-
-
 }
 
 void MainWindow::on_primaryBrushButton_clicked()
@@ -451,8 +447,6 @@ void MainWindow::on_resetBrushesButton_clicked()
 {
     primaryBrushColorUpdate(QColor(0,0,0,255));
     secondaryBrushColorUpdate(QColor(255,255,255,255));
-
-
 }
 
 void MainWindow::on_secondaryBrushButton_clicked()
@@ -551,6 +545,7 @@ void MainWindow::on_saveButton_clicked()
     QString filter = "SIMP Project file (*.ssp);; PNG image file (*.png);; Graphics Interchange Format (*.gif);; Strip Image (*.strip.png)";
     QString filePath = QFileDialog::getSaveFileName(this, "Choose file to save", projectLocation, filter, &filter);
 
+    // Prevent error.
     if (filePath.isEmpty()) return;
 
     if (filePath.toLower().endsWith(".strip.png"))
@@ -583,7 +578,9 @@ void MainWindow::on_openButton_clicked()
         initialize(new Canvas(ProjectManager::openProject(filePath)));
         repaint();
     } catch (bool failed) {
-        // TODO : Show failed to load project.
+        QMessageBox messageBox;
+        messageBox.critical(0,"Error","An error has occured !");
+        messageBox.show();
     }
 }
 
@@ -591,7 +588,8 @@ void MainWindow::on_openButton_clicked()
 void MainWindow::addFramePreview()
 {
     //Error prevent.
-    if(canvas->sizeFrame() == framePreviews.size()) return;
+    if(canvas->sizeFrame() == framePreviews.size())
+        return;
 
     QWidget *client = ui->framesScrollWidget;
 
@@ -610,7 +608,6 @@ void MainWindow::on_redoButton_clicked()
     // when it's unable to redo
     if(!canvas->getCurrentFrame()->isRedoable())
         return;
-
 
     canvas->getCurrentFrame()->redo();
     repaint();
@@ -639,10 +636,9 @@ void MainWindow::on_newProjectButton_clicked()
     // bool to check if cancel or ok is pressed for new project
     bool isOkToNew{};
 
-    if(canvas->getSaved())//project has been saved, start a new project
-    {
+    if(canvas->getSaved()) {//project has been saved, start a new project
 
-        int newsize = QInputDialog::getInt(this, "New Size", "Select the size of your new canvas",
+        int newsize = QInputDialog::getInt(this, "New Size", "Set the size in pixels of your sprite",
                                            32, 16, 512, 2, &isOkToNew);
         // if canceled while attempting to start a new project
         if (!isOkToNew)
@@ -651,40 +647,33 @@ void MainWindow::on_newProjectButton_clicked()
         deinitalize();
         initialize(new Canvas(newsize, newsize));
         repaint();
-    }
-    else//project not saved
-    {
+
+    } else { //project not saved
+
         //ask user if they want to save
         QMessageBox::StandardButton reply;
         reply = QMessageBox::question(this, "Save", "Do you want to save the current project?",
                                       QMessageBox::Yes|QMessageBox::No);
 
         // allow the user to save and exit from starting a new project
-        if (reply==QMessageBox::Yes)
-        {
+        if (reply==QMessageBox::Yes) {
             on_saveButton_clicked();
             return;
-        }
-        else{
-        int newsize = QInputDialog::getInt(this, "New Size", "Select the size of your new canvas",
-                                           32, 16, 512, 2, &isOkToNew);
+        } else {
+            int newsize = QInputDialog::getInt(this, "New Size", "Set the size in pixels of your sprite",
+                                               32, 16, 512, 2, &isOkToNew);
+            if (!isOkToNew)
+                return;
 
-        if (!isOkToNew)
-            return;
-
-        deinitalize();
-        initialize(new Canvas(newsize, newsize));
-        repaint();
+            deinitalize();
+            initialize(new Canvas(newsize, newsize));
+            repaint();
         }
     }
 }
 
 void MainWindow::update_animation(){
-    if(playAnimation){
-        // if the current animation frame is out of scope, reset
-        if(animationFrame >= canvas->sizeFrame()) {
-            animationFrame = 0;
-        }
+    if (playAnimation) {
         QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(animationFrame)->getImage());
         pixmap = pixmap.scaled(ui->animationLabel->size(), Qt::KeepAspectRatio);
 
@@ -694,6 +683,9 @@ void MainWindow::update_animation(){
         animationPreview.setPixmap(pixmap);
 
         animationFrame++;
+
+        if(animationFrame >= canvas->sizeFrame())
+            animationFrame = 0;
 
         QTimer::singleShot(1000/ui->fpsBox->value(), this, SLOT(update_animation()));
     }
