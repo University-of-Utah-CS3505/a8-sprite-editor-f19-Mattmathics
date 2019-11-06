@@ -70,7 +70,7 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->addFrameButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     ui->deleteFrameButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     ui->duplicateFrameButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
-    ui->actualSizeButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+
 
     //set button tool tips
     ui->pencilButton->setToolTip("pencil(HotKey_P)");
