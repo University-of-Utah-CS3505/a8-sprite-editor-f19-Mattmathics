@@ -72,15 +72,14 @@ private:
     /* METHOD */
 
     /**
-     * Initialize canvas.
+     * Constructs or copies a new canvas, and sets the framePreview and tool to pencil. 
      *
      * @param canvas Should be not nullptr.
      */
     void initialize(Canvas *canvas);
 
     /**
-     * Deinitalize canvas.
-     *
+     * Deinitalize canvas and clears the preview frames.
      */
     void deinitalize();
 
