@@ -39,6 +39,7 @@ private:
 
     QWidget previewWindow;
     QLabel animationPreview;
+    QLabel animationCheckerboard;
     Canvas *canvas = nullptr;
     Tool *tool = nullptr;
 
@@ -49,7 +50,7 @@ private:
     int pixelSize = 10;
 
     int animationFrame = 0;
-    bool playAnimation = true;
+    bool playAnimation = false;
 
     int lastPointX = 0;
     int lastPointY = 0;

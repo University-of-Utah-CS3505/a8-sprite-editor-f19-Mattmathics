@@ -47,6 +47,20 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->undoButton->setIconSize(QSize(33,33));
     ui->background_2->setPixmap(QPixmap(":/background.png"));
     ui->background_3->setPixmap(QPixmap(":/background.png"));
+    ui->newProjectButton->setIcon(QIcon(QPixmap(":/newProject.png")));      //newProject
+    ui->newProjectButton->setIconSize(QSize(33,33));
+    ui->swapBrushesButton->setIcon(QIcon(QPixmap(":/swap.png")));           //swap
+    ui->swapBrushesButton->setIconSize(QSize(22,22));
+    ui->resetBrushesButton->setIcon(QIcon(QPixmap(":/reset.png")));           //reset
+    ui->resetBrushesButton->setIconSize(QSize(22,22));
+    ui->addFrameButton->setIcon(QIcon(QPixmap(":/addFrame.png")));              //addFrame
+    ui->addFrameButton->setIconSize(QSize(22,22));
+    ui->duplicateFrameButton->setIcon(QIcon(QPixmap(":/duplicateFrame.png")));           //duplicateFrame
+    ui->duplicateFrameButton->setIconSize(QSize(22,22));
+    ui->deleteFrameButton->setIcon(QIcon(QPixmap(":/deleteFrame.png")));           //deleteFrame
+    ui->deleteFrameButton->setIconSize(QSize(22,22));
+
+
 
     //set button tool tips
     ui->pencilButton->setToolTip("pencil(HotKey_P)");
@@ -96,7 +110,7 @@ MainWindow::~MainWindow()
 void MainWindow::initialize(Canvas *copyCanvas)
 {
     if (copyCanvas == nullptr)
-        canvas = new Canvas(32, 32);
+        canvas = new Canvas(16, 16);
     else
         canvas = copyCanvas;
 
@@ -110,7 +124,10 @@ void MainWindow::initialize(Canvas *copyCanvas)
 
     //Set tool to pencil
     on_pencilButton_clicked();
-    QTimer::singleShot(1000, this, SLOT(update_animation()));
+    on_playButton_clicked();
+
+    //For actual size preview
+    animationCheckerboard.setParent(&previewWindow);
     animationPreview.setParent(&previewWindow);
 }
 
@@ -317,7 +334,8 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 
     this->ui->rightPanel->setGeometry(this->width() -150, 0, 150, this->height());
     this->ui->leftPanel->setGeometry(0, 0, 150, this->height());
-
+    this->ui->rightButtonsFrame->setGeometry(this->width() -150, 0, this->ui->rightButtonsFrame->width(), this->ui->rightButtonsFrame->height());
+    this->ui->playbackFrame->setGeometry(this->width() -150, 380, this->ui->playbackFrame->width(), this->ui->playbackFrame->height());
     int horizontalScaling = (this->width() - 300) / canvas->getWidth();
     int verticalScaling = this->height() / canvas->getHeight();
 
@@ -354,7 +372,7 @@ void MainWindow::on_pencilButton_clicked()
     tool = new Pencil(brushColor, canvas);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),5,5);
     setCursor(eraserCursor);
 }
 
@@ -366,7 +384,7 @@ void MainWindow::on_eraserButton_clicked()
     tool = new Eraser(canvas);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/erase_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/erase_cursor.png"),5,5);
     setCursor(eraserCursor);
 }
 
@@ -378,7 +396,7 @@ void MainWindow::on_findAndReplaceButton_clicked()
     tool = new PaintAllSameColor(brushColor, canvas);
 
     //custom cursor
-    QCursor findAndReplaceCursor = QCursor(QPixmap(":/brush_cursor.png"),0,-0);
+    QCursor findAndReplaceCursor = QCursor(QPixmap(":/brush_cursor.png"),5,5);
     setCursor(findAndReplaceCursor);
 }
 
@@ -390,7 +408,7 @@ void MainWindow::on_bucketButton_clicked()
     tool = new Bucket(brushColor, canvas);
 
     //custom cursor
-    QCursor bucketCursor = QCursor(QPixmap(":/bucket_cursor.png"),0,0);
+    QCursor bucketCursor = QCursor(QPixmap(":/bucket_cursor.png"),5,5);
     setCursor(bucketCursor);
 }
 
@@ -402,7 +420,7 @@ void MainWindow::on_colorPicker_clicked()
     tool = new ColorPicker(brushColor, canvas);
 
     //custom cursor
-    QCursor colorPicker = QCursor(QPixmap(":/colorPicker_cursor.png").scaled(32,32),0,0);
+    QCursor colorPicker = QCursor(QPixmap(":/colorPicker_cursor.png").scaled(32,32),5,5);
     setCursor(colorPicker);
 }
 
@@ -423,7 +441,7 @@ void MainWindow::on_primaryBrushButton_clicked()
     primaryBrushColorUpdate(newColor);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),5,5);
     setCursor(eraserCursor);
 }
 
@@ -442,7 +460,7 @@ void MainWindow::on_secondaryBrushButton_clicked()
     secondaryBrushColorUpdate(newColor);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),5,5);
     setCursor(eraserCursor);
 }
 
@@ -554,6 +572,9 @@ void MainWindow::on_openButton_clicked()
 
     QString filter = "SIMP Project file (*.ssp)";
     QString filePath =  QFileDialog::getOpenFileName(this, "Choose file to open", projectLocation, filter, &filter);
+
+    if (filePath.isEmpty())
+        return;
 
     try {
         deinitalize();
@@ -678,12 +699,15 @@ void MainWindow::on_actualSizeButton_clicked()
 {
     previewWindow.setGeometry(200,200,canvas->getWidth()+100, canvas->getHeight()+100);
     previewWindow.setWindowTitle("Actual Size");
+    animationCheckerboard.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
     animationPreview.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
 
     QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(animationFrame)->getImage());
     pixmap = pixmap.scaled(animationPreview.size(), Qt::KeepAspectRatio);
 
     animationPreview.setPixmap(pixmap);
+
+    animationCheckerboard.setPixmap(QPixmap(":/background.png"));
 
     previewWindow.show();
     animationPreview.show();

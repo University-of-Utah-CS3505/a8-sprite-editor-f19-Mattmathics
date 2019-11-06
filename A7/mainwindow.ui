@@ -91,7 +91,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>210</y>
+      <y>230</y>
       <width>81</width>
       <height>71</height>
      </rect>
@@ -107,7 +107,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
+      <y>200</y>
       <width>81</width>
       <height>71</height>
      </rect>
@@ -123,26 +123,26 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>250</y>
+      <y>270</y>
       <width>61</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>RESET</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="swapBrushesButton">
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>180</y>
+      <y>200</y>
       <width>61</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>SWAP</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="findAndReplaceButton">
@@ -188,7 +188,7 @@
     <property name="geometry">
      <rect>
       <x>1140</x>
-      <y>10</y>
+      <y>70</y>
       <width>61</width>
       <height>51</height>
      </rect>
@@ -202,12 +202,12 @@
      <rect>
       <x>10</x>
       <y>610</y>
-      <width>131</width>
-      <height>28</height>
+      <width>51</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>+</string>
+     <string/>
     </property>
    </widget>
    <widget class="QScrollArea" name="framesScroll">
@@ -237,7 +237,7 @@
     <property name="geometry">
      <rect>
       <x>1210</x>
-      <y>10</y>
+      <y>70</y>
       <width>61</width>
       <height>51</height>
      </rect>
@@ -250,7 +250,7 @@
     <property name="geometry">
      <rect>
       <x>1210</x>
-      <y>70</y>
+      <y>130</y>
       <width>61</width>
       <height>51</height>
      </rect>
@@ -263,7 +263,7 @@
     <property name="geometry">
      <rect>
       <x>1140</x>
-      <y>70</y>
+      <y>130</y>
       <width>61</width>
       <height>51</height>
      </rect>
@@ -276,7 +276,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>180</y>
+      <y>200</y>
       <width>81</width>
       <height>71</height>
      </rect>
@@ -292,7 +292,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>210</y>
+      <y>230</y>
       <width>81</width>
       <height>71</height>
      </rect>
@@ -307,22 +307,25 @@
    <widget class="QPushButton" name="deleteFrameButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>640</y>
-      <width>131</width>
-      <height>28</height>
+      <x>50</x>
+      <y>610</y>
+      <width>51</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>-</string>
+     <string/>
     </property>
    </widget>
-   <widget class="QFrame" name="frame">
+   <widget class="QFrame" name="playbackFrame">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>1140</x>
+      <x>1130</x>
       <y>380</y>
-      <width>131</width>
+      <width>151</width>
       <height>281</height>
      </rect>
     </property>
@@ -335,9 +338,9 @@
     <widget class="QPushButton" name="actualSizeButton">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>0</x>
        <y>230</y>
-       <width>111</width>
+       <width>131</width>
        <height>28</height>
       </rect>
      </property>
@@ -348,7 +351,7 @@
     <widget class="QLabel" name="animationLabel">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>20</x>
        <y>66</y>
        <width>110</width>
        <height>110</height>
@@ -364,7 +367,7 @@
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>65</x>
+       <x>75</x>
        <y>201</y>
        <width>101</width>
        <height>20</height>
@@ -377,7 +380,7 @@
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>65</x>
+       <x>75</x>
        <y>183</y>
        <width>55</width>
        <height>20</height>
@@ -390,7 +393,7 @@
     <widget class="QSpinBox" name="fpsBox">
      <property name="geometry">
       <rect>
-       <x>5</x>
+       <x>15</x>
        <y>193</y>
        <width>51</width>
        <height>22</height>
@@ -406,7 +409,7 @@
     <widget class="QPushButton" name="pauseButton">
      <property name="geometry">
       <rect>
-       <x>70</x>
+       <x>80</x>
        <y>16</y>
        <width>41</width>
        <height>41</height>
@@ -419,7 +422,7 @@
     <widget class="QPushButton" name="playButton">
      <property name="geometry">
       <rect>
-       <x>18</x>
+       <x>28</x>
        <y>16</y>
        <width>41</width>
        <height>41</height>
@@ -433,31 +436,99 @@
    <widget class="QPushButton" name="duplicateFrameButton">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>640</y>
-      <width>131</width>
-      <height>28</height>
+      <x>90</x>
+      <y>610</y>
+      <width>51</width>
+      <height>31</height>
      </rect>
-    </property>
-    <property name="text">
-     <string>Duplicate</string>
-    </property>
-    </widget>
-   <widget class="QPushButton" name="newProjectButton">
-    <property name="geometry">
-     <rect>
-      <x>1140</x>
-      <y>140</y>
-      <width>61</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="contextMenuPolicy">
-     <enum>Qt::DefaultContextMenu</enum>
     </property>
     <property name="text">
      <string/>
     </property>
+   </widget>
+   <widget class="QPushButton" name="newProjectButton">
+    <property name="geometry">
+     <rect>
+      <x>1140</x>
+      <y>10</y>
+      <width>131</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="newProjectButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>140</y>
+       <width>61</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::DefaultContextMenu</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="openButton">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>10</y>
+       <width>61</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="saveButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>61</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="undoButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>70</y>
+       <width>61</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="redoButton">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>70</y>
+       <width>61</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <zorder>leftPanel</zorder>
    <zorder>eraserButton</zorder>
@@ -468,27 +539,17 @@
    <zorder>findAndReplaceButton</zorder>
    <zorder>bucketButton</zorder>
    <zorder>colorPicker</zorder>
-   <zorder>saveButton</zorder>
    <zorder>addFrameButton</zorder>
    <zorder>framesScroll</zorder>
-   <zorder>openButton</zorder>
-   <zorder>redoButton</zorder>
-   <zorder>undoButton</zorder>
    <zorder>background_3</zorder>
    <zorder>secondaryBrushButton</zorder>
    <zorder>background_2</zorder>
    <zorder>primaryBrushButton</zorder>
-   <zorder>deleteFrameButton</zorder>
    <zorder>frame</zorder>
-   <zorder>animationLabel</zorder>
-   <zorder>fpsBox</zorder>
-   <zorder>label_2</zorder>
-   <zorder>label_3</zorder>
-   <zorder>spinDelay</zorder>
-   <zorder>label</zorder>
    <zorder>newProjectButton</zorder>
    <zorder>deleteFrameButton</zorder>
    <zorder>duplicateFrameButton</zorder>
+   <zorder>rightButtonsFrame</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -496,7 +557,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
