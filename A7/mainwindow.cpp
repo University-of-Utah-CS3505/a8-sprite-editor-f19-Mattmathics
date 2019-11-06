@@ -73,18 +73,18 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
 
 
     //set button tool tips
-    ui->pencilButton->setToolTip("pencil(HotKey_P)");
-    ui->eraserButton->setToolTip("eraser(HotKey_E");
-    ui->bucketButton->setToolTip("bucket(HotKey_B)");
-    ui->findAndReplaceButton->setToolTip("findAndReplace(HotKey_M)");
-    ui->colorPicker->setToolTip("pencil.HotKey_C");
-    ui->swapBrushesButton->setToolTip("swapBrushes(HotKey_X)");
-    ui->resetBrushesButton->setToolTip("resetBrushes");
+    ui->pencilButton->setToolTip("pencil(P)");
+    ui->eraserButton->setToolTip("eraser(E)");
+    ui->bucketButton->setToolTip("bucket(B)");
+    ui->findAndReplaceButton->setToolTip("findAndReplace(F)");
+    ui->colorPicker->setToolTip("color picker(C)");
+    ui->swapBrushesButton->setToolTip("swap brushes(X)");
+    ui->resetBrushesButton->setToolTip("reset brushes(R)");
     ui->addFrameButton->setToolTip("addFrames");
-    ui->saveButton->setToolTip("save(HotKey_ctrl+S)");
-    ui->openButton->setToolTip("open(HotKey_ctrl+O)");
-    ui->redoButton->setToolTip("redo(HotKey_ctrl+shift+Z)");
-    ui->undoButton->setToolTip("undo(HotKey_ctrl+Z)");
+    ui->saveButton->setToolTip("save(Ctrl+S)");
+    ui->openButton->setToolTip("open(Ctrl+O)");
+    ui->redoButton->setToolTip("redo(Ctrl+Shift+Z)(Ctrl+Y)");
+    ui->undoButton->setToolTip("undo(Ctrl+Z)");
     ui->playButton->setToolTip("play");
     ui->pauseButton->setToolTip("pause");
     ui->actualSizeButton->setToolTip("view actual Size");
@@ -370,8 +370,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     if(event->key() == Qt::Key_B)
         on_bucketButton_clicked();
 
-    if(event->key() == Qt::Key_M)
+    if(event->key() == Qt::Key_F)
         on_findAndReplaceButton_clicked();
+
+    if(event->key() == Qt::Key_R)
+        on_resetBrushesButton_clicked();
 
     if(event->key() == Qt::Key_C)
          on_colorPicker_clicked();
