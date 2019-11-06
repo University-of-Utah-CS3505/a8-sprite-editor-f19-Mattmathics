@@ -15,7 +15,7 @@ void Bucket::perform(int x, int y)
 {
     changingColor = getCurrentFrame()->getPixel(x,y);
 
-    if(brushColor == changingColor) {
+    if(compareColor(&changingColor, &brushColor)) {
         return;
     }
 
@@ -31,7 +31,7 @@ void Bucket::recursivePerform(int x, int y){
     if(x<getCurrentFrame()->getSizeX()-1 && x>-1){
         //check pixel to the right
         checking = getCurrentFrame()->getPixel(x+1, y);
-        if(checking == changingColor) {
+        if(compareColor(&checking, &changingColor)) {
             recursivePerform(x+1, y);
         }
     }
@@ -39,7 +39,7 @@ void Bucket::recursivePerform(int x, int y){
     if(x>0){
         //left
         checking = getCurrentFrame()->getPixel(x-1, y);
-        if(checking == changingColor) {
+        if(compareColor(&checking, &changingColor)) {
             recursivePerform(x-1, y);
         }
     }
@@ -47,7 +47,7 @@ void Bucket::recursivePerform(int x, int y){
     if(y<getCurrentFrame()->getSizeY()-1) {
         //up
         checking = getCurrentFrame()->getPixel(x, y+1);
-        if(checking == changingColor){
+        if(compareColor(&checking, &changingColor)){
             recursivePerform(x, y+1);
         }
     }
@@ -55,9 +55,16 @@ void Bucket::recursivePerform(int x, int y){
     if(y>0){
         //down
         checking = getCurrentFrame()->getPixel(x, y-1);
-        if(checking == changingColor) {
+        if(compareColor(&checking, &changingColor)) {
             recursivePerform(x, y-1);
         }
     }
+}
 
+bool Bucket::compareColor(QColor *left, QColor *right)
+{
+    return (left->red() == right->red() &&
+            left->green() == right->green() &&
+            left->blue() == right->blue() &&
+            left->alpha() == right->alpha());
 }
