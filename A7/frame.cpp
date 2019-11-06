@@ -54,10 +54,10 @@ void Frame::captureHistory()
         historyIndex = 0;
     }
 
-    // If vector is over maximum history size, delete old data.
-
     // Capture current image
     histories.push_front(image);
+
+    // If vector is over maximum history size, delete old data.
     while(histories.size() > MAX_HISTORY)
         histories.removeLast();
 }
