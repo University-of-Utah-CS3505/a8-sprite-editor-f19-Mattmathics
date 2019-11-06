@@ -23,5 +23,8 @@
         <file>newProject.png</file>
         <file>reset.png</file>
         <file>swap.png</file>
+        <file>pause.png</file>
+        <file>play.png</file>
+        <file>view.png</file>
     </qresource>
 </RCC>

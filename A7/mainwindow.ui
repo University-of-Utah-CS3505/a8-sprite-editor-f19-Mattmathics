@@ -327,7 +327,7 @@
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
+     <enum>QFrame::NoFrame</enum>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
@@ -342,7 +342,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>View Actual Size</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="animationLabel">
@@ -413,7 +413,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>||</string>
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="playButton">
@@ -426,7 +426,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>|&gt;</string>
+      <string/>
      </property>
     </widget>
    </widget>

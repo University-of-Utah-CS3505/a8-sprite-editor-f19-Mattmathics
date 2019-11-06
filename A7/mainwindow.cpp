@@ -59,6 +59,12 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->duplicateFrameButton->setIconSize(QSize(22,22));
     ui->deleteFrameButton->setIcon(QIcon(QPixmap(":/deleteFrame.png")));           //deleteFrame
     ui->deleteFrameButton->setIconSize(QSize(22,22));
+    ui->playButton->setIcon(QIcon(QPixmap(":/play.png")));           //play
+    ui->playButton->setIconSize(QSize(22,22));
+    ui->pauseButton->setIcon(QIcon(QPixmap(":/pause.png")));           //pause
+    ui->pauseButton->setIconSize(QSize(22,22));
+    ui->actualSizeButton->setIcon(QIcon(QPixmap(":/view.png")));           //view
+    ui->actualSizeButton->setIconSize(QSize(22,22));
 
     //set button tool tips
     ui->pencilButton->setToolTip("pencil(HotKey_P)");
@@ -687,8 +693,15 @@ void MainWindow::update_animation(){
 
 void MainWindow::on_actualSizeButton_clicked()
 {
+    if(animationFrame >= canvas->sizeFrame()) {
+        animationFrame = 0;
+    }
     previewWindow.setGeometry(200,200,canvas->getWidth()+100, canvas->getHeight()+100);
     previewWindow.setWindowTitle("Actual Size");
+
+    previewWindow.show();
+    animationPreview.show();
+
     animationCheckerboard.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
     animationPreview.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
 
@@ -696,12 +709,7 @@ void MainWindow::on_actualSizeButton_clicked()
     pixmap = pixmap.scaled(animationPreview.size(), Qt::KeepAspectRatio);
 
     animationPreview.setPixmap(pixmap);
-
     animationCheckerboard.setPixmap(QPixmap(":/background.png"));
-
-    previewWindow.show();
-    animationPreview.show();
-    animationPreview.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
 }
 
 void MainWindow::on_playButton_clicked()
