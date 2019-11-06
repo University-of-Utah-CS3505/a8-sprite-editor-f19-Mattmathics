@@ -554,6 +554,9 @@ void MainWindow::on_openButton_clicked()
     QString filter = "SIMP Project file (*.ssp)";
     QString filePath =  QFileDialog::getOpenFileName(this, "Choose file to open", projectLocation, filter, &filter);
 
+    if (filePath.isEmpty())
+        return;
+
     try {
         deinitalize();
         initialize(new Canvas(ProjectManager::openProject(filePath)));
