@@ -67,6 +67,10 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->pauseButton->setIconSize(QSize(22,22));
     ui->actualSizeButton->setIcon(QIcon(QPixmap(":/view.png")));           //view
     ui->actualSizeButton->setIconSize(QSize(22,22));
+    ui->addFrameButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    ui->deleteFrameButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    ui->duplicateFrameButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+
 
     //set button tool tips
     ui->pencilButton->setToolTip("pencil(P)");
@@ -84,6 +88,9 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->playButton->setToolTip("play");
     ui->pauseButton->setToolTip("pause");
     ui->actualSizeButton->setToolTip("view actual Size");
+    ui->addFrameButton->setToolTip("add frames");
+    ui->deleteFrameButton->setToolTip("delete frames");
+    ui->duplicateFrameButton->setToolTip("duplicate frames");
 
 
     // Create frame prview area
