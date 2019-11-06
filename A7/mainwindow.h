@@ -1,4 +1,9 @@
-﻿#ifndef MAINWINDOW_H
+/*
+* S.I.M.P
+* Team 2
+* https://github.com/University-of-Utah-CS3505/a8-sprite-editor-f19-Mattmathics
+*/
+#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -138,8 +143,7 @@ private:
     void secondaryBrushColorUpdate(QColor color);
 
     /**
-     * Add frame preview widget to prview section.
-     *
+     * Add frame preview widget to preview section.
      */
     void addFramePreview();
 
