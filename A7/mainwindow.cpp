@@ -675,6 +675,10 @@ void MainWindow::on_newProjectButton_clicked()
 
 void MainWindow::update_animation(){
     if(playAnimation){
+        // if the current animation frame is out of scope, reset
+        if(animationFrame >= canvas->sizeFrame()) {
+            animationFrame = 0;
+        }
         QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(animationFrame)->getImage());
         pixmap = pixmap.scaled(ui->animationLabel->size(), Qt::KeepAspectRatio);
 
@@ -684,9 +688,7 @@ void MainWindow::update_animation(){
         animationPreview.setPixmap(pixmap);
 
         animationFrame++;
-        if(animationFrame >= canvas->sizeFrame()) {
-            animationFrame = 0;
-        }
+
         QTimer::singleShot(1000/ui->fpsBox->value(), this, SLOT(update_animation()));
     }
 }
@@ -695,6 +697,10 @@ void MainWindow::on_actualSizeButton_clicked()
 {
     previewWindow.setGeometry(200,200,canvas->getWidth()+100, canvas->getHeight()+100);
     previewWindow.setWindowTitle("Actual Size");
+
+    previewWindow.show();
+    animationPreview.show();
+
     animationCheckerboard.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
     animationPreview.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
 
@@ -702,12 +708,7 @@ void MainWindow::on_actualSizeButton_clicked()
     pixmap = pixmap.scaled(animationPreview.size(), Qt::KeepAspectRatio);
 
     animationPreview.setPixmap(pixmap);
-
     animationCheckerboard.setPixmap(QPixmap(":/background.png"));
-
-    previewWindow.show();
-    animationPreview.show();
-    animationPreview.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
 }
 
 void MainWindow::on_playButton_clicked()
