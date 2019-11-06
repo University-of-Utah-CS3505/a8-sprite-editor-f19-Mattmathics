@@ -87,6 +87,7 @@ std::string Frame::toJson()
     json j;
     vector<vector<vector<int>>> pixels;
 
+    // get the colors of each pixel and convert them to JSON
     for(int x = 0; x < sizeX; x++)
     {
         vector<vector<int>> temp;
@@ -118,6 +119,7 @@ Frame Frame::fromJson(QString jsonString, int sizeX, int sizeY)
 
     vector<vector<vector<int>>> pixels = j["pixels"].get<vector<vector<vector<int>>> >();
 
+    // get the colors of each pixel from JSON and set the colors of pixels in frame
     Frame frame(sizeX, sizeY);
     for (int x = 0; x < sizeX; x++)
     {

@@ -6,8 +6,10 @@ using json = nlohmann::json;
 
 Canvas::Canvas(int sizeX, int sizeY, QVector<Frame> *frames)
 {
+    // set the size in pixels of the canvas
     this->sizeX = sizeX;
     this->sizeY = sizeY;
+    // set the frame index
     this->index = 0;
 
     if (frames == nullptr)

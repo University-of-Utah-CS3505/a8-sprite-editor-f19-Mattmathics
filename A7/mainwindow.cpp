@@ -20,7 +20,9 @@
 MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->statusbar->hide();      //For macOS user.
+
+    //For macOS user.
+    ui->statusbar->hide();
 
     QWidget *client = ui->framesScrollWidget;
 
@@ -75,18 +77,13 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Z), this, SLOT(on_redoButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_S), this, SLOT(on_saveButton_clicked()));
     new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_O), this, SLOT(on_openButton_clicked()));
-    // add another for exporting a sprite to a gif
+    new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_E), this, SLOT(on_saveButton_clicked()));
 
     client->setLayout(frameGridLayout);
 
-    //bool choseSize{};
-    //int size = QInputDialog::getInt(this, "Size", "Select the size of your canvas",
-     //                                  32, 16, 512, 2, &choseSize);
+    initialize((copyCanvas));
 
-    //if (!choseSize)
-        initialize((copyCanvas));
 
-   // initialize(new Canvas(size, size));
 }
 
 MainWindow::~MainWindow()
@@ -622,7 +619,7 @@ void MainWindow::on_newProjectButton_clicked()
     if(canvas->getSaved())//project has been saved, start a new project
     {
 
-        int newsize = QInputDialog::getInt(this, "New Size", "Select the size of your new canvas",
+        int newsize = QInputDialog::getInt(this, "New Size", "Set the size in pixels of your sprite",
                                            32, 16, 512, 2, &isOkToNew);
         // if canceled while attempting to start a new project
         if (!isOkToNew)
@@ -646,7 +643,7 @@ void MainWindow::on_newProjectButton_clicked()
             return;
         }
         else{
-        int newsize = QInputDialog::getInt(this, "New Size", "Select the size of your new canvas",
+        int newsize = QInputDialog::getInt(this, "New Size", "Set the size in pixels of your sprite",
                                            32, 16, 512, 2, &isOkToNew);
 
         if (!isOkToNew)
