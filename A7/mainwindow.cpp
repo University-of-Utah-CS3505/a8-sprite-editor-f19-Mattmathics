@@ -454,9 +454,7 @@ void MainWindow::on_primaryBrushButton_clicked()
 
     primaryBrushColorUpdate(newColor);
 
-    //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),5,5);
-    setCursor(eraserCursor);
+
 }
 
 void MainWindow::on_resetBrushesButton_clicked()
@@ -471,9 +469,7 @@ void MainWindow::on_secondaryBrushButton_clicked()
 
     secondaryBrushColorUpdate(newColor);
 
-    //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),5,5);
-    setCursor(eraserCursor);
+
 }
 
 void MainWindow::primaryBrushColorUpdate(QColor color)
