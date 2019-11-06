@@ -29,28 +29,32 @@ void Bucket::recursivePerform(int x, int y){
 
     //recursively color adjacent pixels of the same color to brushColor
     if(x<getCurrentFrame()->getSizeX()-1 && x>-1){
-        checking = getCurrentFrame()->getPixel(x+1, y);//check pixel to the right
+        //check pixel to the right
+        checking = getCurrentFrame()->getPixel(x+1, y);
         if(checking == changingColor) {
             recursivePerform(x+1, y);
         }
     }
 
     if(x>0){
-        checking = getCurrentFrame()->getPixel(x-1, y);//left
+        //left
+        checking = getCurrentFrame()->getPixel(x-1, y);
         if(checking == changingColor) {
             recursivePerform(x-1, y);
         }
     }
 
     if(y<getCurrentFrame()->getSizeY()-1) {
-        checking = getCurrentFrame()->getPixel(x, y+1);//up
+        //up
+        checking = getCurrentFrame()->getPixel(x, y+1);
         if(checking == changingColor){
             recursivePerform(x, y+1);
         }
     }
 
     if(y>0){
-        checking = getCurrentFrame()->getPixel(x, y-1);//down
+        //down
+        checking = getCurrentFrame()->getPixel(x, y-1);
         if(checking == changingColor) {
             recursivePerform(x, y-1);
         }
