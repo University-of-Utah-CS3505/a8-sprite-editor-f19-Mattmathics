@@ -49,6 +49,8 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->newProjectButton->setIconSize(QSize(33,33));
     ui->swapBrushesButton->setIcon(QIcon(QPixmap(":/swap.png")));           //swap
     ui->swapBrushesButton->setIconSize(QSize(22,22));
+    ui->swapBrushesButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    ui->resetBrushesButton->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     ui->resetBrushesButton->setIcon(QIcon(QPixmap(":/reset.png")));           //reset
     ui->resetBrushesButton->setIconSize(QSize(22,22));
     ui->addFrameButton->setIcon(QIcon(QPixmap(":/addFrame.png")));              //addFrame
@@ -79,6 +81,10 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->openButton->setToolTip("open(HotKey_ctrl+O)");
     ui->redoButton->setToolTip("redo(HotKey_ctrl+shift+Z)");
     ui->undoButton->setToolTip("undo(HotKey_ctrl+Z)");
+    ui->playButton->setToolTip("play");
+    ui->pauseButton->setToolTip("pause");
+    ui->actualSizeButton->setToolTip("view actual Size");
+
 
     // Create frame prview area
     QScrollArea *scrollArea = ui->framesScroll;
