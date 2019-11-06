@@ -1,3 +1,8 @@
+/*
+* S.I.M.P
+* Team 2
+* https://github.com/University-of-Utah-CS3505/a8-sprite-editor-f19-Mattmathics
+*/
 #ifndef CANVAS_H
 #define CANVAS_H
 
