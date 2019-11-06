@@ -122,7 +122,7 @@
    <widget class="QPushButton" name="resetBrushesButton">
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>7</x>
       <y>270</y>
       <width>61</width>
       <height>31</height>
@@ -135,7 +135,7 @@
    <widget class="QPushButton" name="swapBrushesButton">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>83</x>
       <y>200</y>
       <width>61</width>
       <height>31</height>
