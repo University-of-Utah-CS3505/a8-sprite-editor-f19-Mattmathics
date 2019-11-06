@@ -45,6 +45,20 @@ MainWindow::MainWindow(Canvas* copyCanvas, QWidget *parent): QMainWindow(parent)
     ui->undoButton->setIconSize(QSize(33,33));
     ui->background_2->setPixmap(QPixmap(":/background.png"));
     ui->background_3->setPixmap(QPixmap(":/background.png"));
+    ui->newProjectButton->setIcon(QIcon(QPixmap(":/newProject.png")));      //newProject
+    ui->newProjectButton->setIconSize(QSize(33,33));
+    ui->swapBrushesButton->setIcon(QIcon(QPixmap(":/swap.png")));           //swap
+    ui->swapBrushesButton->setIconSize(QSize(22,22));
+    ui->resetBrushesButton->setIcon(QIcon(QPixmap(":/reset.png")));           //reset
+    ui->resetBrushesButton->setIconSize(QSize(22,22));
+    ui->addFrameButton->setIcon(QIcon(QPixmap(":/addFrame.png")));              //addFrame
+    ui->addFrameButton->setIconSize(QSize(22,22));
+    ui->duplicateFrameButton->setIcon(QIcon(QPixmap(":/duplicateFrame.png")));           //duplicateFrame
+    ui->duplicateFrameButton->setIconSize(QSize(22,22));
+    ui->deleteFrameButton->setIcon(QIcon(QPixmap(":/deleteFrame.png")));           //deleteFrame
+    ui->deleteFrameButton->setIconSize(QSize(22,22));
+
+
 
     //set button tool tips
     ui->pencilButton->setToolTip("pencil(HotKey_P)");
@@ -107,6 +121,9 @@ void MainWindow::initialize(Canvas *copyCanvas)
     //Set tool to pencil
     on_pencilButton_clicked();
     on_playButton_clicked();
+
+    //For actual size preview
+    animationCheckerboard.setParent(&previewWindow);
     animationPreview.setParent(&previewWindow);
 }
 
@@ -399,7 +416,7 @@ void MainWindow::on_colorPicker_clicked()
     tool = new ColorPicker(brushColor, canvas);
 
     //custom cursor
-    QCursor colorPicker = QCursor(QPixmap(":/colorPicker_cursor.png").scaled(32,32),0,0);
+    QCursor colorPicker = QCursor(QPixmap(":/colorPicker_cursor.png").scaled(32,32),5000,5000);
     setCursor(colorPicker);
 }
 
@@ -552,6 +569,9 @@ void MainWindow::on_openButton_clicked()
     QString filter = "SIMP Project file (*.ssp)";
     QString filePath =  QFileDialog::getOpenFileName(this, "Choose file to open", projectLocation, filter, &filter);
 
+    if (filePath.isEmpty())
+        return;
+
     try {
         deinitalize();
         initialize(new Canvas(ProjectManager::openProject(filePath)));
@@ -675,12 +695,15 @@ void MainWindow::on_actualSizeButton_clicked()
 {
     previewWindow.setGeometry(200,200,canvas->getWidth()+100, canvas->getHeight()+100);
     previewWindow.setWindowTitle("Actual Size");
+    animationCheckerboard.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
     animationPreview.setGeometry((previewWindow.width()-canvas->getWidth())/2,50,canvas->getWidth(), canvas->getHeight());
 
     QPixmap pixmap = QPixmap::fromImage(canvas->getFrame(animationFrame)->getImage());
     pixmap = pixmap.scaled(animationPreview.size(), Qt::KeepAspectRatio);
 
     animationPreview.setPixmap(pixmap);
+
+    animationCheckerboard.setPixmap(QPixmap(":/background.png"));
 
     previewWindow.show();
     animationPreview.show();

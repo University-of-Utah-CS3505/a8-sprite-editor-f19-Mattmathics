@@ -17,5 +17,11 @@
         <file>paint_cursor.png</file>
         <file>pencil.png</file>
         <file>pencil_cursor.png</file>
+        <file>addFrame.png</file>
+        <file>deleteFrame.png</file>
+        <file>duplicateFrame.png</file>
+        <file>newProject.png</file>
+        <file>reset.png</file>
+        <file>swap.png</file>
     </qresource>
 </RCC>
