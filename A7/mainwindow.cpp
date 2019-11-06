@@ -92,7 +92,7 @@ MainWindow::~MainWindow()
 void MainWindow::initialize(Canvas *copyCanvas)
 {
     if (copyCanvas == nullptr)
-        canvas = new Canvas(32, 32);
+        canvas = new Canvas(16, 16);
     else
         canvas = copyCanvas;
 
@@ -106,7 +106,7 @@ void MainWindow::initialize(Canvas *copyCanvas)
 
     //Set tool to pencil
     on_pencilButton_clicked();
-    QTimer::singleShot(1000, this, SLOT(update_animation()));
+    on_playButton_clicked();
     animationPreview.setParent(&previewWindow);
 }
 
@@ -313,7 +313,8 @@ void MainWindow::resizeEvent(QResizeEvent* event)
 
     this->ui->rightPanel->setGeometry(this->width() -150, 0, 150, this->height());
     this->ui->leftPanel->setGeometry(0, 0, 150, this->height());
-
+    this->ui->rightButtonsFrame->setGeometry(this->width() -150, 0, this->ui->rightButtonsFrame->width(), this->ui->rightButtonsFrame->height());
+    this->ui->playbackFrame->setGeometry(this->width() -150, 380, this->ui->playbackFrame->width(), this->ui->playbackFrame->height());
     int horizontalScaling = (this->width() - 300) / canvas->getWidth();
     int verticalScaling = this->height() / canvas->getHeight();
 

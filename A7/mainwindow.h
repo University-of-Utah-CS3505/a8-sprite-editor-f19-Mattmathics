@@ -49,7 +49,7 @@ private:
     int pixelSize = 10;
 
     int animationFrame = 0;
-    bool playAnimation = true;
+    bool playAnimation = false;
 
     int lastPointX = 0;
     int lastPointY = 0;
