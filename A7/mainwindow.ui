@@ -335,10 +335,10 @@
     <widget class="QPushButton" name="actualSizeButton">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>230</y>
-       <width>131</width>
-       <height>28</height>
+       <x>94</x>
+       <y>20</y>
+       <width>41</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -406,8 +406,8 @@
     <widget class="QPushButton" name="pauseButton">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>16</y>
+       <x>54</x>
+       <y>20</y>
        <width>41</width>
        <height>41</height>
       </rect>
@@ -419,8 +419,8 @@
     <widget class="QPushButton" name="playButton">
      <property name="geometry">
       <rect>
-       <x>18</x>
-       <y>16</y>
+       <x>14</x>
+       <y>20</y>
        <width>41</width>
        <height>41</height>
       </rect>
@@ -489,7 +489,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
