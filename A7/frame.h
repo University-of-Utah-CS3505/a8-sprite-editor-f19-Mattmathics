@@ -1,3 +1,8 @@
+/*
+* S.I.M.P
+* Team 2
+* https://github.com/University-of-Utah-CS3505/a8-sprite-editor-f19-Mattmathics
+*/
 #ifndef FRAME_H
 #define FRAME_H
 
@@ -15,7 +20,7 @@ public:
     Frame() {}
     Frame(int sizeX, int sizeY, QImage *copyPixels = nullptr);
 
-    /* METHOD */
+    /* Methods for the undo and redo functionalities. */
     void captureHistory();
     void redo();
     void undo();
@@ -30,8 +35,11 @@ public:
     void setPixel(int x, int y, QColor color);
 
     QImage getImage();
-
-	int getSizeX();
+	
+    /* 
+     * These methods are used within paintAllSameColor, paintBucket, and the pencil tools.
+     */
+    int getSizeX();
     int	getSizeY();
 
 private:
