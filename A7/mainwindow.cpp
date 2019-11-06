@@ -367,7 +367,7 @@ void MainWindow::on_pencilButton_clicked()
     tool = new Pencil(brushColor, canvas);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),5,5);
     setCursor(eraserCursor);
 }
 
@@ -379,7 +379,7 @@ void MainWindow::on_eraserButton_clicked()
     tool = new Eraser(canvas);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/erase_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/erase_cursor.png"),5,5);
     setCursor(eraserCursor);
 }
 
@@ -391,7 +391,7 @@ void MainWindow::on_findAndReplaceButton_clicked()
     tool = new PaintAllSameColor(brushColor, canvas);
 
     //custom cursor
-    QCursor findAndReplaceCursor = QCursor(QPixmap(":/brush_cursor.png"),0,-0);
+    QCursor findAndReplaceCursor = QCursor(QPixmap(":/brush_cursor.png"),5,5);
     setCursor(findAndReplaceCursor);
 }
 
@@ -403,7 +403,7 @@ void MainWindow::on_bucketButton_clicked()
     tool = new Bucket(brushColor, canvas);
 
     //custom cursor
-    QCursor bucketCursor = QCursor(QPixmap(":/bucket_cursor.png"),0,0);
+    QCursor bucketCursor = QCursor(QPixmap(":/bucket_cursor.png"),5,5);
     setCursor(bucketCursor);
 }
 
@@ -415,7 +415,7 @@ void MainWindow::on_colorPicker_clicked()
     tool = new ColorPicker(brushColor, canvas);
 
     //custom cursor
-    QCursor colorPicker = QCursor(QPixmap(":/colorPicker_cursor.png").scaled(32,32),5000,5000);
+    QCursor colorPicker = QCursor(QPixmap(":/colorPicker_cursor.png").scaled(32,32),5,5);
     setCursor(colorPicker);
 }
 
@@ -436,7 +436,7 @@ void MainWindow::on_primaryBrushButton_clicked()
     primaryBrushColorUpdate(newColor);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),5,5);
     setCursor(eraserCursor);
 }
 
@@ -455,7 +455,7 @@ void MainWindow::on_secondaryBrushButton_clicked()
     secondaryBrushColorUpdate(newColor);
 
     //custom cursor
-    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),0,0);
+    QCursor eraserCursor = QCursor(QPixmap(":/pencil_cursor.png"),5,5);
     setCursor(eraserCursor);
 }
 
